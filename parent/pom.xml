@@ -10,7 +10,8 @@
 
     <properties>
         <!-- 主要依赖库的版本定义 -->
-        <trilemon.version>1.0-SNAPSHOT</trilemon.version>
+        <trilemon.commons.version>1.0-SNAPSHOT</trilemon.commons.version>
+        <trilemon.boss360.base.version>1.0-SNAPSHOT</trilemon.boss360.base.version>
         <spring.version>3.2.4.RELEASE</spring.version>
         <mybatis.version>3.2.2</mybatis.version>
         <mybatis-spring.version>1.2.0</mybatis-spring.version>
