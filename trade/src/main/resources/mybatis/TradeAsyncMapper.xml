@@ -7,12 +7,8 @@
     <result column="shop_id" property="shopId" jdbcType="BIGINT" />
     <result column="sync_app_key" property="syncAppKey" jdbcType="VARCHAR" />
     <result column="sync_status" property="syncStatus" jdbcType="TINYINT" />
-    <result column="taobao_check_code" property="taobaoCheckCode" jdbcType="VARCHAR" />
-    <result column="taobao_task_id" property="taobaoTaskId" jdbcType="BIGINT" />
-    <result column="taobao_status" property="taobaoStatus" jdbcType="VARCHAR" />
     <result column="trade_start_time" property="tradeStartTime" jdbcType="TIMESTAMP" />
     <result column="trade_end_time" property="tradeEndTime" jdbcType="TIMESTAMP" />
-    <result column="download_url" property="downloadUrl" jdbcType="VARCHAR" />
     <result column="download_file" property="downloadFile" jdbcType="VARCHAR" />
     <result column="sync_start_time" property="syncStartTime" jdbcType="TIMESTAMP" />
     <result column="sync_end_time" property="syncEndTime" jdbcType="TIMESTAMP" />
@@ -80,9 +76,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, user_id, shop_id, sync_app_key, sync_status, taobao_check_code, taobao_task_id, 
-    taobao_status, trade_start_time, trade_end_time, download_url, download_file, sync_start_time, 
-    sync_end_time, server_name, server_id, add_time, upd_time
+    id, user_id, shop_id, sync_app_key, sync_status, trade_start_time, trade_end_time, 
+    download_file, sync_start_time, sync_end_time, server_name, server_id, add_time, 
+    upd_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.trilemon.boss360.infrastucture.trade.model.TradeAsyncExample" >
     select
@@ -116,19 +112,15 @@
   </delete>
   <insert id="insert" parameterType="com.trilemon.boss360.infrastucture.trade.model.TradeAsync" >
     insert into trade_async (id, user_id, shop_id, 
-      sync_app_key, sync_status, taobao_check_code, 
-      taobao_task_id, taobao_status, trade_start_time, 
-      trade_end_time, download_url, download_file, 
-      sync_start_time, sync_end_time, server_name, 
-      server_id, add_time, upd_time
-      )
+      sync_app_key, sync_status, trade_start_time, 
+      trade_end_time, download_file, sync_start_time, 
+      sync_end_time, server_name, server_id, 
+      add_time, upd_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, #{shopId,jdbcType=BIGINT}, 
-      #{syncAppKey,jdbcType=VARCHAR}, #{syncStatus,jdbcType=TINYINT}, #{taobaoCheckCode,jdbcType=VARCHAR}, 
-      #{taobaoTaskId,jdbcType=BIGINT}, #{taobaoStatus,jdbcType=VARCHAR}, #{tradeStartTime,jdbcType=TIMESTAMP}, 
-      #{tradeEndTime,jdbcType=TIMESTAMP}, #{downloadUrl,jdbcType=VARCHAR}, #{downloadFile,jdbcType=VARCHAR}, 
-      #{syncStartTime,jdbcType=TIMESTAMP}, #{syncEndTime,jdbcType=TIMESTAMP}, #{serverName,jdbcType=VARCHAR}, 
-      #{serverId,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{updTime,jdbcType=TIMESTAMP}
-      )
+      #{syncAppKey,jdbcType=VARCHAR}, #{syncStatus,jdbcType=TINYINT}, #{tradeStartTime,jdbcType=TIMESTAMP}, 
+      #{tradeEndTime,jdbcType=TIMESTAMP}, #{downloadFile,jdbcType=VARCHAR}, #{syncStartTime,jdbcType=TIMESTAMP}, 
+      #{syncEndTime,jdbcType=TIMESTAMP}, #{serverName,jdbcType=VARCHAR}, #{serverId,jdbcType=VARCHAR}, 
+      #{addTime,jdbcType=TIMESTAMP}, #{updTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.trilemon.boss360.infrastucture.trade.model.TradeAsync" >
     insert into trade_async
@@ -148,23 +140,11 @@
       <if test="syncStatus != null" >
         sync_status,
       </if>
-      <if test="taobaoCheckCode != null" >
-        taobao_check_code,
-      </if>
-      <if test="taobaoTaskId != null" >
-        taobao_task_id,
-      </if>
-      <if test="taobaoStatus != null" >
-        taobao_status,
-      </if>
       <if test="tradeStartTime != null" >
         trade_start_time,
       </if>
       <if test="tradeEndTime != null" >
         trade_end_time,
-      </if>
-      <if test="downloadUrl != null" >
-        download_url,
       </if>
       <if test="downloadFile != null" >
         download_file,
@@ -204,23 +184,11 @@
       <if test="syncStatus != null" >
         #{syncStatus,jdbcType=TINYINT},
       </if>
-      <if test="taobaoCheckCode != null" >
-        #{taobaoCheckCode,jdbcType=VARCHAR},
-      </if>
-      <if test="taobaoTaskId != null" >
-        #{taobaoTaskId,jdbcType=BIGINT},
-      </if>
-      <if test="taobaoStatus != null" >
-        #{taobaoStatus,jdbcType=VARCHAR},
-      </if>
       <if test="tradeStartTime != null" >
         #{tradeStartTime,jdbcType=TIMESTAMP},
       </if>
       <if test="tradeEndTime != null" >
         #{tradeEndTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="downloadUrl != null" >
-        #{downloadUrl,jdbcType=VARCHAR},
       </if>
       <if test="downloadFile != null" >
         #{downloadFile,jdbcType=VARCHAR},
@@ -269,23 +237,11 @@
       <if test="record.syncStatus != null" >
         sync_status = #{record.syncStatus,jdbcType=TINYINT},
       </if>
-      <if test="record.taobaoCheckCode != null" >
-        taobao_check_code = #{record.taobaoCheckCode,jdbcType=VARCHAR},
-      </if>
-      <if test="record.taobaoTaskId != null" >
-        taobao_task_id = #{record.taobaoTaskId,jdbcType=BIGINT},
-      </if>
-      <if test="record.taobaoStatus != null" >
-        taobao_status = #{record.taobaoStatus,jdbcType=VARCHAR},
-      </if>
       <if test="record.tradeStartTime != null" >
         trade_start_time = #{record.tradeStartTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.tradeEndTime != null" >
         trade_end_time = #{record.tradeEndTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.downloadUrl != null" >
-        download_url = #{record.downloadUrl,jdbcType=VARCHAR},
       </if>
       <if test="record.downloadFile != null" >
         download_file = #{record.downloadFile,jdbcType=VARCHAR},
@@ -320,12 +276,8 @@
       shop_id = #{record.shopId,jdbcType=BIGINT},
       sync_app_key = #{record.syncAppKey,jdbcType=VARCHAR},
       sync_status = #{record.syncStatus,jdbcType=TINYINT},
-      taobao_check_code = #{record.taobaoCheckCode,jdbcType=VARCHAR},
-      taobao_task_id = #{record.taobaoTaskId,jdbcType=BIGINT},
-      taobao_status = #{record.taobaoStatus,jdbcType=VARCHAR},
       trade_start_time = #{record.tradeStartTime,jdbcType=TIMESTAMP},
       trade_end_time = #{record.tradeEndTime,jdbcType=TIMESTAMP},
-      download_url = #{record.downloadUrl,jdbcType=VARCHAR},
       download_file = #{record.downloadFile,jdbcType=VARCHAR},
       sync_start_time = #{record.syncStartTime,jdbcType=TIMESTAMP},
       sync_end_time = #{record.syncEndTime,jdbcType=TIMESTAMP},
@@ -352,23 +304,11 @@
       <if test="syncStatus != null" >
         sync_status = #{syncStatus,jdbcType=TINYINT},
       </if>
-      <if test="taobaoCheckCode != null" >
-        taobao_check_code = #{taobaoCheckCode,jdbcType=VARCHAR},
-      </if>
-      <if test="taobaoTaskId != null" >
-        taobao_task_id = #{taobaoTaskId,jdbcType=BIGINT},
-      </if>
-      <if test="taobaoStatus != null" >
-        taobao_status = #{taobaoStatus,jdbcType=VARCHAR},
-      </if>
       <if test="tradeStartTime != null" >
         trade_start_time = #{tradeStartTime,jdbcType=TIMESTAMP},
       </if>
       <if test="tradeEndTime != null" >
         trade_end_time = #{tradeEndTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="downloadUrl != null" >
-        download_url = #{downloadUrl,jdbcType=VARCHAR},
       </if>
       <if test="downloadFile != null" >
         download_file = #{downloadFile,jdbcType=VARCHAR},
@@ -400,12 +340,8 @@
       shop_id = #{shopId,jdbcType=BIGINT},
       sync_app_key = #{syncAppKey,jdbcType=VARCHAR},
       sync_status = #{syncStatus,jdbcType=TINYINT},
-      taobao_check_code = #{taobaoCheckCode,jdbcType=VARCHAR},
-      taobao_task_id = #{taobaoTaskId,jdbcType=BIGINT},
-      taobao_status = #{taobaoStatus,jdbcType=VARCHAR},
       trade_start_time = #{tradeStartTime,jdbcType=TIMESTAMP},
       trade_end_time = #{tradeEndTime,jdbcType=TIMESTAMP},
-      download_url = #{downloadUrl,jdbcType=VARCHAR},
       download_file = #{downloadFile,jdbcType=VARCHAR},
       sync_start_time = #{syncStartTime,jdbcType=TIMESTAMP},
       sync_end_time = #{syncEndTime,jdbcType=TIMESTAMP},

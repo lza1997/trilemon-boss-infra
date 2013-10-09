@@ -3,6 +3,11 @@ package com.trilemon.boss360.infrastructure.trade.model;
 import java.util.Date;
 
 public class TradeAsync {
+    public final static Byte SYNC_STATUS_DEFAULT=0;
+    public final static Byte SYNC_STATUS_INIT=1;
+    public final static Byte SYNC_STATUS_SUCCESSFUL=2;
+    public final static Byte SYNC_STATUS_FAILED=3;
+
     private Integer id;
 
     private Long userId;
@@ -13,17 +18,9 @@ public class TradeAsync {
 
     private Byte syncStatus;
 
-    private String taobaoCheckCode;
-
-    private Long taobaoTaskId;
-
-    private String taobaoStatus;
-
     private Date tradeStartTime;
 
     private Date tradeEndTime;
-
-    private String downloadUrl;
 
     private String downloadFile;
 
@@ -79,30 +76,6 @@ public class TradeAsync {
         this.syncStatus = syncStatus;
     }
 
-    public String getTaobaoCheckCode() {
-        return taobaoCheckCode;
-    }
-
-    public void setTaobaoCheckCode(String taobaoCheckCode) {
-        this.taobaoCheckCode = taobaoCheckCode == null ? null : taobaoCheckCode.trim();
-    }
-
-    public Long getTaobaoTaskId() {
-        return taobaoTaskId;
-    }
-
-    public void setTaobaoTaskId(Long taobaoTaskId) {
-        this.taobaoTaskId = taobaoTaskId;
-    }
-
-    public String getTaobaoStatus() {
-        return taobaoStatus;
-    }
-
-    public void setTaobaoStatus(String taobaoStatus) {
-        this.taobaoStatus = taobaoStatus == null ? null : taobaoStatus.trim();
-    }
-
     public Date getTradeStartTime() {
         return tradeStartTime;
     }
@@ -117,14 +90,6 @@ public class TradeAsync {
 
     public void setTradeEndTime(Date tradeEndTime) {
         this.tradeEndTime = tradeEndTime;
-    }
-
-    public String getDownloadUrl() {
-        return downloadUrl;
-    }
-
-    public void setDownloadUrl(String downloadUrl) {
-        this.downloadUrl = downloadUrl == null ? null : downloadUrl.trim();
     }
 
     public String getDownloadFile() {
