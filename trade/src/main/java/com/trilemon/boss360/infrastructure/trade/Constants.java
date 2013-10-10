@@ -21,4 +21,8 @@ public interface Constants {
             "independent_simple_trade", "independent_shop_trade", "auto_delivery", "ec", "cod", "game_equipment",
             "shopex_trade", "netcn_trade", "external_trade", "instant_trade", "b2c_cod", "hotel_trade", "super_market_trade",
             "super_market_cod_trade", "taohua", "waimai", "nopaid", "step", "eticket"};
+    String[] REFUND_FIELDS = new String[]{"shipping_type", "cs_status", "advance_status", "split_taobao_fee",
+            "split_seller_fee", "refund_id", "tid", "oid", "alipay_no", "total_fee", "buyer_nick", "seller_nick", "created", "modified",
+            "order_status", "status", "good_status", "has_good_return", "refund_fee", "payment", "reason", "desc", "title",
+            "price", "num", "good_return_time", "company_name", "sid", "address", "refund_remind_timeout", "num_iid"};
 }

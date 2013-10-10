@@ -4,7 +4,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
-import com.taobao.api.ApiException;
 import com.taobao.api.domain.Task;
 import com.taobao.api.request.TopatsResultGetRequest;
 import com.taobao.api.request.TopatsTradesSoldGetRequest;
@@ -13,8 +12,8 @@ import com.taobao.api.response.TopatsTradesSoldGetResponse;
 import com.trilemon.boss360.base.client.BaseClient;
 import com.trilemon.boss360.base.model.TaobaoSession;
 import com.trilemon.boss360.base.serivce.ApplicationService;
+import com.trilemon.boss360.base.serivce.EnhancedApiException;
 import com.trilemon.boss360.base.serivce.TaobaoApiService;
-import com.trilemon.boss360.infrastructure.trade.EnhancedApiException;
 import com.trilemon.boss360.infrastructure.trade.dao.TradeAsyncMapper;
 import com.trilemon.boss360.infrastructure.trade.model.TradeAsync;
 import com.trilemon.commons.*;
@@ -40,7 +39,7 @@ import static com.trilemon.boss360.infrastructure.trade.Constants.TRADE_FIELDS;
 public class TradeInitSyncService {
     private static Logger logger = LoggerFactory.getLogger(TradeInitSyncService.class);
     @Autowired
-    private BaseClient baseClient;
+    private ShopService shopService;
     @Autowired
     private TaobaoApiService taobaoApiService;
     @Autowired
@@ -81,7 +80,8 @@ public class TradeInitSyncService {
                         logger.info("start to sync tradeAsync[{}].", tradeAsync.getId());
 
                         try {
-                            long tradeNumPerDay = BaseClient.getShopTopTradeNum(tradeAsync.getUserId(), startTime, endTime);
+                            long tradeNumPerDay = shopService.getTradeNumFromTop(appKey,sessionKey, startTime,
+                                    endTime);
                             if (tradeNumPerDay <= 1000) {
                                 logger.info("trade num [{}] <= 1000 , use sync, tradeAsync[{}]", tradeNumPerDay,
                                         tradeAsync.getId());
@@ -243,13 +243,8 @@ public class TradeInitSyncService {
         request.setFields(Joiner.on(",").join(TRADE_FIELDS));
 
         TaobaoSession taobaoSession = baseClient.getTaobaoSession(tradeAsync.getUserId());
-        TopatsTradesSoldGetResponse response;
-        try {
-            response = taobaoApiService.request(request, tradeAsync.getSyncAppKey(),
-                    taobaoSession.getSessionKey());
-        } catch (ApiException e) {
-            throw new EnhancedApiException(e);
-        }
+        TopatsTradesSoldGetResponse response = taobaoApiService.request(request, tradeAsync.getSyncAppKey(),
+                taobaoSession.getSessionKey());
 
         if (response.isSuccess()) {
             return response.getTask().getTaskId();
@@ -272,12 +267,7 @@ public class TradeInitSyncService {
         TopatsResultGetRequest request = new TopatsResultGetRequest();
         request.setTaskId(taskId);
 
-        TopatsResultGetResponse response;
-        try {
-            response = taobaoApiService.request(request, appKey);
-        } catch (ApiException e) {
-            throw new EnhancedApiException(e);
-        }
+        TopatsResultGetResponse response = taobaoApiService.request(request, appKey);
 
         if (response.isSuccess()) {
             return response.getTask();

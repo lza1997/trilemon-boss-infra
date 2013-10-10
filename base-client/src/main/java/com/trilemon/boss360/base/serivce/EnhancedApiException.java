@@ -1,4 +1,4 @@
-package com.trilemon.boss360.infrastructure.trade;
+package com.trilemon.boss360.base.serivce;
 
 import com.taobao.api.ApiException;
 import com.taobao.api.TaobaoRequest;
