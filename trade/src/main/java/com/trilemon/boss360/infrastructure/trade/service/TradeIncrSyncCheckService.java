@@ -1,5 +1,6 @@
 package com.trilemon.boss360.infrastructure.trade.service;
 
+import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import org.joda.time.DateTime;
 import org.joda.time.Hours;
 import org.joda.time.Interval;
@@ -8,12 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.PostConstruct;
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author kevin
@@ -22,7 +19,7 @@ public class TradeIncrSyncCheckService {
     private static Logger logger = LoggerFactory.getLogger(TradeIncrSyncCheckService.class);
 
     @Autowired
-    private ShopService shopService;
+    private BaseClient shopService;
 
     /**
      * 检查订单的完整性，是否丢单

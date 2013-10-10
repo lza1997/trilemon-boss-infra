@@ -9,11 +9,11 @@ import com.taobao.api.request.TopatsResultGetRequest;
 import com.taobao.api.request.TopatsTradesSoldGetRequest;
 import com.taobao.api.response.TopatsResultGetResponse;
 import com.taobao.api.response.TopatsTradesSoldGetResponse;
-import com.trilemon.boss360.base.client.BaseClient;
-import com.trilemon.boss360.base.model.TaobaoSession;
-import com.trilemon.boss360.base.serivce.ApplicationService;
-import com.trilemon.boss360.base.serivce.EnhancedApiException;
-import com.trilemon.boss360.base.serivce.TaobaoApiService;
+import com.trilemon.boss360.infrastructure.base.client.BaseClient;
+import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
+import com.trilemon.boss360.infrastructure.base.serivce.ApplicationService;
+import com.trilemon.boss360.infrastructure.base.serivce.EnhancedApiException;
+import com.trilemon.boss360.infrastructure.base.serivce.TaobaoApiService;
 import com.trilemon.boss360.infrastructure.trade.dao.TradeAsyncMapper;
 import com.trilemon.boss360.infrastructure.trade.model.TradeAsync;
 import com.trilemon.commons.*;
@@ -30,7 +30,7 @@ import java.util.Collection;
 import java.util.PriorityQueue;
 import java.util.concurrent.TimeUnit;
 
-import static com.trilemon.boss360.infrastructure.trade.Constants.TRADE_FIELDS;
+import static com.trilemon.boss360.infrastructure.base.Constants.TRADE_FIELDS;
 
 /**
  * @author kevin
@@ -39,7 +39,7 @@ import static com.trilemon.boss360.infrastructure.trade.Constants.TRADE_FIELDS;
 public class TradeInitSyncService {
     private static Logger logger = LoggerFactory.getLogger(TradeInitSyncService.class);
     @Autowired
-    private ShopService shopService;
+    private BaseClient baseClient;
     @Autowired
     private TaobaoApiService taobaoApiService;
     @Autowired
@@ -80,8 +80,7 @@ public class TradeInitSyncService {
                         logger.info("start to sync tradeAsync[{}].", tradeAsync.getId());
 
                         try {
-                            long tradeNumPerDay = shopService.getTradeNumFromTop(appKey,sessionKey, startTime,
-                                    endTime);
+                            long tradeNumPerDay = baseClient.getTradeNumFromTop(appKey, sessionKey, startTime, endTime);
                             if (tradeNumPerDay <= 1000) {
                                 logger.info("trade num [{}] <= 1000 , use sync, tradeAsync[{}]", tradeNumPerDay,
                                         tradeAsync.getId());
