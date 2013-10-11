@@ -4,7 +4,7 @@ import com.google.common.base.Joiner;
 import com.taobao.api.ApiException;
 import com.taobao.api.request.TradesSoldGetRequest;
 import com.taobao.api.response.TradesSoldGetResponse;
-import com.trilemon.boss360.infrastructure.base.Constants;
+import com.trilemon.boss360.infrastructure.base.BaseConstants;
 import com.trilemon.boss360.infrastructure.base.serivce.EnhancedApiException;
 import com.trilemon.boss360.infrastructure.base.serivce.TaobaoApiService;
 import org.joda.time.DateTime;
@@ -26,7 +26,7 @@ public class TaobaoShopService {
                                    DateTime endHour) throws EnhancedApiException, ApiException {
         TradesSoldGetRequest request = new TradesSoldGetRequest();
         request.setFields("tid");
-        request.setType(Joiner.on(",").join(Constants.TRADE_TYPES));
+        request.setType(Joiner.on(",").join(BaseConstants.TRADE_TYPES));
         request.setStartCreated(startHour.toDate());
         request.setEndCreated(endHour.toDate());
         request.setPageNo(1L);

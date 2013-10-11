@@ -5,8 +5,8 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.*;
 import com.taobao.api.*;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
-import com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsage;
-import com.trilemon.boss360.infrastructure.base.model.TaobaoApp;
+import com.trilemon.boss360.infrastructure.base.module.TaobaoApiUsage;
+import com.trilemon.boss360.infrastructure.base.module.TaobaoApp;
 import net.spy.memcached.MemcachedClient;
 import org.dozer.util.ReflectionUtils;
 import org.reflections.Reflections;
@@ -65,11 +65,11 @@ public class TaobaoApiService {
     }
 
     private void initTaobaoClient() {
-        //TaobaoApp taobaoApp = baseClient.getTaobaoApp(taobaoAppKey);
-        TaobaoApp taobaoApp = new TaobaoApp();
-        taobaoApp.setAppCallbackUrl("http://boss.trilemon.com");
-        taobaoApp.setAppKey("21635387");
-        taobaoApp.setAppSecret("2535d805a5862eada6febca6eb91a427");
+        TaobaoApp taobaoApp = baseClient.getTaobaoApp(taobaoAppKey);
+//        TaobaoApp taobaoApp = new TaobaoApp();
+//        taobaoApp.setAppCallbackUrl("http://boss.trilemon.com");
+//        taobaoApp.setAppKey("21635387");
+//        taobaoApp.setAppSecret("2535d805a5862eada6febca6eb91a427");
         taobaoClient = new AutoRetryTaobaoClient(taobaoApp.getAppCallbackUrl(),
                 taobaoApp.getAppKey(), taobaoApp.getAppSecret());
     }

@@ -8,12 +8,13 @@ import com.taobao.api.request.TopatsResultGetRequest;
 import com.taobao.api.request.TopatsTradesSoldGetRequest;
 import com.taobao.api.response.TopatsResultGetResponse;
 import com.taobao.api.response.TopatsTradesSoldGetResponse;
+import com.trilemon.boss360.infrastructure.base.BaseConstants;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
-import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
+import com.trilemon.boss360.infrastructure.base.module.TaobaoSession;
 import com.trilemon.boss360.infrastructure.base.serivce.ApplicationService;
 import com.trilemon.boss360.infrastructure.base.serivce.EnhancedApiException;
 import com.trilemon.boss360.infrastructure.base.serivce.TaobaoApiService;
-import com.trilemon.boss360.infrastructure.trade.Constants;
+import com.trilemon.boss360.infrastructure.trade.TradeConstants;
 import com.trilemon.boss360.infrastructure.trade.dao.TradeAsyncMapper;
 import com.trilemon.boss360.infrastructure.trade.model.TradeAsync;
 import com.trilemon.commons.DateUtils;
@@ -65,13 +66,13 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
     @Override
     public void reboot() {
         super.reboot();
-        tradeAsyncMapper.updateSyncStatusByService(Constants.ASYNC_STATUS_FAILED, applicationService.getServiceName(),
+        tradeAsyncMapper.updateSyncStatusByService(TradeConstants.ASYNC_STATUS_FAILED, applicationService.getServiceName(),
                 applicationService.getServiceId());
     }
 
     @Override
     public void timeout() {
-        tradeAsyncMapper.updateTimeoutSyncStatus(Constants.ASYNC_STATUS_FAILED,60 * 60 * 5);
+        tradeAsyncMapper.updateTimeoutSyncStatus(TradeConstants.ASYNC_STATUS_FAILED,60 * 60 * 5);
     }
 
     @Override
@@ -79,7 +80,7 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
         int offset = 0;
         while (true) {
             Collection<TradeAsync> tradeAsyncList = tradeAsyncMapper.pagination(offset,
-                    100, Constants.ASYNC_STATUS_INIT, applicationService.getServiceName(),
+                    100, TradeConstants.ASYNC_STATUS_INIT, applicationService.getServiceName(),
                     applicationService.getServiceId());
             if (CollectionUtils.isEmpty(tradeAsyncList)) {
                 break;
@@ -134,7 +135,7 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
     public void async(long userId, String appKey) {
         TradeAsync tradeAsync = tradeAsyncMapper.selectByUserId(userId);
         if (null != tradeAsync) {
-            if (tradeAsync.getSyncStatus() == Constants.SYNC_STATUS_SUCCESSFUL) {
+            if (tradeAsync.getSyncStatus() == TradeConstants.SYNC_STATUS_SUCCESSFUL) {
                 logger.info("userId[{}] , appKey[{}] has been sync, skip.", userId, appKey);
                 return;
             } else {
@@ -148,7 +149,7 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
     public void prepare(long userId, boolean insertOrUpdate) {
         TradeAsync tradeAsync = new TradeAsync();
         tradeAsync.setUserId(userId);
-        tradeAsync.setSyncStatus(Constants.ASYNC_STATUS_INIT);
+        tradeAsync.setSyncStatus(TradeConstants.ASYNC_STATUS_INIT);
         tradeAsync.setSyncStartTime(applicationService.getLocalSystemTime().toDate());
         tradeAsync.setServiceName(applicationService.getServiceName());
         tradeAsync.setServiceId(applicationService.getServiceId());
@@ -245,13 +246,13 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
 
     public void success(TradeAsync tradeAsync) {
         tradeAsync.setSyncEndTime(applicationService.getLocalSystemTime().toDate());
-        tradeAsync.setSyncStatus(Constants.ASYNC_STATUS_SUCCESSFUL);
+        tradeAsync.setSyncStatus(TradeConstants.ASYNC_STATUS_SUCCESSFUL);
         tradeAsyncMapper.updateByPrimaryKeySelective(tradeAsync);
     }
 
     public void fail(TradeAsync tradeAsync) {
         tradeAsync.setSyncEndTime(applicationService.getLocalSystemTime().toDate());
-        tradeAsync.setSyncStatus(Constants.ASYNC_STATUS_FAILED);
+        tradeAsync.setSyncStatus(TradeConstants.ASYNC_STATUS_FAILED);
         tradeAsyncMapper.updateByPrimaryKeySelective(tradeAsync);
     }
 
@@ -267,7 +268,7 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
         String endTimeStr = DateUtils.format(tradeAsync.getTradeEndTime(), DateUtils.yyyyMMdd2);
         request.setStartTime(startTimeStr);
         request.setEndTime(endTimeStr);
-        request.setFields(Joiner.on(",").join(Constants.TRADE_FIELDS));
+        request.setFields(Joiner.on(",").join(BaseConstants.TRADE_FIELDS));
 
         TaobaoSession taobaoSession = baseClient.getTaobaoSession(tradeAsync.getUserId());
         TopatsTradesSoldGetResponse response = taobaoApiService.request(request, tradeAsync.getSyncAppKey(),

@@ -10,12 +10,13 @@ import com.taobao.api.request.TradesSoldIncrementGetRequest;
 import com.taobao.api.response.RefundsReceiveGetResponse;
 import com.taobao.api.response.TradesSoldGetResponse;
 import com.taobao.api.response.TradesSoldIncrementGetResponse;
+import com.trilemon.boss360.infrastructure.base.BaseConstants;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
-import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
+import com.trilemon.boss360.infrastructure.base.module.TaobaoSession;
 import com.trilemon.boss360.infrastructure.base.serivce.ApplicationService;
 import com.trilemon.boss360.infrastructure.base.serivce.EnhancedApiException;
 import com.trilemon.boss360.infrastructure.base.serivce.TaobaoApiService;
-import com.trilemon.boss360.infrastructure.trade.Constants;
+import com.trilemon.boss360.infrastructure.trade.TradeConstants;
 import com.trilemon.boss360.infrastructure.trade.dao.TradeAsyncMapper;
 import com.trilemon.boss360.infrastructure.trade.dao.TradeSyncMapper;
 import com.trilemon.boss360.infrastructure.trade.model.TradeAsync;
@@ -63,7 +64,7 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
     @Override
     public void reboot() {
         super.reboot();
-        tradeSyncMapper.updateSyncStatusAndLock(Constants.SYNC_STATUS_FAILED, UNLOCK, applicationService.getServiceName(),
+        tradeSyncMapper.updateSyncStatusAndLock(TradeConstants.SYNC_STATUS_FAILED, UNLOCK, applicationService.getServiceName(),
                 applicationService.getServiceId());
     }
 
@@ -100,9 +101,9 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
         logger.info("start to incr sync tradeSync[{}].", tradeSync.getId());
         //设置订单同步开始和结束时间
         DateTime tradeStartDateTime = null;
-        if (tradeSync.getSyncStatus() == Constants.ASYNC_STATUS_INIT) {
+        if (tradeSync.getSyncStatus() == TradeConstants.ASYNC_STATUS_INIT) {
             TradeAsync tradeAsync = tradeAsyncMapper.selectByUserId(tradeSync.getUserId());
-            if (tradeAsync.getSyncStatus() == Constants.ASYNC_STATUS_SUCCESSFUL) {
+            if (tradeAsync.getSyncStatus() == TradeConstants.ASYNC_STATUS_SUCCESSFUL) {
                 tradeStartDateTime = new DateTime(tradeAsync.getTradeEndTime());
             } else {
                 logger.error("TradeSync[{}],TradeAsync[{}]. init async is not successful, skip incr sync.",
@@ -110,10 +111,10 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
                 return;
             }
         }
-        if (tradeSync.getSyncStatus() == Constants.ASYNC_STATUS_SUCCESSFUL) {
+        if (tradeSync.getSyncStatus() == TradeConstants.ASYNC_STATUS_SUCCESSFUL) {
             tradeStartDateTime = new DateTime(tradeSync.getCheckTradeEndTime());
         }
-        if (tradeSync.getSyncStatus() == Constants.SYNC_CHECK_STATUS_FAILED) {
+        if (tradeSync.getSyncStatus() == TradeConstants.SYNC_CHECK_STATUS_FAILED) {
             tradeStartDateTime = new DateTime(tradeSync.getSyncTradeStartTime());
         }
         if (null == tradeStartDateTime) {
@@ -160,7 +161,7 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
         TradeSync newTradeSync = new TradeSync();
         newTradeSync.setId(tradeSync.getId());
         newTradeSync.setSyncLock(UNLOCK);
-        newTradeSync.setSyncStatus(Constants.SYNC_STATUS_FAILED);
+        newTradeSync.setSyncStatus(TradeConstants.SYNC_STATUS_FAILED);
         newTradeSync.setSyncEndTime(applicationService.getLocalSystemTime().toDate());
         tradeSyncMapper.updateByPrimaryKey(newTradeSync);
     }
@@ -169,7 +170,7 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
         TradeSync newTradeSync = new TradeSync();
         newTradeSync.setId(tradeSync.getId());
         newTradeSync.setSyncLock(UNLOCK);
-        newTradeSync.setSyncStatus(Constants.SYNC_STATUS_SUCCESSFUL);
+        newTradeSync.setSyncStatus(TradeConstants.SYNC_STATUS_SUCCESSFUL);
         newTradeSync.setSyncEndTime(applicationService.getLocalSystemTime().toDate());
         tradeSyncMapper.updateByPrimaryKey(newTradeSync);
     }
@@ -187,7 +188,7 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
         while (true) {
             RefundsReceiveGetRequest request = new RefundsReceiveGetRequest();
             request.setFields("refund_id");
-            request.setType(Joiner.on(",").join(Constants.TRADE_TYPES));
+            request.setType(Joiner.on(",").join(BaseConstants.TRADE_TYPES));
             request.setPageSize(100L);
             request.setStartModified(startDate);
             request.setEndModified(endDate);
@@ -215,8 +216,8 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
         long pageNo = 1;
         while (true) {
             TradesSoldGetRequest request = new TradesSoldGetRequest();
-            request.setFields(Joiner.on(",").join(Constants.TRADE_FIELDS));
-            request.setType(Joiner.on(",").join(Constants.TRADE_TYPES));
+            request.setFields(Joiner.on(",").join(BaseConstants.TRADE_FIELDS));
+            request.setType(Joiner.on(",").join(BaseConstants.TRADE_TYPES));
             request.setStartCreated(startDate);
             request.setEndCreated(endDate);
             request.setPageNo(pageNo);
@@ -245,8 +246,8 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
         long pageNo = 1;
         while (true) {
             TradesSoldIncrementGetRequest request = new TradesSoldIncrementGetRequest();
-            request.setFields(Joiner.on(",").join(Constants.TRADE_FIELDS));
-            request.setType(Joiner.on(",").join(Constants.TRADE_TYPES));
+            request.setFields(Joiner.on(",").join(BaseConstants.TRADE_FIELDS));
+            request.setType(Joiner.on(",").join(BaseConstants.TRADE_TYPES));
             request.setStartModified(startDate);
             request.setEndModified(endDate);
             request.setPageNo(pageNo);

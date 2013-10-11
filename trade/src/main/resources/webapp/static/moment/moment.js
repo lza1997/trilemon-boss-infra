@@ -7,7 +7,7 @@
 (function (undefined) {
 
     /************************************
-        Constants
+        TradeConstants
     ************************************/
 
     var moment,

@@ -2,7 +2,7 @@ package com.trilemon.boss360.infrastructure.trade.service;
 
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.serivce.ApplicationService;
-import com.trilemon.boss360.infrastructure.trade.Constants;
+import com.trilemon.boss360.infrastructure.trade.TradeConstants;
 import com.trilemon.boss360.infrastructure.trade.dao.TradeSyncMapper;
 import com.trilemon.boss360.infrastructure.trade.model.TradeSync;
 import com.trilemon.commons.DateUtils;
@@ -46,7 +46,7 @@ public class TradeIncrSyncCheckService extends AbstractQueueService<TradeSync> {
     @Override
     public void reboot() {
         super.reboot();
-        tradeSyncMapper.updateSyncCheckStatusAndLock(Constants.SYNC_CHECK_STATUS_FAILED, UNLOCK,
+        tradeSyncMapper.updateSyncCheckStatusAndLock(TradeConstants.SYNC_CHECK_STATUS_FAILED, UNLOCK,
                 applicationService.getServiceName(),
                 applicationService.getServiceId());
     }
@@ -86,17 +86,17 @@ public class TradeIncrSyncCheckService extends AbstractQueueService<TradeSync> {
     }
 
     public boolean isInitSyncCheck(TradeSync tradeSync) {
-        return (tradeSync.getSyncStatus() == Constants.SYNC_CHECK_STATUS_SUCCESSFUL)
-                || (tradeSync.getSyncStatus() == Constants.SYNC_CHECK_STATUS_FAILED);
+        return (tradeSync.getSyncStatus() == TradeConstants.SYNC_CHECK_STATUS_SUCCESSFUL)
+                || (tradeSync.getSyncStatus() == TradeConstants.SYNC_CHECK_STATUS_FAILED);
     }
 
     @Override
     public void process(TradeSync tradeSync) throws Exception {
         DateTime tradeStartDateTime = null;
-        if (tradeSync.getSyncStatus() == Constants.SYNC_CHECK_STATUS_SUCCESSFUL) {
+        if (tradeSync.getSyncStatus() == TradeConstants.SYNC_CHECK_STATUS_SUCCESSFUL) {
             tradeStartDateTime = new DateTime(tradeSync.getCheckTradeEndTime());
         }
-        if (tradeSync.getSyncStatus() == Constants.ASYNC_STATUS_FAILED) {
+        if (tradeSync.getSyncStatus() == TradeConstants.ASYNC_STATUS_FAILED) {
             tradeStartDateTime = new DateTime(tradeSync.getCheckTradeStartTime());
         }
         if (null == tradeStartDateTime) {
@@ -139,7 +139,7 @@ public class TradeIncrSyncCheckService extends AbstractQueueService<TradeSync> {
         TradeSync newTradeSync = new TradeSync();
         newTradeSync.setId(tradeSync.getId());
         newTradeSync.setCheckLock(UNLOCK);
-        newTradeSync.setCheckStatus(Constants.SYNC_CHECK_STATUS_FAILED);
+        newTradeSync.setCheckStatus(TradeConstants.SYNC_CHECK_STATUS_FAILED);
         newTradeSync.setSyncEndTime(applicationService.getLocalSystemTime().toDate());
         tradeSyncMapper.updateByPrimaryKey(newTradeSync);
     }

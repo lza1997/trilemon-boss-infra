@@ -1,4 +1,4 @@
-package com.trilemon.boss360.infrastructure.base.model;
+package com.trilemon.boss360.infrastructure.base.module;
 
 import java.util.Date;
 

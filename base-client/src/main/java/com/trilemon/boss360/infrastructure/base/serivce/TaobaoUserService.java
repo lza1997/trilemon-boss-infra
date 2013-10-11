@@ -1,5 +1,7 @@
 package com.trilemon.boss360.infrastructure.base.serivce;
 
+import com.trilemon.boss360.infrastructure.base.client.BaseClient;
+import com.trilemon.boss360.infrastructure.base.module.TaobaoSession;
 import org.springframework.stereotype.Service;
 
 /**
@@ -7,11 +9,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TaobaoUserService {
-    public String getSessionKeyByNick(String nick) {
-        return null;  //To change body of created methods use File | Settings | File Templates.
+    private BaseClient baseClient;
+    public TaobaoSession getTaobaoSession(String nick) {
+        return baseClient.getTaobaoSession(nick);
     }
 
-    public String getSessionKeyByUserId(long userId) {
-        return null;  //To change body of created methods use File | Settings | File Templates.
+    public TaobaoSession getTaobaoSession(long userId) {
+        return baseClient.getTaobaoSession(userId);
     }
 }

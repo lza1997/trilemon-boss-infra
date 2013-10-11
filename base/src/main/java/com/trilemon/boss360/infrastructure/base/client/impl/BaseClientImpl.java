@@ -3,13 +3,16 @@ package com.trilemon.boss360.infrastructure.base.client.impl;
 import com.taobao.api.domain.Item;
 import com.taobao.api.request.ItemsOnsaleGetRequest;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
-import com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsage;
-import com.trilemon.boss360.infrastructure.base.model.TaobaoApp;
-import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
+import com.trilemon.boss360.infrastructure.base.module.TaobaoApiUsage;
+import com.trilemon.boss360.infrastructure.base.module.TaobaoApp;
+import com.trilemon.boss360.infrastructure.base.module.TaobaoSession;
 import com.trilemon.boss360.infrastructure.base.serivce.EnhancedApiException;
 import com.trilemon.boss360.infrastructure.base.serivce.TaobaoItemService;
+import com.trilemon.boss360.infrastructure.base.service.TaobaoSessionService;
 import com.trilemon.boss360.infrastructure.base.service.TaobaoApiUsageService;
 import com.trilemon.boss360.infrastructure.base.service.TaobaoAppService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
@@ -17,10 +20,16 @@ import java.util.List;
 /**
  * @author kevin
  */
+@Service
 public class BaseClientImpl implements BaseClient {
+    @Autowired
     private TaobaoApiUsageService taobaoApiUsageService;
+    @Autowired
     private TaobaoAppService taobaoAppService;
+    @Autowired
     private TaobaoItemService taobaoItemService;
+    @Autowired
+    private TaobaoSessionService taobaoSessionService;
 
     @Override
     public void updateApiUsage(List<TaobaoApiUsage> taobaoApiUsageList) {
@@ -44,16 +53,21 @@ public class BaseClientImpl implements BaseClient {
 
     @Override
     public long getTradeNumFromTop(Long userId, String appKey, Date startDate, Date endDate) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 0;
     }
 
     @Override
     public TaobaoSession getTaobaoSession(Long userId) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return taobaoSessionService.getTaobaoSession(userId);
+    }
+
+    @Override
+    public TaobaoSession getTaobaoSession(String nick) {
+        return taobaoSessionService.getTaobaoSession(nick);
     }
 
     @Override
     public long getTradeNum(Long userId, Date startDate, Date endDate) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 0;
     }
 }
