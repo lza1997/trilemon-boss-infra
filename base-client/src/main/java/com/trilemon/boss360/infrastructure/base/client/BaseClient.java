@@ -2,9 +2,9 @@ package com.trilemon.boss360.infrastructure.base.client;
 
 import com.taobao.api.domain.Item;
 import com.taobao.api.request.ItemsOnsaleGetRequest;
-import com.trilemon.boss360.infrastructure.base.module.TaobaoApiUsage;
-import com.trilemon.boss360.infrastructure.base.module.TaobaoApp;
-import com.trilemon.boss360.infrastructure.base.module.TaobaoSession;
+import com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsage;
+import com.trilemon.boss360.infrastructure.base.model.TaobaoApp;
+import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
 import com.trilemon.boss360.infrastructure.base.serivce.EnhancedApiException;
 import org.springframework.stereotype.Service;
 

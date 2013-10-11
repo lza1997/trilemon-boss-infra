@@ -1,7 +1,7 @@
 package com.trilemon.boss360.infrastructure.base.serivce;
 
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
-import com.trilemon.boss360.infrastructure.base.module.TaobaoSession;
+import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
 import org.springframework.stereotype.Service;
 
 /**

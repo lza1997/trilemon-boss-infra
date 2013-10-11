@@ -1,7 +1,7 @@
 package com.trilemon.boss360.infrastructure.base.dao;
 
-import com.trilemon.boss360.infrastructure.base.module.TaobaoShop;
-import com.trilemon.boss360.infrastructure.base.module.TaobaoShopExample;
+import com.trilemon.boss360.infrastructure.base.model.TaobaoShop;
+import com.trilemon.boss360.infrastructure.base.model.TaobaoShopExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

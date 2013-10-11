@@ -5,9 +5,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.*;
 import com.taobao.api.*;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
-import com.trilemon.boss360.infrastructure.base.module.TaobaoApiUsage;
-import com.trilemon.boss360.infrastructure.base.module.TaobaoApp;
-import net.spy.memcached.MemcachedClient;
+import com.trilemon.boss360.infrastructure.base.model.TaobaoApp;
 import org.dozer.util.ReflectionUtils;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +34,8 @@ public class TaobaoApiService {
     private Multiset<String> totalApiExecCount = HashMultiset.create();
     @Value("${taobao_app_key}")
     private String taobaoAppKey;
-    @Autowired
-    private MemcachedClient memcachedClient;
+//    @Autowired
+//    private MemcachedClient memcachedClient;
     @Autowired
     private ApplicationService applicationService;
     private BaseClient baseClient;
@@ -65,11 +63,11 @@ public class TaobaoApiService {
     }
 
     private void initTaobaoClient() {
-        TaobaoApp taobaoApp = baseClient.getTaobaoApp(taobaoAppKey);
-//        TaobaoApp taobaoApp = new TaobaoApp();
-//        taobaoApp.setAppCallbackUrl("http://boss.trilemon.com");
-//        taobaoApp.setAppKey("21635387");
-//        taobaoApp.setAppSecret("2535d805a5862eada6febca6eb91a427");
+        //TaobaoApp taobaoApp = baseClient.getTaobaoApp(taobaoAppKey);
+        TaobaoApp taobaoApp = new TaobaoApp();
+        taobaoApp.setAppCallbackUrl("http://boss.trilemon.com");
+        taobaoApp.setAppKey("21635387");
+        taobaoApp.setAppSecret("2535d805a5862eada6febca6eb91a427");
         taobaoClient = new AutoRetryTaobaoClient(taobaoApp.getAppCallbackUrl(),
                 taobaoApp.getAppKey(), taobaoApp.getAppSecret());
     }
@@ -121,44 +119,44 @@ public class TaobaoApiService {
     }
 
     public void recordCall(String cacheKeyPrefix, String state) {
-        String cacheKey = cacheKeyPrefix + ":" + state;
-        Object cacheValue = memcachedClient.get(cacheKey);
-        if (null == cacheValue) {
-            memcachedClient.set(cacheKey, CACHE_EXPIRE_TIME, "0");
-        }
-        memcachedClient.asyncIncr(cacheKey, 1);
+//        String cacheKey = cacheKeyPrefix + ":" + state;
+//        Object cacheValue = memcachedClient.get(cacheKey);
+//        if (null == cacheValue) {
+//            memcachedClient.set(cacheKey, CACHE_EXPIRE_TIME, "0");
+//        }
+//        memcachedClient.asyncIncr(cacheKey, 1);
     }
 
     @Scheduled(fixedDelay = 1000 * 60)
     public void flushCache() {
-        List<TaobaoApiUsage> taobaoApiUsageList = Lists.newArrayList();
-        for (String cacheKeyPrefix : cacheKeys.keys()) {
-            Object successfulCacheValue = memcachedClient.get(cacheKeyPrefix + ":" + STATE_SUCCESSFUL);
-            Object failCacheValue = memcachedClient.get(cacheKeyPrefix + ":" + STATE_FAIL);
-            if (null != successfulCacheValue || null != failCacheValue) {
-                int successfulCount = Integer.valueOf(String.valueOf(successfulCacheValue));
-                int failCount = Integer.valueOf(String.valueOf(failCacheValue));
-                if (successfulCount > 0 || failCount > 0) {
-                    String[] keys = cacheKeyPrefix.split(":");
-                    TaobaoApiUsage taobaoApiUsage = new TaobaoApiUsage();
-                    taobaoApiUsage.setApiName(keys[2]);
-                    taobaoApiUsage.setServiceName(keys[3]);
-                    taobaoApiUsage.setTaobaoAppKey(keys[1]);
-                    taobaoApiUsage.setServiceId(keys[4]);
-                    taobaoApiUsage.setSuccessfulCall((long) successfulCount);
-                    taobaoApiUsage.setFailedCall((long) failCount);
-                    taobaoApiUsage.setAvgExecTime(getAvgTaobaoApiExecTime(keys[1]));
-                    taobaoApiUsage.setAddTime(applicationService.getLocalSystemTime().toDate());
-                    taobaoApiUsageList.add(taobaoApiUsage);
-                    //clear cache
-                    memcachedClient.set(cacheKeyPrefix + ":" + STATE_SUCCESSFUL, CACHE_EXPIRE_TIME, "0");
-                    memcachedClient.set(cacheKeyPrefix + ":" + STATE_FAIL, CACHE_EXPIRE_TIME, "0");
-                    totalApiExecTime.remove(keys[1]);
-                    totalApiExecCount.remove(keys[1]);
-                }
-            }
-        }
-        baseClient.updateApiUsage(taobaoApiUsageList);
+//        List<TaobaoApiUsage> taobaoApiUsageList = Lists.newArrayList();
+//        for (String cacheKeyPrefix : cacheKeys.keys()) {
+//            Object successfulCacheValue = memcachedClient.get(cacheKeyPrefix + ":" + STATE_SUCCESSFUL);
+//            Object failCacheValue = memcachedClient.get(cacheKeyPrefix + ":" + STATE_FAIL);
+//            if (null != successfulCacheValue || null != failCacheValue) {
+//                int successfulCount = Integer.valueOf(String.valueOf(successfulCacheValue));
+//                int failCount = Integer.valueOf(String.valueOf(failCacheValue));
+//                if (successfulCount > 0 || failCount > 0) {
+//                    String[] keys = cacheKeyPrefix.split(":");
+//                    TaobaoApiUsage taobaoApiUsage = new TaobaoApiUsage();
+//                    taobaoApiUsage.setApiName(keys[2]);
+//                    taobaoApiUsage.setServiceName(keys[3]);
+//                    taobaoApiUsage.setTaobaoAppKey(keys[1]);
+//                    taobaoApiUsage.setServiceId(keys[4]);
+//                    taobaoApiUsage.setSuccessfulCall((long) successfulCount);
+//                    taobaoApiUsage.setFailedCall((long) failCount);
+//                    taobaoApiUsage.setAvgExecTime(getAvgTaobaoApiExecTime(keys[1]));
+//                    taobaoApiUsage.setAddTime(applicationService.getLocalSystemTime().toDate());
+//                    taobaoApiUsageList.add(taobaoApiUsage);
+//                    //clear cache
+//                    memcachedClient.set(cacheKeyPrefix + ":" + STATE_SUCCESSFUL, CACHE_EXPIRE_TIME, "0");
+//                    memcachedClient.set(cacheKeyPrefix + ":" + STATE_FAIL, CACHE_EXPIRE_TIME, "0");
+//                    totalApiExecTime.remove(keys[1]);
+//                    totalApiExecCount.remove(keys[1]);
+//                }
+//            }
+//        }
+//        baseClient.updateApiUsage(taobaoApiUsageList);
     }
 
     public int getAvgTaobaoApiExecTime(String appKey) {

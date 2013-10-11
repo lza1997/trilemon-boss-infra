@@ -1,7 +1,7 @@
 package com.trilemon.boss360.infrastructure.base.service;
 
 import com.trilemon.boss360.infrastructure.base.dao.TaobaoSessionMapper;
-import com.trilemon.boss360.infrastructure.base.module.TaobaoSession;
+import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

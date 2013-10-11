@@ -1,7 +1,7 @@
 package com.trilemon.boss360.infrastructure.base.service;
 
 import com.trilemon.boss360.infrastructure.base.dao.TaobaoAppMapper;
-import com.trilemon.boss360.infrastructure.base.module.TaobaoApp;
+import com.trilemon.boss360.infrastructure.base.model.TaobaoApp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
