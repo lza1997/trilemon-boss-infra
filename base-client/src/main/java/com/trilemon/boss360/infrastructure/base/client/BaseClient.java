@@ -24,7 +24,9 @@ public interface BaseClient {
 
     List<Item> getOnSaleItemsByUserId(ItemsOnsaleGetRequest request, String appKey, long userId) throws EnhancedApiException;
 
-    long getTradeNumFromTop(String appKey, String sessionKey, Date startDateTime, Date endDateTime);
+    long getTradeNumFromTop(Long userId, String appKey, Date startDate, Date endDate);
 
     TaobaoSession getTaobaoSession(Long userId);
+
+    long getTradeNum(Long userId, Date startDate, Date endDate);
 }

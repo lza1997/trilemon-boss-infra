@@ -20,7 +20,7 @@ public interface TradeAsyncMapper {
 
     List<TradeAsync> selectByExample(TradeAsyncExample example);
 
-    TradeAsync selectByPrimaryKey(Integer id);
+    TradeAsync selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") TradeAsync record, @Param("example") TradeAsyncExample example);
 
@@ -33,4 +33,12 @@ public interface TradeAsyncMapper {
     Collection<TradeAsync> pagination(int offset, int size, Byte syncStatus, String serviceName, String serviceId);
 
     TradeAsync selectByUserId(long userId);
+
+    void updateSyncStatus(Byte syncStatus, String serviceName, String serviceId);
+
+    void updateTimeoutSync(int seconds);
+
+    void updateSyncStatus(Integer id, Object syncStatus, String serviceName, String serviceId);
+
+    void updateByUserId(TradeAsync tradeAsync);
 }

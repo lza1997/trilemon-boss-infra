@@ -3,7 +3,6 @@ package com.trilemon.boss360.infrastructure.trade.service;
 import com.google.common.base.Joiner;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Queues;
 import com.taobao.api.domain.Task;
 import com.taobao.api.request.TopatsResultGetRequest;
 import com.taobao.api.request.TopatsTradesSoldGetRequest;
@@ -14,34 +13,40 @@ import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
 import com.trilemon.boss360.infrastructure.base.serivce.ApplicationService;
 import com.trilemon.boss360.infrastructure.base.serivce.EnhancedApiException;
 import com.trilemon.boss360.infrastructure.base.serivce.TaobaoApiService;
+import com.trilemon.boss360.infrastructure.trade.Constants;
 import com.trilemon.boss360.infrastructure.trade.dao.TradeAsyncMapper;
 import com.trilemon.boss360.infrastructure.trade.model.TradeAsync;
-import com.trilemon.commons.*;
+import com.trilemon.commons.DateUtils;
+import com.trilemon.commons.Files2;
+import com.trilemon.commons.Threads;
+import com.trilemon.commons.WebUtils;
+import com.trilemon.commons.service.AbstractQueueService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.Collection;
-import java.util.PriorityQueue;
 import java.util.concurrent.TimeUnit;
-
-import static com.trilemon.boss360.infrastructure.base.Constants.TRADE_FIELDS;
 
 /**
  * @author kevin
  */
 @Service
-public class TradeInitSyncService {
+public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
     private static Logger logger = LoggerFactory.getLogger(TradeInitSyncService.class);
     @Autowired
     private BaseClient baseClient;
     @Autowired
     private TaobaoApiService taobaoApiService;
+    @Autowired
+    private TradeIncrSyncService tradeIncrSyncService;
     @Autowired
     private TradeAsyncMapper tradeAsyncMapper;
     @Autowired
@@ -50,63 +55,111 @@ public class TradeInitSyncService {
     private String tradeDownloadDir;
     @Autowired
     private TradeCalcService tradeCalcService;
-    private PriorityQueue<TradeAsync> tradeAsyncQueue = Queues.newPriorityQueue();
-    private BlockingThreadPoolExecutor tradeAsyncPool = new BlockingThreadPoolExecutor(5);
 
-    public void sync(long userId, String appKey) {
+    @PostConstruct
+    public void init() {
+        reboot();
+        startPoll();
+    }
+
+    @Override
+    public void reboot() {
+        super.reboot();
+        tradeAsyncMapper.updateSyncStatus(Constants.ASYNC_STATUS_FAILED, applicationService.getServiceName(),
+                applicationService.getServiceId());
+    }
+
+    @Override
+    public void timeout() {
+        tradeAsyncMapper.updateTimeoutSync(60 * 60 * 5);
+    }
+
+    @Override
+    public void fillQueue() {
+        int offset = 0;
+        while (true) {
+            Collection<TradeAsync> tradeAsyncList = tradeAsyncMapper.pagination(offset,
+                    100, Constants.ASYNC_STATUS_INIT, applicationService.getServiceName(),
+                    applicationService.getServiceId());
+            if (CollectionUtils.isEmpty(tradeAsyncList)) {
+                break;
+            } else {
+                fillQueue(tradeAsyncList);
+            }
+        }
+    }
+
+    @Override
+    public void process(TradeAsync tradeAsync) {
+        logger.info("start to sync tradeAsync[{}].", tradeAsync.getId());
+
+        DateTime endDateTime = DateUtils.endOfNDaysBefore(1);
+        DateTime startDateTime = DateUtils.startOfNDaysBefore(90);
+        TradeAsync newTradeAsync = new TradeAsync();
+        newTradeAsync.setId(tradeAsync.getId());
+        newTradeAsync.setServerName(applicationService.getServiceName());
+        newTradeAsync.setServerId(applicationService.getServiceId());
+        newTradeAsync.setSyncStartTime(applicationService.getLocalSystemTime().toDate());
+        newTradeAsync.setTradeStartTime(startDateTime.toDate());
+        newTradeAsync.setTradeEndTime(endDateTime.toDate());
+        tradeAsyncMapper.updateByPrimaryKeySelective(newTradeAsync);
+
+        try {
+            long tradeNum = baseClient.getTradeNumFromTop(tradeAsync.getUserId(),
+                    tradeAsync.getSyncAppKey(), tradeAsync.getTradeStartTime(),
+                    tradeAsync.getTradeEndTime());
+            long tradeNumPerDay = tradeNum / 90;
+            if ((tradeNum / 90) <= 1000) {
+                logger.info("trade num [{}/{}] <= 1000 , use sync, tradeAsync[{}]", tradeNum, tradeNumPerDay,
+                        tradeAsync.getId());
+                tradeIncrSyncService.syncByCreated(tradeAsync.getUserId(), tradeAsync.getSyncAppKey(),
+                        tradeAsync.getTradeStartTime(), tradeAsync.getTradeEndTime());
+            } else {
+                logger.info("trade num [{}/{}] > 1000 , use async, tradeAsync[{}]", tradeNum, tradeNumPerDay,
+                        tradeAsync.getId());
+                async(tradeAsync);
+            }
+        } catch (Exception e) {
+            logger.error("error get tradeNum, use async, tradeAsync[" + tradeAsync.getId() + "]", e);
+            async(tradeAsync);
+        }
+    }
+
+    /**
+     * 进行异步同步
+     *
+     * @param userId
+     * @param appKey
+     */
+    public void async(long userId, String appKey) {
         TradeAsync tradeAsync = tradeAsyncMapper.selectByUserId(userId);
         if (null != tradeAsync) {
-            if (tradeAsync.getSyncStatus() == TradeAsync.SYNC_STATUS_SUCCESSFUL) {
+            if (tradeAsync.getSyncStatus() == Constants.SYNC_STATUS_SUCCESSFUL) {
                 logger.info("userId[{}] , appKey[{}] has been sync, skip.", userId, appKey);
                 return;
-            }
-        }
-        prepare(userId, appKey);
-    }
-
-    public void dispatch() {
-        while (true) {
-            final TradeAsync tradeAsync = tradeAsyncQueue.poll();
-            if (null == tradeAsync) {
-                fillTradeAsyncQueue();
-                //如果填充后还是空，则说明此时没有需要同步的卖家，则休眠一分钟，节省系统资源。
-                if (tradeAsyncQueue.isEmpty()) {
-                    Threads.sleep(1, TimeUnit.MINUTES);
-                }
             } else {
-                tradeAsyncPool.submit(new Runnable() {
-                    @Override
-                    public void run() {
-                        logger.info("start to sync tradeAsync[{}].", tradeAsync.getId());
-
-                        try {
-                            long tradeNumPerDay = baseClient.getTradeNumFromTop(appKey, sessionKey, startTime, endTime);
-                            if (tradeNumPerDay <= 1000) {
-                                logger.info("trade num [{}] <= 1000 , use sync, tradeAsync[{}]", tradeNumPerDay,
-                                        tradeAsync.getId());
-                                sync(tradeAsync);
-                            } else {
-                                logger.info("trade num [{}] > 1000 , use async, tradeAsync[{}]", tradeNumPerDay,
-                                        tradeAsync.getId());
-                                async(tradeAsync);
-                            }
-                        } catch (Exception e) {
-                            logger.error("error get tradeNumPerDay, use async, tradeAsync[" + tradeAsync.getId() + "]",
-                                    e);
-                            async(tradeAsync);
-                        }
-                        async(tradeAsync);
-                    }
-                });
+                prepare(userId, false);
             }
+        } else {
+            prepare(userId, true);
         }
     }
 
-    private void sync(TradeAsync tradeAsync) {
-
+    public void prepare(long userId, boolean insertOrUpdate) {
+        TradeAsync tradeAsync = new TradeAsync();
+        tradeAsync.setUserId(userId);
+        tradeAsync.setSyncStatus(Constants.ASYNC_STATUS_INIT);
+        tradeAsync.setSyncStartTime(applicationService.getLocalSystemTime().toDate());
+        tradeAsync.setServerName(applicationService.getServiceName());
+        tradeAsync.setServerName(applicationService.getServiceId());
+        if (insertOrUpdate) {
+            tradeAsyncMapper.insertSelective(tradeAsync);
+        } else {
+            tradeAsyncMapper.updateByUserId(tradeAsync);
+        }
     }
 
-    private void async(TradeAsync tradeAsync) {
+    public void async(TradeAsync tradeAsync) {
         Stopwatch stopwatch = new Stopwatch().start();
         logger.info("start to async tradeAsync[{}].", tradeAsync.getId());
         //1. submit to taobao
@@ -190,41 +243,16 @@ public class TradeInitSyncService {
                 stopwatch.elapsed(TimeUnit.MINUTES));
     }
 
-    private void success(TradeAsync tradeAsync) {
+    public void success(TradeAsync tradeAsync) {
         tradeAsync.setSyncEndTime(applicationService.getLocalSystemTime().toDate());
-        tradeAsync.setSyncStatus(TradeAsync.SYNC_STATUS_FAILED);
+        tradeAsync.setSyncStatus(Constants.ASYNC_STATUS_SUCCESSFUL);
         tradeAsyncMapper.updateByPrimaryKeySelective(tradeAsync);
     }
 
-    private void fail(TradeAsync tradeAsync) {
+    public void fail(TradeAsync tradeAsync) {
         tradeAsync.setSyncEndTime(applicationService.getLocalSystemTime().toDate());
-        tradeAsync.setSyncStatus(TradeAsync.SYNC_STATUS_SUCCESSFUL);
+        tradeAsync.setSyncStatus(Constants.ASYNC_STATUS_FAILED);
         tradeAsyncMapper.updateByPrimaryKeySelective(tradeAsync);
-    }
-
-    public void prepare(long userId, String appKey) {
-        TradeAsync tradeAsync = new TradeAsync();
-        tradeAsync.setSyncAppKey(appKey);
-        tradeAsync.setUserId(userId);
-        tradeAsync.setSyncStatus(TradeAsync.SYNC_STATUS_INIT);
-        tradeAsync.setSyncStartTime(applicationService.getLocalSystemTime().toDate());
-        tradeAsync.setServerName(applicationService.getServiceName());
-        tradeAsync.setServerName(applicationService.getServiceId());
-        tradeAsyncMapper.insertSelective(tradeAsync);
-    }
-
-    public void fillTradeAsyncQueue() {
-        int offset = 0;
-        while (true) {
-            Collection<TradeAsync> tradeAsyncList = tradeAsyncMapper.pagination(offset,
-                    100, TradeAsync.SYNC_STATUS_INIT, applicationService.getServiceName(),
-                    applicationService.getServiceId());
-            if (CollectionUtils.isEmpty(tradeAsyncList)) {
-                break;
-            } else {
-                tradeAsyncQueue.addAll(tradeAsyncList);
-            }
-        }
     }
 
     /**
@@ -239,7 +267,7 @@ public class TradeInitSyncService {
         String endTimeStr = DateUtils.format(tradeAsync.getTradeEndTime(), DateUtils.yyyyMMdd2);
         request.setStartTime(startTimeStr);
         request.setEndTime(endTimeStr);
-        request.setFields(Joiner.on(",").join(TRADE_FIELDS));
+        request.setFields(Joiner.on(",").join(Constants.TRADE_FIELDS));
 
         TaobaoSession taobaoSession = baseClient.getTaobaoSession(tradeAsync.getUserId());
         TopatsTradesSoldGetResponse response = taobaoApiService.request(request, tradeAsync.getSyncAppKey(),

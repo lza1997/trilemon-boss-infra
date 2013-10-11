@@ -3,44 +3,26 @@ package com.trilemon.boss360.infrastructure.trade.model;
 import java.util.Date;
 
 public class TradeAsync {
-    public final static Byte SYNC_STATUS_DEFAULT=0;
-    public final static Byte SYNC_STATUS_INIT=1;
-    public final static Byte SYNC_STATUS_SUCCESSFUL=2;
-    public final static Byte SYNC_STATUS_FAILED=3;
-
-    private Integer id;
-
+    private Long id;
     private Long userId;
-
     private Long shopId;
-
     private String syncAppKey;
-
     private Byte syncStatus;
-
     private Date tradeStartTime;
-
     private Date tradeEndTime;
-
     private String downloadFile;
-
     private Date syncStartTime;
-
     private Date syncEndTime;
-
     private String serverName;
-
     private String serverId;
-
     private Date addTime;
-
     private Date updTime;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
