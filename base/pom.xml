@@ -397,6 +397,10 @@
                             <name>spring.profiles.active</name>
                             <value>development</value>
                         </systemProperty>
+                        <systemProperty>
+                            <name>log_dir</name>
+                            <value>/Users/kevin/Dev/logs</value>
+                        </systemProperty>
                     </systemProperties>
                     <webAppConfig>
                         <contextPath>/${project.artifactId}</contextPath>
