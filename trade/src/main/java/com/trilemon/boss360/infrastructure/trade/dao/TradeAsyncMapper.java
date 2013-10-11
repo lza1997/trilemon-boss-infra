@@ -12,7 +12,7 @@ public interface TradeAsyncMapper {
 
     int deleteByExample(TradeAsyncExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(TradeAsync record);
 
@@ -30,15 +30,19 @@ public interface TradeAsyncMapper {
 
     int updateByPrimaryKey(TradeAsync record);
 
-    Collection<TradeAsync> pagination(int offset, int size, Byte syncStatus, String serviceName, String serviceId);
+    TradeAsync selectByUserId(Long userId);
 
-    TradeAsync selectByUserId(long userId);
+    void updateSyncStatusByService(@Param("syncStatus") byte syncStatus,
+                                   @Param("serviceName") String serviceName,
+                                   @Param("serviceId") String serviceId);
 
-    void updateSyncStatus(Byte syncStatus, String serviceName, String serviceId);
+    void updateTimeoutSyncStatus(@Param("syncStatus") byte syncStatus, @Param("timeout") int timeout);
 
-    void updateTimeoutSync(int seconds);
-
-    void updateSyncStatus(Integer id, Object syncStatus, String serviceName, String serviceId);
+    Collection<TradeAsync> pagination(@Param("offset") int offset,
+                                      @Param("size") int size,
+                                      @Param("syncStatus") byte syncStatus,
+                                      @Param("serviceName") String serviceName,
+                                      @Param("serviceId") String serviceId);
 
     void updateByUserId(TradeAsync tradeAsync);
 }

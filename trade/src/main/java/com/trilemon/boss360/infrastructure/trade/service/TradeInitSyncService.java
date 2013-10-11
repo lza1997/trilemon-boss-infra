@@ -65,13 +65,13 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
     @Override
     public void reboot() {
         super.reboot();
-        tradeAsyncMapper.updateSyncStatus(Constants.ASYNC_STATUS_FAILED, applicationService.getServiceName(),
+        tradeAsyncMapper.updateSyncStatusByService(Constants.ASYNC_STATUS_FAILED, applicationService.getServiceName(),
                 applicationService.getServiceId());
     }
 
     @Override
     public void timeout() {
-        tradeAsyncMapper.updateTimeoutSync(60 * 60 * 5);
+        tradeAsyncMapper.updateTimeoutSyncStatus(Constants.ASYNC_STATUS_FAILED,60 * 60 * 5);
     }
 
     @Override
@@ -97,8 +97,8 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
         DateTime startDateTime = DateUtils.startOfNDaysBefore(90);
         TradeAsync newTradeAsync = new TradeAsync();
         newTradeAsync.setId(tradeAsync.getId());
-        newTradeAsync.setServerName(applicationService.getServiceName());
-        newTradeAsync.setServerId(applicationService.getServiceId());
+        newTradeAsync.setServiceName(applicationService.getServiceName());
+        newTradeAsync.setServiceId(applicationService.getServiceId());
         newTradeAsync.setSyncStartTime(applicationService.getLocalSystemTime().toDate());
         newTradeAsync.setTradeStartTime(startDateTime.toDate());
         newTradeAsync.setTradeEndTime(endDateTime.toDate());
@@ -150,8 +150,8 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
         tradeAsync.setUserId(userId);
         tradeAsync.setSyncStatus(Constants.ASYNC_STATUS_INIT);
         tradeAsync.setSyncStartTime(applicationService.getLocalSystemTime().toDate());
-        tradeAsync.setServerName(applicationService.getServiceName());
-        tradeAsync.setServerName(applicationService.getServiceId());
+        tradeAsync.setServiceName(applicationService.getServiceName());
+        tradeAsync.setServiceId(applicationService.getServiceId());
         if (insertOrUpdate) {
             tradeAsyncMapper.insertSelective(tradeAsync);
         } else {

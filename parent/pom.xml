@@ -602,6 +602,15 @@
 
     <!-- 插件配置 -->
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources/sql</directory>
+                <excludes>
+                    <exclude>**/*.sql</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
         <pluginManagement>
             <plugins>
                 <!-- compiler插件, 设定JDK版本 -->

@@ -5,11 +5,13 @@ import com.taobao.api.request.ItemsOnsaleGetRequest;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsage;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoApp;
+import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
 import com.trilemon.boss360.infrastructure.base.serivce.EnhancedApiException;
 import com.trilemon.boss360.infrastructure.base.serivce.TaobaoItemService;
 import com.trilemon.boss360.infrastructure.base.service.TaobaoApiUsageService;
 import com.trilemon.boss360.infrastructure.base.service.TaobaoAppService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,5 +40,20 @@ public class BaseClientImpl implements BaseClient {
     @Override
     public List<Item> getOnSaleItemsByUserId(ItemsOnsaleGetRequest request, String appKey, long userId) throws EnhancedApiException {
         return taobaoItemService.getOnSaleItemsByUserId(request, appKey, userId);
+    }
+
+    @Override
+    public long getTradeNumFromTop(Long userId, String appKey, Date startDate, Date endDate) {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public TaobaoSession getTaobaoSession(Long userId) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public long getTradeNum(Long userId, Date startDate, Date endDate) {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

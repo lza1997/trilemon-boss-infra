@@ -4,18 +4,29 @@ import java.util.Date;
 
 public class TradeAsync {
     private Long id;
+
     private Long userId;
-    private Long shopId;
+
     private String syncAppKey;
+
     private Byte syncStatus;
+
     private Date tradeStartTime;
+
     private Date tradeEndTime;
+
     private String downloadFile;
+
     private Date syncStartTime;
+
     private Date syncEndTime;
-    private String serverName;
-    private String serverId;
+
+    private String serviceName;
+
+    private String serviceId;
+
     private Date addTime;
+
     private Date updTime;
 
     public Long getId() {
@@ -32,14 +43,6 @@ public class TradeAsync {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public Long getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Long shopId) {
-        this.shopId = shopId;
     }
 
     public String getSyncAppKey() {
@@ -98,20 +101,20 @@ public class TradeAsync {
         this.syncEndTime = syncEndTime;
     }
 
-    public String getServerName() {
-        return serverName;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public void setServerName(String serverName) {
-        this.serverName = serverName == null ? null : serverName.trim();
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName == null ? null : serviceName.trim();
     }
 
-    public String getServerId() {
-        return serverId;
+    public String getServiceId() {
+        return serviceId;
     }
 
-    public void setServerId(String serverId) {
-        this.serverId = serverId == null ? null : serverId.trim();
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId == null ? null : serviceId.trim();
     }
 
     public Date getAddTime() {

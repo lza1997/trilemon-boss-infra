@@ -30,31 +30,19 @@ public interface TradeSyncMapper {
 
     int updateByPrimaryKey(TradeSync record);
 
-    /**
-     * default 或者失败状态
-     *
-     * @param offset
-     * @param size
-     * @return
-     */
-    Collection<TradeSync> paginationSync(int offset, int size);
-
-    int updateSyncLock(Long id, Byte lock, String serviceName, String serviceId);
-
-    void updateSyncStatus(Byte syncStatus, String serviceName, String serviceId);
-
-    /**
-     * @param timeout 单位秒
-     */
-    void updateSyncTimeoutSync(int timeout);
-
-    void updateSyncStatusAndLock(Byte syncStatus, Byte lock, String serviceName, String serviceId);
-
-    void updateSyncCheckStatusAndLock(byte syncCheckStatusFailed, Byte unlock, String serviceName, String serviceId);
+    void updateSyncCheckStatusAndLock(byte syncCheckStatus, Byte unlock, String serviceName, String serviceId);
 
     void updateSyncCheckTimeoutSync(int timeout);
 
-    Collection<TradeSync> paginationCheck(int offset, int size);
+    Collection<TradeSync> paginationSyncCheck(int offset, int size);
 
     int updateSyncCheckLock(Long id, Byte lock, String serviceName, String serviceId);
+
+    void updateSyncStatusAndLock(byte syncStatusFailed, Byte unlock, String serviceName, String serviceId);
+
+    void updateSyncTimeoutSync(int timeout);
+
+    Collection<TradeSync> paginationSync(int offset, int size);
+
+    int updateSyncLock(Long id, Byte lock, String serviceName, String serviceId);
 }

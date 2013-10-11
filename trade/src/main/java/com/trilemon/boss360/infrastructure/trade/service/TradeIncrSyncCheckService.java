@@ -60,7 +60,7 @@ public class TradeIncrSyncCheckService extends AbstractQueueService<TradeSync> {
     public void fillQueue() {
         int offset = 0;
         while (true) {
-            Collection<TradeSync> tradeSyncList = tradeSyncMapper.paginationCheck(offset, 100);
+            Collection<TradeSync> tradeSyncList = tradeSyncMapper.paginationSyncCheck(offset, 100);
             if (CollectionUtils.isEmpty(tradeSyncList)) {
                 break;
             } else {
