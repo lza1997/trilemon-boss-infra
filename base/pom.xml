@@ -5,10 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>trilemon-360boss-infrastructure-parent</artifactId>
         <groupId>com.trilemon.360boss</groupId>
+        <artifactId>trilemon-360boss-deps</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../parent</relativePath>
     </parent>
 
     <groupId>com.trilemon.360boss</groupId>
