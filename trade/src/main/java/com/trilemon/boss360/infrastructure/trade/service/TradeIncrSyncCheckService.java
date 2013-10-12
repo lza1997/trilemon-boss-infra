@@ -1,12 +1,12 @@
 package com.trilemon.boss360.infrastructure.trade.service;
 
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
+import com.trilemon.boss360.infrastructure.base.serivce.AbstractQueueService;
 import com.trilemon.boss360.infrastructure.base.serivce.ApplicationService;
 import com.trilemon.boss360.infrastructure.trade.TradeConstants;
 import com.trilemon.boss360.infrastructure.trade.dao.TradeSyncMapper;
 import com.trilemon.boss360.infrastructure.trade.model.TradeSync;
 import com.trilemon.commons.DateUtils;
-import com.trilemon.commons.service.AbstractQueueService;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Hours;

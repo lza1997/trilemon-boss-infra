@@ -28,8 +28,8 @@
     </modules>
     <packaging>pom</packaging>
 
-    <description>Trilemon商业和运营支持系统</description>
-    <url>https://github.com/KevinGu/Trilemon-360boss-BOSS/wiki</url>
+    <description>Trilemon核心系统</description>
+    <url>https://github.com/KevinGu/Trilemon-360boss-Infrastructure/wiki</url>
     <inceptionYear>2013</inceptionYear>
     <organization>
         <name>trilemon</name>
@@ -43,7 +43,7 @@
             <email>guyan.data@gmail.com</email>
             <organization>trilemon</organization>
             <roles>
-                <role>dev</role>
+                <role>admin</role>
             </roles>
             <timezone>+8</timezone>
         </developer>
@@ -51,6 +51,6 @@
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/KevinGu/Trilemon-360boss-BOSS/issues</url>
+        <url>https://github.com/KevinGu/Trilemon-360boss-Infrastructure/issues</url>
     </issueManagement>
 </project>

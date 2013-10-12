@@ -16,7 +16,9 @@
 
 package com.trilemon.boss360.infrastructure.base.serivce;
 
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Table;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +40,7 @@ public class ApplicationService {
     private String serviceName;
     @Value("${service_id}")
     private String serviceId;
+    private Table<String, String, ThreadPoolExecutor> threadTable = HashBasedTable.create();
 
     public DateTime getLocalSystemTime() {
         return DateTime.now();
@@ -65,5 +68,9 @@ public class ApplicationService {
 
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public void addThread(ThreadPoolExecutor threadPoolExecutor) {
+        threadTable.put(serviceName, serviceId, threadPoolExecutor);
     }
 }
