@@ -1,4 +1,4 @@
-package com.trilemon.boss360.infrastructure.base.serivce;
+package com.trilemon.boss360.infrastructure.base.service;
 
 import com.google.common.collect.Queues;
 import com.trilemon.commons.BlockingThreadPoolExecutor;

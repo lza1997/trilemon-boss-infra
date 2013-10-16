@@ -1,9 +1,9 @@
 package com.trilemon.boss360.infrastructure.trade.service;
 
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
-import com.trilemon.boss360.infrastructure.base.serivce.AbstractQueueService;
-import com.trilemon.boss360.infrastructure.base.serivce.AppService;
-import com.trilemon.boss360.infrastructure.base.serivce.api.TaobaoApiShopService;
+import com.trilemon.boss360.infrastructure.base.service.AbstractQueueService;
+import com.trilemon.boss360.infrastructure.base.service.AppService;
+import com.trilemon.boss360.infrastructure.base.service.api.TaobaoApiShopService;
 import com.trilemon.boss360.infrastructure.trade.TradeConstants;
 import com.trilemon.boss360.infrastructure.trade.dao.TradeSyncMapper;
 import com.trilemon.boss360.infrastructure.trade.model.TradeSync;

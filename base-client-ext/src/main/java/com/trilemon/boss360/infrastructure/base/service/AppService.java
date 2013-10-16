@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.trilemon.boss360.infrastructure.base.serivce;
+package com.trilemon.boss360.infrastructure.base.service;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Maps;

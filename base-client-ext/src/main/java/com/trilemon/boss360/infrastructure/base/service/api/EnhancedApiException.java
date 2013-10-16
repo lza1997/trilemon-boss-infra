@@ -1,4 +1,4 @@
-package com.trilemon.boss360.infrastructure.base.serivce.api;
+package com.trilemon.boss360.infrastructure.base.service.api;
 
 import com.taobao.api.ApiException;
 import com.taobao.api.TaobaoRequest;

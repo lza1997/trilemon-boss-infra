@@ -1,11 +1,11 @@
-package com.trilemon.boss360.infrastructure.base.serivce.api;
+package com.trilemon.boss360.infrastructure.base.service.api;
 
 import com.taobao.api.domain.Item;
 import com.taobao.api.request.ItemsOnsaleGetRequest;
 import com.taobao.api.response.ItemsOnsaleGetResponse;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
-import com.trilemon.boss360.infrastructure.base.serivce.TaobaoApiService;
+import com.trilemon.boss360.infrastructure.base.service.TaobaoApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

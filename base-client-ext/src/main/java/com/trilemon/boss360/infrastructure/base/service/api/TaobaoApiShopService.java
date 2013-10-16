@@ -1,4 +1,4 @@
-package com.trilemon.boss360.infrastructure.base.serivce.api;
+package com.trilemon.boss360.infrastructure.base.service.api;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
@@ -15,8 +15,9 @@ import com.taobao.api.response.TradesSoldGetResponse;
 import com.trilemon.boss360.infrastructure.base.BaseConstants;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
-import com.trilemon.boss360.infrastructure.base.serivce.AppService;
-import com.trilemon.boss360.infrastructure.base.serivce.TaobaoApiService;
+import com.trilemon.boss360.infrastructure.base.service.AppService;
+import com.trilemon.boss360.infrastructure.base.service.TaobaoApiService;
+import com.trilemon.boss360.infrastructure.base.service.AppService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

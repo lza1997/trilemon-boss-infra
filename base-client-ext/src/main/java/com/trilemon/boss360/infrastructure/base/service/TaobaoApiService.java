@@ -1,4 +1,4 @@
-package com.trilemon.boss360.infrastructure.base.serivce;
+package com.trilemon.boss360.infrastructure.base.service;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.HashMultiset;
@@ -6,7 +6,8 @@ import com.google.common.collect.Multiset;
 import com.taobao.api.*;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoApp;
-import com.trilemon.boss360.infrastructure.base.serivce.api.EnhancedApiException;
+import com.trilemon.boss360.infrastructure.base.service.api.EnhancedApiException;
+import com.trilemon.boss360.infrastructure.base.service.api.EnhancedApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

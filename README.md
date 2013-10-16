@@ -1,5 +1,8 @@
-Trilemon-360boss-infrastructure
-========================
-1. base：用户中心、api 调用控制、权限控制等
-2. base-client：base 的远程调用客户端
-3. trade：订单同步和计算
+## asset
+**静态资源**，所有项目的 web 静态资源都依赖这个项目。
+
+## shelf
+**上下架管理**，淘宝店铺的上下架项目。
+
+##showcase
+**橱窗管理**，淘宝店铺的橱窗管理项目。
