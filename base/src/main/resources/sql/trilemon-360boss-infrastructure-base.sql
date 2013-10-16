@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.27)
 # Database: trilemon-360boss-infrastructure-base
-# Generation Time: 2013-10-11 16:38:34 +0000
+# Generation Time: 2013-10-16 09:11:31 +0000
 # ************************************************************
 
 
@@ -62,6 +62,15 @@ CREATE TABLE `taobao_app` (
   UNIQUE KEY `index_taobao_app_app_key` (`app_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
+LOCK TABLES `taobao_app` WRITE;
+/*!40000 ALTER TABLE `taobao_app` DISABLE KEYS */;
+
+INSERT INTO `taobao_app` (`id`, `name`, `article_code`, `app_secret`, `app_key`, `sandbox_app_key`, `sandbox_app_secret`, `app_callback_url`, `app_extra_callback_url`, `add_time`, `upd_time`)
+VALUES
+	(1,'test','','2535d805a5862eada6febca6eb91a427','21635387','','','http://gw.api.taobao.com/router/rest','','0000-00-00 00:00:00','2013-10-16 15:53:51');
+
+/*!40000 ALTER TABLE `taobao_app` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table taobao_session
@@ -72,7 +81,7 @@ DROP TABLE IF EXISTS `taobao_session`;
 CREATE TABLE `taobao_session` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `shop_id` bigint(20) unsigned NOT NULL,
-  `app_id` int(11) unsigned NOT NULL,
+  `app_key` varchar(16) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `session_key` varchar(64) NOT NULL DEFAULT '',
   `sign` varchar(64) NOT NULL DEFAULT '',
   `ts` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -91,10 +100,19 @@ CREATE TABLE `taobao_session` (
   `add_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `upd_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `index_taobao_session_shop_id_and_app_id` (`shop_id`,`app_id`),
-  KEY `index_taobao_session_shop_id` (`shop_id`)
+  KEY `index_taobao_session_shop_id` (`shop_id`),
+  KEY `index_taobao_session_visitor_id_and_app_key` (`visitor_id`,`app_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
+LOCK TABLES `taobao_session` WRITE;
+/*!40000 ALTER TABLE `taobao_session` DISABLE KEYS */;
+
+INSERT INTO `taobao_session` (`id`, `shop_id`, `app_key`, `session_key`, `sign`, `ts`, `iframe`, `visitor_id`, `visitor_nick`, `expires_in`, `refresh_token`, `re_expires_in`, `sub_visitor_id`, `sub_taobao_user_nick`, `r1_expires_in`, `w1_expires_in`, `r2_expires_in`, `w2_expires_in`, `add_time`, `upd_time`)
+VALUES
+	(1,0,X'3231363335333837','6102828ed37f05e26586d5c076f6e066068d13a69d89a4956912708','','0000-00-00 00:00:00',0,56912708,'',0,'6101328db028e89500a098ac2b1c2e8bc6991c6e295976756912708',0,0,'',0,0,0,0,'0000-00-00 00:00:00','2013-10-16 17:05:01');
+
+/*!40000 ALTER TABLE `taobao_session` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table taobao_shop
@@ -128,12 +146,12 @@ CREATE TABLE `taobao_shop` (
 
 
 
-# Dump of table taobao_user
+# Dump of table taobao_seller
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `taobao_user`;
+DROP TABLE IF EXISTS `taobao_seller`;
 
-CREATE TABLE `taobao_user` (
+CREATE TABLE `taobao_seller` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) unsigned NOT NULL DEFAULT '0',
   `uid` varchar(32) NOT NULL DEFAULT '',
@@ -185,6 +203,15 @@ CREATE TABLE `taobao_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
+LOCK TABLES `taobao_seller` WRITE;
+/*!40000 ALTER TABLE `taobao_seller` DISABLE KEYS */;
+
+INSERT INTO `taobao_seller` (`id`, `user_id`, `uid`, `nick`, `sex`, `buyer_credit_level`, `buyer_credit_score`, `buyer_credit_total_num`, `buyer_credit_good_num`, `seller_credit_level`, `seller_credit_score`, `seller_credit_total_num`, `seller_credit_good_num`, `location_country`, `location_state`, `location_city`, `location_district`, `location_address`, `location_zip`, `created`, `last_visit`, `birthday`, `type`, `has_more_pic`, `item_img_num`, `item_img_size`, `prop_img_num`, `prop_img_size`, `auto_repost`, `promoted_type`, `status`, `alipay_bind`, `consumer_protection`, `avatar`, `liangpin`, `sign_food_seller_promise`, `has_shop`, `is_lightning_consignment`, `has_sub_stock`, `is_golden_seller`, `vip_info`, `email`, `magazine_subscribe`, `vertical_market`, `online_gaming`, `alipay_id`, `add_time`, `upd_time`)
+VALUES
+	(1,56912708,'','gymitat','0',0,0,0,0,0,0,0,0,'','','','','','','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00','0',0,0,0,0,0,'0','0','0','',0,'',0,0,0,0,0,0,'0','',0,'',0,'','0000-00-00 00:00:00','2013-10-16 15:55:22');
+
+/*!40000 ALTER TABLE `taobao_seller` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 
