@@ -14,8 +14,8 @@ import com.trilemon.boss360.infrastructure.base.BaseConstants;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
 import com.trilemon.boss360.infrastructure.base.serivce.AbstractQueueService;
-import com.trilemon.boss360.infrastructure.base.serivce.ApplicationService;
-import com.trilemon.boss360.infrastructure.base.serivce.EnhancedApiException;
+import com.trilemon.boss360.infrastructure.base.serivce.AppService;
+import com.trilemon.boss360.infrastructure.base.serivce.api.EnhancedApiException;
 import com.trilemon.boss360.infrastructure.base.serivce.TaobaoApiService;
 import com.trilemon.boss360.infrastructure.trade.TradeConstants;
 import com.trilemon.boss360.infrastructure.trade.dao.TradeAsyncMapper;
@@ -53,7 +53,7 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
     @Autowired
     private TradeAsyncMapper tradeAsyncMapper;
     @Autowired
-    private ApplicationService applicationService;
+    private AppService appService;
 
     @PostConstruct
     public void init() {
@@ -64,8 +64,8 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
     @Override
     public void reboot() {
         super.reboot();
-        tradeSyncMapper.updateSyncStatusAndLock(TradeConstants.SYNC_STATUS_FAILED, UNLOCK, applicationService.getServiceName(),
-                applicationService.getServiceId());
+        tradeSyncMapper.updateSyncStatusAndLock(TradeConstants.SYNC_STATUS_FAILED, UNLOCK, appService.getServiceName(),
+                appService.getServiceId());
     }
 
     @Override
@@ -162,7 +162,7 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
         newTradeSync.setId(tradeSync.getId());
         newTradeSync.setSyncLock(UNLOCK);
         newTradeSync.setSyncStatus(TradeConstants.SYNC_STATUS_FAILED);
-        newTradeSync.setSyncEndTime(applicationService.getLocalSystemTime().toDate());
+        newTradeSync.setSyncEndTime(appService.getLocalSystemTime().toDate());
         tradeSyncMapper.updateByPrimaryKey(newTradeSync);
     }
 
@@ -171,19 +171,19 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
         newTradeSync.setId(tradeSync.getId());
         newTradeSync.setSyncLock(UNLOCK);
         newTradeSync.setSyncStatus(TradeConstants.SYNC_STATUS_SUCCESSFUL);
-        newTradeSync.setSyncEndTime(applicationService.getLocalSystemTime().toDate());
+        newTradeSync.setSyncEndTime(appService.getLocalSystemTime().toDate());
         tradeSyncMapper.updateByPrimaryKey(newTradeSync);
     }
 
     private boolean lock(TradeSync tradeSync) {
-        int rows = tradeSyncMapper.updateSyncLock(tradeSync.getId(), LOCK, applicationService.getServiceName(),
-                applicationService.getServiceId());
+        int rows = tradeSyncMapper.updateSyncLock(tradeSync.getId(), LOCK, appService.getServiceName(),
+                appService.getServiceId());
         return rows == 1;
     }
 
     public void syncRefund(Long userId, String appKey, Date startDate,
                            Date endDate) throws EnhancedApiException {
-        TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId);
+        TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId,taobaoApiService.getAppKey());
         long pageNo = 1;
         while (true) {
             RefundsReceiveGetRequest request = new RefundsReceiveGetRequest();
@@ -212,7 +212,7 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
 
     public void syncByCreated(Long userId, String appKey, Date startDate,
                               Date endDate) throws EnhancedApiException {
-        TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId);
+        TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId,appKey);
         long pageNo = 1;
         while (true) {
             TradesSoldGetRequest request = new TradesSoldGetRequest();
@@ -242,7 +242,7 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
 
     public void syncByModified(Long userId, String appKey, Date startDate,
                                Date endDate) throws EnhancedApiException {
-        TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId);
+        TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId,appKey);
         long pageNo = 1;
         while (true) {
             TradesSoldIncrementGetRequest request = new TradesSoldIncrementGetRequest();

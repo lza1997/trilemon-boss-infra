@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.trilemon.boss360.infrastructure.base.model.TaobaoSession" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="shop_id" property="shopId" jdbcType="BIGINT" />
-    <result column="app_id" property="appId" jdbcType="INTEGER" />
+    <result column="app_key" property="appKey" jdbcType="VARCHAR" />
     <result column="session_key" property="sessionKey" jdbcType="VARCHAR" />
     <result column="sign" property="sign" jdbcType="VARCHAR" />
     <result column="ts" property="ts" jdbcType="TIMESTAMP" />
@@ -82,7 +82,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, shop_id, app_id, session_key, sign, ts, iframe, visitor_id, visitor_nick, expires_in, 
+    id, shop_id, app_key, session_key, sign, ts, iframe, visitor_id, visitor_nick, expires_in, 
     refresh_token, re_expires_in, sub_visitor_id, sub_taobao_user_nick, r1_expires_in, 
     w1_expires_in, r2_expires_in, w2_expires_in, add_time, upd_time
   </sql>
@@ -107,8 +107,8 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    DELETE FROM taobao_session
-    WHERE id = #{id,jdbcType=INTEGER}
+    delete from taobao_session
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.trilemon.boss360.infrastructure.base.model.TaobaoSessionExample" >
     delete from taobao_session
@@ -117,14 +117,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.trilemon.boss360.infrastructure.base.model.TaobaoSession" >
-    INSERT INTO taobao_session (id, shop_id, app_id,
+    insert into taobao_session (id, shop_id, app_key, 
       session_key, sign, ts, 
       iframe, visitor_id, visitor_nick, 
       expires_in, refresh_token, re_expires_in, 
       sub_visitor_id, sub_taobao_user_nick, r1_expires_in, 
       w1_expires_in, r2_expires_in, w2_expires_in, 
       add_time, upd_time)
-    VALUES (#{id,jdbcType=INTEGER}, #{shopId,jdbcType=BIGINT}, #{appId,jdbcType=INTEGER},
+    values (#{id,jdbcType=INTEGER}, #{shopId,jdbcType=BIGINT}, #{appKey,jdbcType=VARCHAR}, 
       #{sessionKey,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{ts,jdbcType=TIMESTAMP}, 
       #{iframe,jdbcType=TINYINT}, #{visitorId,jdbcType=BIGINT}, #{visitorNick,jdbcType=VARCHAR}, 
       #{expiresIn,jdbcType=INTEGER}, #{refreshToken,jdbcType=VARCHAR}, #{reExpiresIn,jdbcType=INTEGER}, 
@@ -141,8 +141,8 @@
       <if test="shopId != null" >
         shop_id,
       </if>
-      <if test="appId != null" >
-        app_id,
+      <if test="appKey != null" >
+        app_key,
       </if>
       <if test="sessionKey != null" >
         session_key,
@@ -203,8 +203,8 @@
       <if test="shopId != null" >
         #{shopId,jdbcType=BIGINT},
       </if>
-      <if test="appId != null" >
-        #{appId,jdbcType=INTEGER},
+      <if test="appKey != null" >
+        #{appKey,jdbcType=VARCHAR},
       </if>
       <if test="sessionKey != null" >
         #{sessionKey,jdbcType=VARCHAR},
@@ -274,8 +274,8 @@
       <if test="record.shopId != null" >
         shop_id = #{record.shopId,jdbcType=BIGINT},
       </if>
-      <if test="record.appId != null" >
-        app_id = #{record.appId,jdbcType=INTEGER},
+      <if test="record.appKey != null" >
+        app_key = #{record.appKey,jdbcType=VARCHAR},
       </if>
       <if test="record.sessionKey != null" >
         session_key = #{record.sessionKey,jdbcType=VARCHAR},
@@ -337,7 +337,7 @@
     update taobao_session
     set id = #{record.id,jdbcType=INTEGER},
       shop_id = #{record.shopId,jdbcType=BIGINT},
-      app_id = #{record.appId,jdbcType=INTEGER},
+      app_key = #{record.appKey,jdbcType=VARCHAR},
       session_key = #{record.sessionKey,jdbcType=VARCHAR},
       sign = #{record.sign,jdbcType=VARCHAR},
       ts = #{record.ts,jdbcType=TIMESTAMP},
@@ -365,8 +365,8 @@
       <if test="shopId != null" >
         shop_id = #{shopId,jdbcType=BIGINT},
       </if>
-      <if test="appId != null" >
-        app_id = #{appId,jdbcType=INTEGER},
+      <if test="appKey != null" >
+        app_key = #{appKey,jdbcType=VARCHAR},
       </if>
       <if test="sessionKey != null" >
         session_key = #{sessionKey,jdbcType=VARCHAR},
@@ -423,9 +423,9 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.trilemon.boss360.infrastructure.base.model.TaobaoSession" >
-    UPDATE taobao_session
-    SET shop_id = #{shopId,jdbcType=BIGINT},
-      app_id = #{appId,jdbcType=INTEGER},
+    update taobao_session
+    set shop_id = #{shopId,jdbcType=BIGINT},
+      app_key = #{appKey,jdbcType=VARCHAR},
       session_key = #{sessionKey,jdbcType=VARCHAR},
       sign = #{sign,jdbcType=VARCHAR},
       ts = #{ts,jdbcType=TIMESTAMP},
@@ -443,18 +443,12 @@
       w2_expires_in = #{w2ExpiresIn,jdbcType=INTEGER},
       add_time = #{addTime,jdbcType=TIMESTAMP},
       upd_time = #{updTime,jdbcType=TIMESTAMP}
-    WHERE id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
-    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    <select id="selectByVisitorIdAndAppKey" resultMap="BaseResultMap" parameterType="map" >
         select
         <include refid="Base_Column_List" />
         from taobao_session
-        where visitor_id = #{visitorId,jdbcType=BIGINT}
-    </select>
-    <select id="selectByNick" resultMap="BaseResultMap" parameterType="java.lang.String" >
-        select
-        <include refid="Base_Column_List" />
-        from taobao_session
-        where visitor_nick = #{visitorNick,jdbcType=VARCHAR}
+        where visitor_id = #{visitorId,jdbcType=BIGINT} AND app_key = #{appKey,jdbcType=VARCHAR}
     </select>
 </mapper>

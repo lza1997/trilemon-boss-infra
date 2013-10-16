@@ -2,7 +2,8 @@ package com.trilemon.boss360.infrastructure.trade.service;
 
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.serivce.AbstractQueueService;
-import com.trilemon.boss360.infrastructure.base.serivce.ApplicationService;
+import com.trilemon.boss360.infrastructure.base.serivce.AppService;
+import com.trilemon.boss360.infrastructure.base.serivce.api.TaobaoApiShopService;
 import com.trilemon.boss360.infrastructure.trade.TradeConstants;
 import com.trilemon.boss360.infrastructure.trade.dao.TradeSyncMapper;
 import com.trilemon.boss360.infrastructure.trade.model.TradeSync;
@@ -35,7 +36,9 @@ public class TradeIncrSyncCheckService extends AbstractQueueService<TradeSync> {
     @Autowired
     private TradeSyncMapper tradeSyncMapper;
     @Autowired
-    private ApplicationService applicationService;
+    private AppService appService;
+    @Autowired
+    private TaobaoApiShopService taobaoApiShopService;
 
     @PostConstruct
     public void init() {
@@ -47,8 +50,8 @@ public class TradeIncrSyncCheckService extends AbstractQueueService<TradeSync> {
     public void reboot() {
         super.reboot();
         tradeSyncMapper.updateSyncCheckStatusAndLock(TradeConstants.SYNC_CHECK_STATUS_FAILED, UNLOCK,
-                applicationService.getServiceName(),
-                applicationService.getServiceId());
+                appService.getServiceName(),
+                appService.getServiceId());
     }
 
     @Override
@@ -74,14 +77,14 @@ public class TradeIncrSyncCheckService extends AbstractQueueService<TradeSync> {
     }
 
     public boolean lock(TradeSync tradeSync) {
-        int rows = tradeSyncMapper.updateSyncCheckLock(tradeSync.getId(), LOCK, applicationService.getServiceName(),
-                applicationService.getServiceId());
+        int rows = tradeSyncMapper.updateSyncCheckLock(tradeSync.getId(), LOCK, appService.getServiceName(),
+                appService.getServiceId());
         return rows == 1;
     }
 
     public boolean unlock(TradeSync tradeSync) {
-        int rows = tradeSyncMapper.updateSyncCheckLock(tradeSync.getId(), UNLOCK, applicationService.getServiceName(),
-                applicationService.getServiceId());
+        int rows = tradeSyncMapper.updateSyncCheckLock(tradeSync.getId(), UNLOCK, appService.getServiceName(),
+                appService.getServiceId());
         return rows == 1;
     }
 
@@ -140,7 +143,7 @@ public class TradeIncrSyncCheckService extends AbstractQueueService<TradeSync> {
         newTradeSync.setId(tradeSync.getId());
         newTradeSync.setCheckLock(UNLOCK);
         newTradeSync.setCheckStatus(TradeConstants.SYNC_CHECK_STATUS_FAILED);
-        newTradeSync.setSyncEndTime(applicationService.getLocalSystemTime().toDate());
+        newTradeSync.setSyncEndTime(appService.getLocalSystemTime().toDate());
         tradeSyncMapper.updateByPrimaryKey(newTradeSync);
     }
 
@@ -170,7 +173,7 @@ public class TradeIncrSyncCheckService extends AbstractQueueService<TradeSync> {
     }
 
     public void check(TradeSync tradeSync, Date startDate, Date endDate) throws Exception {
-        long topTradeNum = baseClient.getTradeNumFromTop(tradeSync.getUserId(), tradeSync.getSyncAppKey(), startDate, endDate);
+        long topTradeNum = taobaoApiShopService.getTradeNumFromTop(tradeSync.getUserId(), tradeSync.getSyncAppKey(), startDate, endDate);
         long ourTradeNum = baseClient.getTradeNum(tradeSync.getUserId(), startDate, endDate);
         if (ourTradeNum >= topTradeNum) {
             if (ourTradeNum > topTradeNum) {

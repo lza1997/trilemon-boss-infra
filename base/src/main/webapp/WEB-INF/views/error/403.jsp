@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<%@ page contentType="text/html;charset=UTF-8" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%--
   ~ Copyright (c) 2013 Raycloud.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,13 +16,20 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+  --%>
 
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<html>
+<head>
+    <title>403 - 用户权限不足</title>
+</head>
 
-    <description>导入applicationContext文件列表</description>
-
-    <import resource="schedule/applicationContext-spring-scheduler.xml"/>
-    <import resource="dubbo/dubbo-provider.xml"/>
-</beans>
+<body>
+<div>
+    <h1>用户权限不足.</h1>
+</div>
+<div>
+    <a href="<c:url value="/"/>">返回首页</a>
+</div>
+</body>
+</html>

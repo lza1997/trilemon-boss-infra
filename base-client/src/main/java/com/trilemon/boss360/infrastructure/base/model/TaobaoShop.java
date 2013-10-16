@@ -1,8 +1,9 @@
 package com.trilemon.boss360.infrastructure.base.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TaobaoShop {
+public class TaobaoShop implements Serializable {
     private Long id;
 
     private Long userId;

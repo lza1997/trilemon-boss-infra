@@ -13,11 +13,7 @@ public class TaobaoSessionService {
     @Autowired
     private TaobaoSessionMapper taobaoSessionMapper;
 
-    public TaobaoSession getTaobaoSession(Long userId) {
-        return taobaoSessionMapper.selectByUserId(userId);
-    }
-
-    public TaobaoSession getTaobaoSession(String nick) {
-        return taobaoSessionMapper.selectByNick(nick);
+    public TaobaoSession getTaobaoSession(Long userId, String appKey) {
+        return taobaoSessionMapper.selectByVisitorIdAndAppKey(userId, appKey);
     }
 }

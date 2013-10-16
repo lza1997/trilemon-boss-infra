@@ -225,63 +225,73 @@ public class TaobaoSessionExample {
             return (Criteria) this;
         }
 
-        public Criteria andAppIdIsNull() {
-            addCriterion("app_id is null");
+        public Criteria andAppKeyIsNull() {
+            addCriterion("app_key is null");
             return (Criteria) this;
         }
 
-        public Criteria andAppIdIsNotNull() {
-            addCriterion("app_id is not null");
+        public Criteria andAppKeyIsNotNull() {
+            addCriterion("app_key is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAppIdEqualTo(Integer value) {
-            addCriterion("app_id =", value, "appId");
+        public Criteria andAppKeyEqualTo(String value) {
+            addCriterion("app_key =", value, "appKey");
             return (Criteria) this;
         }
 
-        public Criteria andAppIdNotEqualTo(Integer value) {
-            addCriterion("app_id <>", value, "appId");
+        public Criteria andAppKeyNotEqualTo(String value) {
+            addCriterion("app_key <>", value, "appKey");
             return (Criteria) this;
         }
 
-        public Criteria andAppIdGreaterThan(Integer value) {
-            addCriterion("app_id >", value, "appId");
+        public Criteria andAppKeyGreaterThan(String value) {
+            addCriterion("app_key >", value, "appKey");
             return (Criteria) this;
         }
 
-        public Criteria andAppIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("app_id >=", value, "appId");
+        public Criteria andAppKeyGreaterThanOrEqualTo(String value) {
+            addCriterion("app_key >=", value, "appKey");
             return (Criteria) this;
         }
 
-        public Criteria andAppIdLessThan(Integer value) {
-            addCriterion("app_id <", value, "appId");
+        public Criteria andAppKeyLessThan(String value) {
+            addCriterion("app_key <", value, "appKey");
             return (Criteria) this;
         }
 
-        public Criteria andAppIdLessThanOrEqualTo(Integer value) {
-            addCriterion("app_id <=", value, "appId");
+        public Criteria andAppKeyLessThanOrEqualTo(String value) {
+            addCriterion("app_key <=", value, "appKey");
             return (Criteria) this;
         }
 
-        public Criteria andAppIdIn(List<Integer> values) {
-            addCriterion("app_id in", values, "appId");
+        public Criteria andAppKeyLike(String value) {
+            addCriterion("app_key like", value, "appKey");
             return (Criteria) this;
         }
 
-        public Criteria andAppIdNotIn(List<Integer> values) {
-            addCriterion("app_id not in", values, "appId");
+        public Criteria andAppKeyNotLike(String value) {
+            addCriterion("app_key not like", value, "appKey");
             return (Criteria) this;
         }
 
-        public Criteria andAppIdBetween(Integer value1, Integer value2) {
-            addCriterion("app_id between", value1, value2, "appId");
+        public Criteria andAppKeyIn(List<String> values) {
+            addCriterion("app_key in", values, "appKey");
             return (Criteria) this;
         }
 
-        public Criteria andAppIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("app_id not between", value1, value2, "appId");
+        public Criteria andAppKeyNotIn(List<String> values) {
+            addCriterion("app_key not in", values, "appKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppKeyBetween(String value1, String value2) {
+            addCriterion("app_key between", value1, value2, "appKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppKeyNotBetween(String value1, String value2) {
+            addCriterion("app_key not between", value1, value2, "appKey");
             return (Criteria) this;
         }
 

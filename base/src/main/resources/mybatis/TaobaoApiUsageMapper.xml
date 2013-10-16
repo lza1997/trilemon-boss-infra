@@ -74,9 +74,9 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-        id, service_name, service_id, taobao_app_key, api_name, successful_call, failed_call,
-        avg_exec_time, add_time, upd_time
-    </sql>
+    id, service_name, service_id, taobao_app_key, api_name, successful_call, failed_call, 
+    avg_exec_time, add_time, upd_time
+  </sql>
     <select id="selectByExample" resultMap="BaseResultMap"
             parameterType="com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsageExample">
         select
@@ -99,9 +99,9 @@
         where id = #{id,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        DELETE FROM taobao_api_usage
-        WHERE id = #{id,jdbcType=INTEGER}
-    </delete>
+    delete from taobao_api_usage
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
     <delete id="deleteByExample" parameterType="com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsageExample">
         delete from taobao_api_usage
         <if test="_parameter != null">
@@ -109,15 +109,15 @@
         </if>
     </delete>
     <insert id="insert" parameterType="com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsage">
-        INSERT INTO taobao_api_usage (id, service_name, service_id,
-                                      taobao_app_key, api_name, successful_call,
-                                      failed_call, avg_exec_time, add_time,
-                                      upd_time)
-            VALUES (#{id,jdbcType=INTEGER}, #{serviceName,jdbcType=VARCHAR}, #{serviceId,jdbcType=VARCHAR},
-                    #{taobaoAppKey,jdbcType=VARCHAR}, #{apiName,jdbcType=VARCHAR}, #{successfulCall,jdbcType=BIGINT},
-                    #{failedCall,jdbcType=BIGINT}, #{avgExecTime,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP},
-                    #{updTime,jdbcType=TIMESTAMP})
-    </insert>
+    insert into taobao_api_usage (id, service_name, service_id, 
+      taobao_app_key, api_name, successful_call, 
+      failed_call, avg_exec_time, add_time, 
+      upd_time)
+    values (#{id,jdbcType=INTEGER}, #{serviceName,jdbcType=VARCHAR}, #{serviceId,jdbcType=VARCHAR}, 
+      #{taobaoAppKey,jdbcType=VARCHAR}, #{apiName,jdbcType=VARCHAR}, #{successfulCall,jdbcType=BIGINT}, 
+      #{failedCall,jdbcType=BIGINT}, #{avgExecTime,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{updTime,jdbcType=TIMESTAMP})
+  </insert>
     <insert id="insertSelective" parameterType="com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsage">
         insert into taobao_api_usage
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -281,19 +281,18 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsage">
-        UPDATE taobao_api_usage
-        SET service_name = #{serviceName,jdbcType=VARCHAR},
-            service_id = #{serviceId,jdbcType=VARCHAR},
-            taobao_app_key = #{taobaoAppKey,jdbcType=VARCHAR},
-            api_name = #{apiName,jdbcType=VARCHAR},
-            successful_call = #{successfulCall,jdbcType=BIGINT},
-            failed_call = #{failedCall,jdbcType=BIGINT},
-            avg_exec_time = #{avgExecTime,jdbcType=INTEGER},
-            add_time = #{addTime,jdbcType=TIMESTAMP},
-            upd_time = #{updTime,jdbcType=TIMESTAMP}
-        WHERE id = #{id,jdbcType=INTEGER}
-    </update>
-
+    update taobao_api_usage
+    set service_name = #{serviceName,jdbcType=VARCHAR},
+      service_id = #{serviceId,jdbcType=VARCHAR},
+      taobao_app_key = #{taobaoAppKey,jdbcType=VARCHAR},
+      api_name = #{apiName,jdbcType=VARCHAR},
+      successful_call = #{successfulCall,jdbcType=BIGINT},
+      failed_call = #{failedCall,jdbcType=BIGINT},
+      avg_exec_time = #{avgExecTime,jdbcType=INTEGER},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      upd_time = #{updTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
     <insert id="batchInsert" parameterType="java.util.List">
         insert into taobao_api_usage (id, service_name, service_id,
         taobao_app_key, api_name, successful_call,

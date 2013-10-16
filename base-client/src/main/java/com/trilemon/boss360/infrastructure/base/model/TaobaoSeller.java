@@ -3,7 +3,7 @@ package com.trilemon.boss360.infrastructure.base.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class TaobaoUser implements Serializable {
+public class TaobaoSeller implements Serializable {
     private Long id;
 
     private Long userId;

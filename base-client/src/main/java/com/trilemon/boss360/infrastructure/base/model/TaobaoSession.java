@@ -1,13 +1,14 @@
 package com.trilemon.boss360.infrastructure.base.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TaobaoSession {
+public class TaobaoSession implements Serializable {
     private Integer id;
 
     private Long shopId;
 
-    private Integer appId;
+    private String appKey;
 
     private String sessionKey;
 
@@ -59,12 +60,12 @@ public class TaobaoSession {
         this.shopId = shopId;
     }
 
-    public Integer getAppId() {
-        return appId;
+    public String getAppKey() {
+        return appKey;
     }
 
-    public void setAppId(Integer appId) {
-        this.appId = appId;
+    public void setAppKey(String appKey) {
+        this.appKey = appKey == null ? null : appKey.trim();
     }
 
     public String getSessionKey() {

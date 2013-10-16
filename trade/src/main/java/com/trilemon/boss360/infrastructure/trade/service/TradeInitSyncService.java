@@ -12,8 +12,8 @@ import com.trilemon.boss360.infrastructure.base.BaseConstants;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
 import com.trilemon.boss360.infrastructure.base.serivce.AbstractQueueService;
-import com.trilemon.boss360.infrastructure.base.serivce.ApplicationService;
-import com.trilemon.boss360.infrastructure.base.serivce.EnhancedApiException;
+import com.trilemon.boss360.infrastructure.base.serivce.AppService;
+import com.trilemon.boss360.infrastructure.base.serivce.api.EnhancedApiException;
 import com.trilemon.boss360.infrastructure.base.serivce.TaobaoApiService;
 import com.trilemon.boss360.infrastructure.trade.TradeConstants;
 import com.trilemon.boss360.infrastructure.trade.dao.TradeAsyncMapper;
@@ -51,7 +51,7 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
     @Autowired
     private TradeAsyncMapper tradeAsyncMapper;
     @Autowired
-    private ApplicationService applicationService;
+    private AppService appService;
     @Value("${trade_download_dir}")
     private String tradeDownloadDir;
     @Autowired
@@ -66,8 +66,8 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
     @Override
     public void reboot() {
         super.reboot();
-        tradeAsyncMapper.updateSyncStatusByService(TradeConstants.ASYNC_STATUS_FAILED, applicationService.getServiceName(),
-                applicationService.getServiceId());
+        tradeAsyncMapper.updateSyncStatusByService(TradeConstants.ASYNC_STATUS_FAILED, appService.getServiceName(),
+                appService.getServiceId());
     }
 
     @Override
@@ -80,8 +80,8 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
         int offset = 0;
         while (true) {
             Collection<TradeAsync> tradeAsyncList = tradeAsyncMapper.pagination(offset,
-                    100, TradeConstants.ASYNC_STATUS_INIT, applicationService.getServiceName(),
-                    applicationService.getServiceId());
+                    100, TradeConstants.ASYNC_STATUS_INIT, appService.getServiceName(),
+                    appService.getServiceId());
             if (CollectionUtils.isEmpty(tradeAsyncList)) {
                 break;
             } else {
@@ -98,17 +98,18 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
         DateTime startDateTime = DateUtils.startOfNDaysBefore(90);
         TradeAsync newTradeAsync = new TradeAsync();
         newTradeAsync.setId(tradeAsync.getId());
-        newTradeAsync.setServiceName(applicationService.getServiceName());
-        newTradeAsync.setServiceId(applicationService.getServiceId());
-        newTradeAsync.setSyncStartTime(applicationService.getLocalSystemTime().toDate());
+        newTradeAsync.setServiceName(appService.getServiceName());
+        newTradeAsync.setServiceId(appService.getServiceId());
+        newTradeAsync.setSyncStartTime(appService.getLocalSystemTime().toDate());
         newTradeAsync.setTradeStartTime(startDateTime.toDate());
         newTradeAsync.setTradeEndTime(endDateTime.toDate());
         tradeAsyncMapper.updateByPrimaryKeySelective(newTradeAsync);
 
         try {
-            long tradeNum = baseClient.getTradeNumFromTop(tradeAsync.getUserId(),
-                    tradeAsync.getSyncAppKey(), tradeAsync.getTradeStartTime(),
-                    tradeAsync.getTradeEndTime());
+//            long tradeNum = baseClient.getTradeNumFromTop(tradeAsync.getUserId(),
+//                    tradeAsync.getSyncAppKey(), tradeAsync.getTradeStartTime(),
+//                    tradeAsync.getTradeEndTime());
+            long tradeNum = 0;
             long tradeNumPerDay = tradeNum / 90;
             if ((tradeNum / 90) <= 1000) {
                 logger.info("trade num [{}/{}] <= 1000 , use sync, tradeAsync[{}]", tradeNum, tradeNumPerDay,
@@ -150,9 +151,9 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
         TradeAsync tradeAsync = new TradeAsync();
         tradeAsync.setUserId(userId);
         tradeAsync.setSyncStatus(TradeConstants.ASYNC_STATUS_INIT);
-        tradeAsync.setSyncStartTime(applicationService.getLocalSystemTime().toDate());
-        tradeAsync.setServiceName(applicationService.getServiceName());
-        tradeAsync.setServiceId(applicationService.getServiceId());
+        tradeAsync.setSyncStartTime(appService.getLocalSystemTime().toDate());
+        tradeAsync.setServiceName(appService.getServiceName());
+        tradeAsync.setServiceId(appService.getServiceId());
         if (insertOrUpdate) {
             tradeAsyncMapper.insertSelective(tradeAsync);
         } else {
@@ -245,13 +246,13 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
     }
 
     public void success(TradeAsync tradeAsync) {
-        tradeAsync.setSyncEndTime(applicationService.getLocalSystemTime().toDate());
+        tradeAsync.setSyncEndTime(appService.getLocalSystemTime().toDate());
         tradeAsync.setSyncStatus(TradeConstants.ASYNC_STATUS_SUCCESSFUL);
         tradeAsyncMapper.updateByPrimaryKeySelective(tradeAsync);
     }
 
     public void fail(TradeAsync tradeAsync) {
-        tradeAsync.setSyncEndTime(applicationService.getLocalSystemTime().toDate());
+        tradeAsync.setSyncEndTime(appService.getLocalSystemTime().toDate());
         tradeAsync.setSyncStatus(TradeConstants.ASYNC_STATUS_FAILED);
         tradeAsyncMapper.updateByPrimaryKeySelective(tradeAsync);
     }
@@ -270,7 +271,7 @@ public class TradeInitSyncService extends AbstractQueueService<TradeAsync> {
         request.setEndTime(endTimeStr);
         request.setFields(Joiner.on(",").join(BaseConstants.TRADE_FIELDS));
 
-        TaobaoSession taobaoSession = baseClient.getTaobaoSession(tradeAsync.getUserId());
+        TaobaoSession taobaoSession = baseClient.getTaobaoSession(tradeAsync.getUserId(),taobaoApiService.getAppKey());
         TopatsTradesSoldGetResponse response = taobaoApiService.request(request, tradeAsync.getSyncAppKey(),
                 taobaoSession.getSessionKey());
 

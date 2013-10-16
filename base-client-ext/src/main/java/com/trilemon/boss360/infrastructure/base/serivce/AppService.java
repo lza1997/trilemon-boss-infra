@@ -33,8 +33,8 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @author kevin
  */
 @Service
-public class ApplicationService {
-    private static Logger logger = LoggerFactory.getLogger(ApplicationService.class);
+public class AppService {
+    private static Logger logger = LoggerFactory.getLogger(AppService.class);
     private Map<String, ThreadPoolExecutor> threadPoolExecutorMap = Maps.newHashMap();
     @Value("${service_name}")
     private String serviceName;

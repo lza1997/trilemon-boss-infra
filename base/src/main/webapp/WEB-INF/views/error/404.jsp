@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<%--
   ~ Copyright (c) 2013 Raycloud.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,13 +15,24 @@
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  -->
+  --%>
 
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+<%response.setStatus(200);%>
 
-    <description>导入applicationContext文件列表</description>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>404 - 页面不存在</title>
+</head>
 
-    <import resource="schedule/applicationContext-spring-scheduler.xml"/>
-    <import resource="dubbo/dubbo-provider.xml"/>
-</beans>
+<body>
+	<div>
+		<div>
+			<h1>页面不存在.</h1>
+		</div>
+		<div>
+			<a href="<c:url value="/"/>">返回首页</a>
+		</div>
+	</div>
+</body>
+</html>

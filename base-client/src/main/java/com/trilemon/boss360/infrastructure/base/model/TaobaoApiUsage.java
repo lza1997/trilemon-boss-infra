@@ -1,8 +1,9 @@
 package com.trilemon.boss360.infrastructure.base.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TaobaoApiUsage {
+public class TaobaoApiUsage implements Serializable {
     private Integer id;
 
     private String serviceName;

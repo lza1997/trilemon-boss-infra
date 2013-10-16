@@ -15,11 +15,16 @@
   ~ limitations under the License.
   -->
 
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+<decorators defaultdir="/WEB-INF/layouts/">
+    <excludes>
+        <pattern>/static/*</pattern>
+    </excludes>
 
-    <description>导入applicationContext文件列表</description>
+    <excludes>
+        <pattern>/</pattern>
+    </excludes>
 
-    <import resource="schedule/applicationContext-spring-scheduler.xml"/>
-    <import resource="dubbo/dubbo-provider.xml"/>
-</beans>
+    <decorator name="default" page="default.ftl">
+        <pattern>/*</pattern>
+    </decorator>
+</decorators>

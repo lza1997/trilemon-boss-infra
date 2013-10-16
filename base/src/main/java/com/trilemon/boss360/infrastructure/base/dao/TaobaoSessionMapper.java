@@ -29,7 +29,5 @@ public interface TaobaoSessionMapper {
 
     int updateByPrimaryKey(TaobaoSession record);
 
-    TaobaoSession selectByUserId(long userId);
-
-    TaobaoSession selectByNick(String nick);
+    TaobaoSession selectByVisitorIdAndAppKey(@Param("visitorId")Long userId,@Param("appKey") String appKey);
 }

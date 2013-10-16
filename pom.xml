@@ -25,6 +25,7 @@
         <module>trade</module>
         <module>base</module>
         <module>base-client</module>
+        <module>base-client-ext</module>
     </modules>
     <packaging>pom</packaging>
 

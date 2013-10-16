@@ -1,4 +1,4 @@
-package com.trilemon.boss360.infrastructure.base.serivce;
+package com.trilemon.boss360.infrastructure.base.serivce.api;
 
 import com.taobao.api.ApiException;
 import com.taobao.api.TaobaoRequest;
@@ -14,6 +14,10 @@ public class EnhancedApiException extends Exception {
     private String errorMsg;
     private TaobaoResponse taobaoResponse;
     private TaobaoRequest taobaoRequest;
+
+    public EnhancedApiException(String msg) {
+        super(msg);
+    }
 
     public EnhancedApiException(TaobaoRequest request, TaobaoResponse response,
                                 ApiException apiException) {
