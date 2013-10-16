@@ -4,7 +4,6 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.math.IntMath;
 import com.taobao.api.domain.Item;
 import com.taobao.api.domain.SellerCat;
 import com.taobao.api.request.ItemsOnsaleGetRequest;
@@ -17,13 +16,11 @@ import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
 import com.trilemon.boss360.infrastructure.base.service.AppService;
 import com.trilemon.boss360.infrastructure.base.service.TaobaoApiService;
-import com.trilemon.boss360.infrastructure.base.service.AppService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -103,8 +100,9 @@ public class TaobaoApiShopService {
         String appKey = taobaoApiService.getAppKey();
 
         //淘宝 api 目前只支持一次性传入32个宝贝分类（参见http://api.taobao.com/apidoc/api.htm?spm=0.0.0.0.bANlsY&path=cid:4-apiId:18）。
-        Iterable<List<Long>> subCidIterable = Iterables.partition(cids, IntMath.divide(Iterables.size(cids), 32,
-                RoundingMode.CEILING));
+//        Iterable<List<Long>> subCidIterable = Iterables.partition(cids, IntMath.divide(Iterables.size(cids), 32,
+//                RoundingMode.CEILING));
+        Iterable<List<Long>> subCidIterable = Iterables.partition(cids, 32);
         for (List<Long> cidList : subCidIterable) {
             ItemsOnsaleGetRequest request = new ItemsOnsaleGetRequest();
             request.setFields(Joiner.on(",").join("num_iid", "delist_time"));
@@ -127,20 +125,21 @@ public class TaobaoApiShopService {
         long pageSize = 100;
 
         //淘宝 api 目前只支持一次性传入32个宝贝分类（参见http://api.taobao.com/apidoc/api.htm?spm=0.0.0.0.bANlsY&path=cid:4-apiId:18）。
-        Iterable<List<Long>> subCidIterable = Iterables.partition(sellerCats, IntMath.divide(Iterables.size(sellerCats), 32,
-                RoundingMode.CEILING));
+        Iterable<List<Long>> subCidIterable = Iterables.partition(sellerCats, 32);
         for (List<Long> cidList : subCidIterable) {
             long pageNum = 1;
             while (true) {
                 ItemsOnsaleGetRequest request = new ItemsOnsaleGetRequest();
-                request.setFields(Joiner.on(",").join("num_iid", "delist_time"));
+                request.setFields(Joiner.on(",").join("num_iid", "delist_time","title","pic_url","seller_cids"));
                 request.setPageNo(pageNum);
                 request.setPageSize(pageSize);
                 request.setSellerCids(Joiner.on(",").join(cidList));
                 List<Item> onSaleItems;
                 onSaleItems = taobaoApiItemService.getItems(userId, request);
-                totalItems.addAll(onSaleItems);
-                if (onSaleItems.size() == 0) {
+                if (null != onSaleItems) {
+                    totalItems.addAll(onSaleItems);
+                }
+                if (null == onSaleItems || onSaleItems.size() == 0) {
                     break;
                 } else {
                     pageNum++;
@@ -150,7 +149,7 @@ public class TaobaoApiShopService {
         return totalItems;
     }
 
-    public long getTradeNumFromTop(Long userId,String appKey, Date startHour,
+    public long getTradeNumFromTop(Long userId, String appKey, Date startHour,
                                    Date endHour) throws EnhancedApiException {
         TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId, taobaoApiService.getAppKey());
         TradesSoldGetRequest request = new TradesSoldGetRequest();
