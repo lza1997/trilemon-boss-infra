@@ -14,6 +14,11 @@ public class TaobaoShopService {
     @Autowired
     private TaobaoSellerMapper taobaoSellerMapper;
 
+    /**
+     * dadfasdfd
+     * @param userId
+     * @return
+     */
     public String getNick(Long userId) {
         TaobaoSeller taobaoSeller = taobaoSellerMapper.selectByUserId(userId);
         if (null == taobaoSeller) {

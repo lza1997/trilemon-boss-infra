@@ -373,6 +373,7 @@
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <configuration>
+                    <jvmArgs>-Xmx128m -Xms64m</jvmArgs>
                     <stopKey>trilemon</stopKey>
                     <stopPort>9999</stopPort>
                     <connectors>

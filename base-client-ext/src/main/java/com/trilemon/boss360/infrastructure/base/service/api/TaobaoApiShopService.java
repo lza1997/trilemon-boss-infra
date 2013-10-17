@@ -14,8 +14,8 @@ import com.taobao.api.response.TradesSoldGetResponse;
 import com.trilemon.boss360.infrastructure.base.BaseConstants;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
-import com.trilemon.boss360.infrastructure.base.service.AppService;
 import com.trilemon.boss360.infrastructure.base.service.TaobaoApiService;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * @author kevin
@@ -35,8 +37,6 @@ public class TaobaoApiShopService {
     private TaobaoApiService taobaoApiService;
     @Autowired
     private TaobaoApiItemService taobaoApiItemService;
-    @Autowired
-    private AppService appService;
     @Autowired
     private BaseClient baseClient;
 
@@ -77,13 +77,14 @@ public class TaobaoApiShopService {
      * @return
      * @throws EnhancedApiException
      */
-    public Map<SellerCat, Long> getSellerCatAndOnSaleItemNum(Long userId) throws EnhancedApiException {
+    public Map<SellerCat, Long> getSellerCatAndOnSaleItemNum(Long userId, List<String> fields) throws EnhancedApiException {
         List<SellerCat> cids = getSellerCats(userId);
         Map<SellerCat, Long> result = Maps.newHashMap();
         for (SellerCat sellerCat : cids) {
-            long num = getOnSaleItemNum(userId, Lists.newArrayList(sellerCat.getCid()));
+            long num = getOnSaleItemNum(userId, Lists.newArrayList(sellerCat.getCid()), fields);
             result.put(sellerCat, num);
         }
+        System.out.println(result);
         return result;
     }
 
@@ -91,23 +92,25 @@ public class TaobaoApiShopService {
      * 获取指定类目的在售商品数量
      *
      * @param userId
-     * @param cids
+     * @param sellerCats
      * @return
      * @throws EnhancedApiException
      */
-    public long getOnSaleItemNum(Long userId, List<Long> cids) throws EnhancedApiException {
+    public long getOnSaleItemNum(Long userId, List<Long> sellerCats, List<String> fields) throws EnhancedApiException {
         long num = 0L;
-        String appKey = taobaoApiService.getAppKey();
 
         //淘宝 api 目前只支持一次性传入32个宝贝分类（参见http://api.taobao.com/apidoc/api.htm?spm=0.0.0.0.bANlsY&path=cid:4-apiId:18）。
-//        Iterable<List<Long>> subCidIterable = Iterables.partition(cids, IntMath.divide(Iterables.size(cids), 32,
-//                RoundingMode.CEILING));
-        Iterable<List<Long>> subCidIterable = Iterables.partition(cids, 32);
+        Iterable<List<Long>> subCidIterable = Iterables.partition(sellerCats, 32);
         for (List<Long> cidList : subCidIterable) {
             ItemsOnsaleGetRequest request = new ItemsOnsaleGetRequest();
-            request.setFields(Joiner.on(",").join("num_iid", "delist_time"));
+            request.setFields(Joiner.on(",").join(fields));
             request.setSellerCids(Joiner.on(",").join(cidList));
-            num += taobaoApiItemService.getItemNum(userId, request);
+            request.setPageNo(1L);
+            request.setPageSize(1L);
+            Pair<List<Item>, Long> result = taobaoApiItemService.getOnSaleItems(userId, request);
+            if (null != result.getRight()) {
+                num += result.getRight();
+            }
         }
         return num;
     }
@@ -120,7 +123,8 @@ public class TaobaoApiShopService {
      * @return
      * @throws EnhancedApiException
      */
-    public List<Item> getOnSaleItems(Long userId, List<Long> sellerCats) throws EnhancedApiException {
+    public List<Item> getOnSaleItems(Long userId, List<Long> sellerCats,
+                                     List<String> fields) throws EnhancedApiException {
         List<Item> totalItems = Lists.newArrayList();
         long pageSize = 100;
 
@@ -130,16 +134,17 @@ public class TaobaoApiShopService {
             long pageNum = 1;
             while (true) {
                 ItemsOnsaleGetRequest request = new ItemsOnsaleGetRequest();
-                request.setFields(Joiner.on(",").join("num_iid", "delist_time","title","pic_url","seller_cids"));
+                request.setFields(Joiner.on(",").join(fields));
                 request.setPageNo(pageNum);
                 request.setPageSize(pageSize);
                 request.setSellerCids(Joiner.on(",").join(cidList));
-                List<Item> onSaleItems;
-                onSaleItems = taobaoApiItemService.getItems(userId, request);
-                if (null != onSaleItems) {
-                    totalItems.addAll(onSaleItems);
+                Pair<List<Item>, Long> onSaleItems = taobaoApiItemService.getOnSaleItems(userId, request);
+
+                List<Item> items=onSaleItems.getLeft();
+                if (null != items) {
+                    totalItems.addAll(items);
                 }
-                if (null == onSaleItems || onSaleItems.size() == 0) {
+                if (null == items ||items.size() == 0) {
                     break;
                 } else {
                     pageNum++;
@@ -147,6 +152,28 @@ public class TaobaoApiShopService {
             }
         }
         return totalItems;
+    }
+
+    /**
+     * 获取指定类目的在售商品列表
+     *
+     * @param userId
+     * @param sellerCats
+     * @return
+     * @throws EnhancedApiException
+     */
+    public Pair<List<Item>, Long> getOnSaleItems(Long userId, List<Long> sellerCats,
+                                     List<String> fields, long pageNum, long pageSize) throws EnhancedApiException {
+
+        checkArgument(sellerCats.size() <= 32, "seller cid num should <= 32, http://api.taobao.com/apidoc/api" +
+                ".htm?spm=0.0.0.0.bANlsY&path=cid:4-apiId:18");
+        ItemsOnsaleGetRequest request = new ItemsOnsaleGetRequest();
+        request.setFields(Joiner.on(",").join(fields));
+        request.setPageNo(pageNum);
+        request.setPageSize(pageSize);
+        request.setSellerCids(Joiner.on(",").join(sellerCats));
+        Pair<List<Item>, Long> onSaleItems=taobaoApiItemService.getOnSaleItems(userId, request);
+        return onSaleItems;
     }
 
     public long getTradeNumFromTop(Long userId, String appKey, Date startHour,
@@ -168,5 +195,25 @@ public class TaobaoApiShopService {
         } else {
             throw new EnhancedApiException(request, response);
         }
+    }
+
+    public long getTradeNumFromTop(Long userId, Date startHour,
+                                   Date endHour) throws EnhancedApiException {
+        return getTradeNumFromTop(userId, taobaoApiService.getAppKey(), startHour, endHour);
+    }
+
+    public Pair<List<Item>, Long> searchOnSaleItems(Long userId, String query,List<Long> sellerCats,
+                            List<String> fields, long pageNum, long pageSize) throws EnhancedApiException {
+        checkArgument(sellerCats.size() <= 32, "seller cid num should <= 32, http://api.taobao.com/apidoc/api" +
+                ".htm?spm=0.0.0.0.bANlsY&path=cid:4-apiId:18");
+        ItemsOnsaleGetRequest request = new ItemsOnsaleGetRequest();
+        request.setFields(Joiner.on(",").join(fields));
+        request.setQ(query);
+        request.setPageNo(pageNum);
+        request.setPageSize(pageSize);
+        request.setSellerCids(Joiner.on(",").join(sellerCats));
+        Pair<List<Item>, Long> onSaleItems=taobaoApiItemService.getOnSaleItems(userId, request);
+        return onSaleItems;
+
     }
 }

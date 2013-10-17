@@ -16,8 +16,15 @@
 
 package com.trilemon.boss360.infrastructure.base.util;
 
+import com.google.common.base.Function;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
+import com.taobao.api.domain.SellerCat;
+
+import javax.annotation.Nullable;
+import java.util.List;
+
 /**
- *
  * 开放平台工具类
  *
  * @author kevin
@@ -188,4 +195,23 @@ public class TopApiUtils {
 //            return null;
 //        }
 //    }
+
+
+    public static List<Long> getSellerCatIds(String sellerCidsStr) {
+        List<Long> sellerCatIds = Lists.newArrayList();
+        for (String sellerCidStr : Splitter.on(",").split(sellerCidsStr)) {
+            sellerCatIds.add(Long.valueOf(sellerCidStr));
+        }
+        return sellerCatIds;
+    }
+
+    public static List<Long> getSellerCatIds(List<SellerCat> sellerCats) {
+        return Lists.transform(sellerCats, new Function<SellerCat, Long>() {
+            @Nullable
+            @Override
+            public Long apply(@Nullable SellerCat input) {
+                return input.getCid();
+            }
+        });
+    }
 }
