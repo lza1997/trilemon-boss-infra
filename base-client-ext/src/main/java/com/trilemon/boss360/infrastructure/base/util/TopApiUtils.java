@@ -197,6 +197,11 @@ public class TopApiUtils {
 //    }
 
 
+    /**
+     * 获取宝贝分类 id
+     * @param sellerCidsStr
+     * @return
+     */
     public static List<Long> getSellerCatIds(String sellerCidsStr) {
         List<Long> sellerCatIds = Lists.newArrayList();
         for (String sellerCidStr : Splitter.on(",").split(sellerCidsStr)) {
@@ -205,6 +210,11 @@ public class TopApiUtils {
         return sellerCatIds;
     }
 
+    /**
+     * 批量获取宝贝分类 id
+     * @param sellerCats
+     * @return
+     */
     public static List<Long> getSellerCatIds(List<SellerCat> sellerCats) {
         return Lists.transform(sellerCats, new Function<SellerCat, Long>() {
             @Nullable

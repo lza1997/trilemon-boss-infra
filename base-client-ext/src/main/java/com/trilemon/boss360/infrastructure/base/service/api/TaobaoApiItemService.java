@@ -10,12 +10,14 @@ import com.taobao.api.response.ItemsOnsaleGetResponse;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
 import com.trilemon.boss360.infrastructure.base.service.TaobaoApiService;
-import org.apache.commons.lang3.tuple.Pair;
+import com.trilemon.commons.web.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author kevin
@@ -27,9 +29,18 @@ public class TaobaoApiItemService {
     @Autowired
     private BaseClient baseClient;
 
-    @NotNull
-    public Pair<List<Item>, Long> getOnSaleItems(long userId, ItemsOnsaleGetRequest request) throws
+    /**
+     * 获取在售宝贝
+     * @param userId
+     * @param request
+     * @return
+     * @throws EnhancedApiException
+     */
+    public Page<Item> getOnSaleItems(Long userId, ItemsOnsaleGetRequest request) throws
             EnhancedApiException {
+        checkNotNull(userId, "userId must be not null.");
+        checkNotNull(request, "request must be not null.");
+
         TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId, taobaoApiService.getAppKey());
         if (null == taobaoSession) {
             throw new EnhancedApiException("no taobaoSession of userId[" + userId + "]");
@@ -39,23 +50,37 @@ public class TaobaoApiItemService {
         if (response.isSuccess()) {
             List<Item> items = response.getItems();
             items = (null == items ? Lists.<Item>newArrayList() : items);
-            return Pair.of(items, response.getTotalResults());
+            return Page.create(response.getTotalResults().intValue(), request.getPageNo().intValue(),
+                    request.getPageSize().intValue(),
+                    items);
         } else {
             throw new EnhancedApiException(request, response);
         }
     }
 
-    public Item getItem(long userId,Long numIid,List<String> fields) throws EnhancedApiException {
+    /**
+     * 获取宝贝
+     * @param userId
+     * @param numIid
+     * @param fields
+     * @return
+     * @throws EnhancedApiException
+     */
+    public Item getItem(Long userId, Long numIid, List<String> fields) throws EnhancedApiException {
+        checkNotNull(userId, "userId must be not null.");
+        checkNotNull(numIid, "numIid must be not null.");
+        checkNotNull(fields, "fields must be not null.");
+
         TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId, taobaoApiService.getAppKey());
         if (null == taobaoSession) {
             throw new EnhancedApiException("no taobaoSession of userId[" + userId + "]");
         }
-        ItemGetRequest request=new ItemGetRequest();
+        ItemGetRequest request = new ItemGetRequest();
         request.setFields(Joiner.on(",").join(fields));
         request.setNumIid(numIid);
-        ItemGetResponse response = taobaoApiService.request(request,taobaoSession.getSessionKey());
+        ItemGetResponse response = taobaoApiService.request(request, taobaoSession.getSessionKey());
         if (response.isSuccess()) {
-           return response.getItem();
+            return response.getItem();
         } else {
             throw new EnhancedApiException(request, response);
         }

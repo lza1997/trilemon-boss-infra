@@ -1,10 +1,14 @@
 package com.trilemon.boss360.infrastructure.base;
 
+import com.google.common.collect.ImmutableList;
+
+import java.util.List;
+
 /**
  * @author kevin
  */
 public interface BaseConstants {
-    String[] TRADE_FIELDS = new String[]{"tid", "num", "num_iid", "status", "title", "type", "price",
+    List<String> TRADE_FIELDS = ImmutableList.of("tid", "num", "num_iid", "status", "title", "type", "price",
             "seller_cod_fee", "discount_fee", "point_fee", "has_post_fee", "total_fee", "is_lgtype", "is_brand_sale",
             "is_force_wlb", "created", "pay_time", "modified", "end_time", "buyer_message", "alipay_id", "alipay_no",
             "buyer_memo", "buyer_flag", "seller_memo", "seller_flag", "invoice_name", "buyer_nick", "buyer_area",
@@ -16,13 +20,13 @@ public interface BaseConstants {
             "receiver_state", "receiver_city", "receiver_district", "receiver_address", "receiver_zip", "receiver_mobile",
             "receiver_phone", "consign_time", "seller_alipay_no", "seller_mobile", "seller_phone", "seller_name",
             "seller_email", "available_confirm_fee", "received_payment",
-            "timeout_action_time", "is_3D", "promotion", "service_orders", "orders", "promotion_details"};
-    String[] TRADE_TYPES = new String[]{"fixed", "auction", "guarantee_trade", "step",
+            "timeout_action_time", "is_3D", "promotion", "service_orders", "orders", "promotion_details");
+    List<String> TRADE_TYPES = ImmutableList.of("fixed", "auction", "guarantee_trade", "step",
             "independent_simple_trade", "independent_shop_trade", "auto_delivery", "ec", "cod", "game_equipment",
             "shopex_trade", "netcn_trade", "external_trade", "instant_trade", "b2c_cod", "hotel_trade", "super_market_trade",
-            "super_market_cod_trade", "taohua", "waimai", "nopaid", "step", "eticket"};
-    String[] REFUND_FIELDS = new String[]{"shipping_type", "cs_status", "advance_status", "split_taobao_fee",
+            "super_market_cod_trade", "taohua", "waimai", "nopaid", "step", "eticket");
+    List<String> REFUND_FIELDS = ImmutableList.of("shipping_type", "cs_status", "advance_status", "split_taobao_fee",
             "split_seller_fee", "refund_id", "tid", "oid", "alipay_no", "total_fee", "buyer_nick", "seller_nick", "created", "modified",
             "order_status", "status", "good_status", "has_good_return", "refund_fee", "payment", "reason", "desc", "title",
-            "price", "num", "good_return_time", "company_name", "sid", "address", "refund_remind_timeout", "num_iid"};
+            "price", "num", "good_return_time", "company_name", "sid", "address", "refund_remind_timeout", "num_iid");
 }
