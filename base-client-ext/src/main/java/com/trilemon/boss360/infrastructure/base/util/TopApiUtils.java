@@ -19,6 +19,7 @@ package com.trilemon.boss360.infrastructure.base.util;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.taobao.api.domain.Item;
 import com.taobao.api.domain.SellerCat;
 
 import javax.annotation.Nullable;
@@ -197,8 +198,19 @@ public class TopApiUtils {
 //    }
 
 
+    public static List<Long> getItemNumIids(List<Item> items) {
+        return Lists.transform(items, new Function<Item, Long>() {
+            @Nullable
+            @Override
+            public Long apply(@Nullable Item input) {
+                return input.getNumIid();
+            }
+        });
+    }
+
     /**
      * 获取宝贝分类 id
+     *
      * @param sellerCidsStr
      * @return
      */
@@ -212,6 +224,7 @@ public class TopApiUtils {
 
     /**
      * 批量获取宝贝分类 id
+     *
      * @param sellerCats
      * @return
      */
