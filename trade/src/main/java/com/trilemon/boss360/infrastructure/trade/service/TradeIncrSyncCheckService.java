@@ -1,5 +1,6 @@
 package com.trilemon.boss360.infrastructure.trade.service;
 
+import com.trilemon.boss360.infrastructure.base.BaseConstants;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.service.AbstractQueueService;
 import com.trilemon.boss360.infrastructure.base.service.AppService;
@@ -173,7 +174,9 @@ public class TradeIncrSyncCheckService extends AbstractQueueService<TradeSync> {
     }
 
     public void check(TradeSync tradeSync, Date startDate, Date endDate) throws Exception {
-        long topTradeNum = taobaoApiShopService.getTradeNumFromTop(tradeSync.getUserId(), tradeSync.getSyncAppKey(), startDate, endDate);
+        long topTradeNum = taobaoApiShopService.getTradeNumFromTop(tradeSync.getUserId(),
+                tradeSync.getSyncAppKey(), BaseConstants.TRADE_TYPES,
+                startDate, endDate);
         long ourTradeNum = baseClient.getTradeNum(tradeSync.getUserId(), startDate, endDate);
         if (ourTradeNum >= topTradeNum) {
             if (ourTradeNum > topTradeNum) {
