@@ -3,6 +3,7 @@ package com.trilemon.boss360.infrastructure.base.service.api;
 import com.taobao.api.ApiException;
 import com.taobao.api.TaobaoRequest;
 import com.taobao.api.TaobaoResponse;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * @author kevin
@@ -92,5 +93,12 @@ public class EnhancedApiException extends Exception {
 
     public void setTaobaoRequest(TaobaoRequest taobaoRequest) {
         this.taobaoRequest = taobaoRequest;
+    }
+
+    public String toString() {
+        return "subCode[" + subCode + "] subMsg[" + subCode + "] errorCode[" + errorCode + "] " +
+                "errorMsg[" + errorMsg + "] " +
+                "taobaoRequest[" + ToStringBuilder.reflectionToString(taobaoRequest) + "] " +
+                "taobaoResponse[" + ToStringBuilder.reflectionToString(taobaoResponse) + "]";
     }
 }

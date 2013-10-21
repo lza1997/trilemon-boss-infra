@@ -21,6 +21,7 @@ import com.trilemon.boss360.infrastructure.base.service.TaobaoApiService;
 import com.trilemon.commons.web.Page;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,7 +113,10 @@ public class TaobaoApiShopService {
         request.setFields("num_iid");
         request.setPageNo(1L);
         request.setPageSize(1L);
-        Page<Item> page = getOnSaleItems(userId, request);
+        Pair<List<Item>, Long> result = getOnSaleItems(userId, request);
+        Page<Item> page = Page.create(result.getRight().intValue(), request.getPageNo().intValue(),
+                request.getPageSize().intValue(),
+                result.getLeft());
         if (null != page && CollectionUtils.isNotEmpty(page.getItems())) {
             return page.getTotalSize();
         } else {
@@ -143,7 +147,10 @@ public class TaobaoApiShopService {
                 request.setSellerCids(Joiner.on(",").join(sellerCatsPartition));
                 request.setPageNo(1L);
                 request.setPageSize(1L);
-                Page<Item> page = getOnSaleItems(userId, request);
+                Pair<List<Item>, Long> result = getOnSaleItems(userId, request);
+                Page<Item> page = Page.create(result.getRight().intValue(), request.getPageNo().intValue(),
+                        request.getPageSize().intValue(),
+                        result.getLeft());
                 if (null != page && CollectionUtils.isNotEmpty(page.getItems())) {
                     num += page.getItems().size();
                 }
@@ -230,7 +237,10 @@ public class TaobaoApiShopService {
                     ".htm?spm=0.0.0.0.bANlsY&path=cid:4-apiId:18");
             request.setSellerCids(Joiner.on(",").join(sellerCats));
         }
-        return getOnSaleItems(userId, request);
+        Pair<List<Item>, Long> result = getOnSaleItems(userId, request);
+        return Page.create(result.getRight().intValue(), request.getPageNo().intValue(),
+                request.getPageSize().intValue(),
+                result.getLeft());
     }
 
     /**
@@ -241,7 +251,7 @@ public class TaobaoApiShopService {
      * @return
      * @throws EnhancedApiException
      */
-    public Page<Item> getOnSaleItems(Long userId, ItemsOnsaleGetRequest request) throws
+    public Pair<List<Item>, Long> getOnSaleItems(Long userId, ItemsOnsaleGetRequest request) throws
             EnhancedApiException {
         checkNotNull(userId, "userId must be not null.");
         checkNotNull(request, "request must be not null.");
@@ -255,9 +265,7 @@ public class TaobaoApiShopService {
         if (response.isSuccess()) {
             List<Item> items = response.getItems();
             items = (null == items ? Lists.<Item>newArrayList() : items);
-            return Page.create(response.getTotalResults().intValue(), request.getPageNo().intValue(),
-                    request.getPageSize().intValue(),
-                    items);
+            return Pair.of(items, response.getTotalResults());
         } else {
             throw new EnhancedApiException(request, response);
         }
@@ -288,8 +296,8 @@ public class TaobaoApiShopService {
         if (response.isSuccess()) {
             return response.getItem();
         } else {
-            String subCode=response.getSubCode();
-            if (subCode.equals("isv.item-get-service-error:ITEM_NOT_FOUND")||subCode.equals("isv.item-is-delete:invalid-numIid")) {
+            String subCode = response.getSubCode();
+            if (subCode.equals("isv.item-get-service-error:ITEM_NOT_FOUND") || subCode.equals("isv.item-is-delete:invalid-numIid")) {
                 return null;
             } else {
                 throw new EnhancedApiException(request, response);
