@@ -1,5 +1,6 @@
 package com.trilemon.boss360.infrastructure.base.service;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
 import com.trilemon.commons.BlockingThreadPoolExecutor;
 import com.trilemon.commons.Threads;
@@ -7,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -18,9 +21,13 @@ public abstract class AbstractQueueService<E> implements QueueService<E> {
     private PriorityQueue<E> queue = Queues.newPriorityQueue();
     private BlockingThreadPoolExecutor taskPool = new BlockingThreadPoolExecutor(5);
     private BlockingThreadPoolExecutor pool = new BlockingThreadPoolExecutor(1);
+    private Map<String, ThreadPoolExecutor> threadPoolExecutorMap = Maps.newHashMap();
 
     @Override
     public void startPoll() {
+        threadPoolExecutorMap.put(getClass().getSimpleName()+"-task", taskPool);
+        threadPoolExecutorMap.put(getClass().getSimpleName()+"-poll", pool);
+
         pool.submit(new Runnable() {
             @Override
             public void run() {
@@ -70,5 +77,9 @@ public abstract class AbstractQueueService<E> implements QueueService<E> {
 
     public PriorityQueue<E> getQueue() {
         return queue;
+    }
+
+    public Map<String, ThreadPoolExecutor> getThreadPoolExecutorMap() {
+        return threadPoolExecutorMap;
     }
 }
