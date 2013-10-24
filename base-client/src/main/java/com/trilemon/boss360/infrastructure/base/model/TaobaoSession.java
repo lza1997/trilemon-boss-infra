@@ -3,9 +3,10 @@ package com.trilemon.boss360.infrastructure.base.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TaobaoSession {
+public class TaobaoSession implements Serializable {
     @JsonIgnore
     private Integer id;
     @JsonIgnore
