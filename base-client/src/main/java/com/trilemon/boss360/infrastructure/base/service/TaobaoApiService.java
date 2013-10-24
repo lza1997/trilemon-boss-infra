@@ -7,12 +7,8 @@ import com.taobao.api.*;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoApp;
 import com.trilemon.boss360.infrastructure.base.service.api.EnhancedApiException;
-import com.trilemon.boss360.infrastructure.base.service.api.EnhancedApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.net.SocketException;
@@ -23,16 +19,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * @author kevin
  */
-@Service
 public class TaobaoApiService {
     private static Logger logger = LoggerFactory.getLogger(TaobaoApiService.class);
     private Multiset<String> totalApiExecTime = HashMultiset.create();
     private Multiset<String> totalApiExecCount = HashMultiset.create();
-    @Value("${taobao_app_key}")
     private String taobaoAppKey;
-    @Autowired
     private AppService appService;
-    @Autowired
     private BaseClient baseClient;
     private TaobaoClient taobaoClient;
 
@@ -79,5 +71,25 @@ public class TaobaoApiService {
 
     public void setTaobaoAppKey(String taobaoAppKey) {
         this.taobaoAppKey = taobaoAppKey;
+    }
+
+    public String getTaobaoAppKey() {
+        return taobaoAppKey;
+    }
+
+    public AppService getAppService() {
+        return appService;
+    }
+
+    public void setAppService(AppService appService) {
+        this.appService = appService;
+    }
+
+    public BaseClient getBaseClient() {
+        return baseClient;
+    }
+
+    public void setBaseClient(BaseClient baseClient) {
+        this.baseClient = baseClient;
     }
 }

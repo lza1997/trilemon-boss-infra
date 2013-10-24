@@ -16,14 +16,27 @@
 
 package com.trilemon.boss360.infrastructure.base.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.taobao.api.domain.Item;
 import com.taobao.api.domain.SellerCat;
+import com.taobao.api.internal.util.WebUtils;
+import com.trilemon.commons.BeanMapper;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 开放平台工具类
@@ -31,73 +44,73 @@ import java.util.List;
  * @author kevin
  */
 public class TopApiUtils {
-//    public final static ObjectMapper jsonMapper = new ObjectMapper();
-//    private static Logger logger = LoggerFactory.getLogger(TopApiUtils.class);
-//
-//    /**
-//     * 刷新session key
-//     *
-//     * @param appKey       app key
-//     * @param appSecret    app secret
-//     * @param refreshToken refresh token
-//     * @param sessionKey   session key
-//     * @return {@link TopParameters}
-//     * @throws java.io.IOException 解析{@link TopParameters}过程发生错误。
-//     */
-//    public static TopParameters refreshSessionKey(String appKey, String appSecret, String refreshToken,
-//                                                  String sessionKey) throws IOException {
-//        Map<String, String> signParams = Maps.newTreeMap();
-//        signParams.put("appkey", appKey);
-//        signParams.put("refresh_token", refreshToken);
-//        signParams.put("sessionkey", sessionKey);
-//
-//        StringBuilder params = new StringBuilder();
-//        for (Map.Entry paramEntry : signParams.entrySet()) {
-//            params.append(paramEntry.getKey()).append(paramEntry.getValue());
-//        }
-//        String sign = DigestUtils.md5Hex((params.toString() + appSecret).getBytes("utf-8")).toUpperCase();
-//        String signEncoder = URLEncoder.encode(sign, "utf-8");
-//        String appkeyEncoder = URLEncoder.encode(appKey, "utf-8");
-//        String refreshTokenEncoder = URLEncoder.encode(refreshToken, "utf-8");
-//        String sessionKeyEncoder = URLEncoder.encode(sessionKey, "utf-8");
-//
-//        String freshUrl = "http://container.api.taobao.com/container/refresh?appkey=" + appkeyEncoder
-//                + "&refresh_token=" + refreshTokenEncoder + "&sessionkey=" + sessionKeyEncoder + "&sign="
-//                + signEncoder;
-//        String topParametersJson = WebUtils.doPost(freshUrl, null, "utf-8", 30 * 1000 * 60, 30 * 1000 * 60);
-//
-//        TopParameters topParameters = jsonMapper.readValue(topParametersJson, TopParameters.class);
-//        return topParameters;
-//    }
-//
-//    @Nullable
-//    public static String getRefreshToken(String queryUrl) throws UnsupportedEncodingException {
-//        return getTopSessionParameter(queryUrl).getRefreshToken();
-//    }
-//
-//    public static TopSessionParameter getTopSessionParameter(String queryUrl) throws UnsupportedEncodingException {
-//        Map<String, String> parameters = Maps.newHashMap();
-//        for (String topParameter : queryUrl.split("&")) {
-//            String[] kv = topParameter.split("=");
-//            if (kv.length != 2) {
-//                logger.warn("parameters[{}] length is not valid.", topParameter);
-//            } else {
-//                if (kv[0].equals("top_parameters")) {
-//                    String topParameterValue = kv[1];
-//                    String decodeTopParameterValue = new String(Base64.decodeBase64(URLDecoder
-//                            .decode(topParameterValue, "GBK")), "GBK");
-//                    for (String parameter : decodeTopParameterValue.split("&")) {
-//                        String[] parameterKv = parameter.split("=");
-//                        parameters.put(parameterKv[0], parameterKv[1]);
-//                    }
-//                } else {
-//                    parameters.put(kv[0], kv[1]);
-//                }
-//            }
-//        }
-//        return BeanMapper.map(parameters, TopSessionParameter.class);
-//    }
-//
+    public final static ObjectMapper jsonMapper = new ObjectMapper();
+    private static Logger logger = LoggerFactory.getLogger(TopApiUtils.class);
+
+    /**
+     * 刷新session key
+     *
+     * @param appKey       app key
+     * @param appSecret    app secret
+     * @param refreshToken refresh token
+     * @param sessionKey   session key
+     * @return {@link TopParameters}
+     * @throws java.io.IOException 解析{@link TopParameters}过程发生错误。
+     */
+    public static TopParameters refreshSessionKey(String appKey, String appSecret, String sessionKey,
+                                                  String refreshToken) throws IOException {
+        Map<String, String> signParams = Maps.newTreeMap();
+        signParams.put("appkey", appKey);
+        signParams.put("refresh_token", refreshToken);
+        signParams.put("sessionkey", sessionKey);
+
+        StringBuilder params = new StringBuilder();
+        for (Map.Entry paramEntry : signParams.entrySet()) {
+            params.append(paramEntry.getKey()).append(paramEntry.getValue());
+        }
+        String sign = DigestUtils.md5Hex((params.toString() + appSecret).getBytes("utf-8")).toUpperCase();
+        String signEncoder = URLEncoder.encode(sign, "utf-8");
+        String appkeyEncoder = URLEncoder.encode(appKey, "utf-8");
+        String refreshTokenEncoder = URLEncoder.encode(refreshToken, "utf-8");
+        String sessionKeyEncoder = URLEncoder.encode(sessionKey, "utf-8");
+
+        String freshUrl = "http://container.api.taobao.com/container/refresh?appkey=" + appkeyEncoder
+                + "&refresh_token=" + refreshTokenEncoder + "&sessionkey=" + sessionKeyEncoder + "&sign="
+                + signEncoder;
+        String topParametersJson = WebUtils.doPost(freshUrl, null, "utf-8", 30 * 1000 * 60, 30 * 1000 * 60);
+
+        TopParameters topParameters = jsonMapper.readValue(topParametersJson, TopParameters.class);
+        return topParameters;
+    }
+
+    @Nullable
+    public static String getRefreshToken(String queryUrl) throws UnsupportedEncodingException {
+        return getTopSessionParameter(queryUrl).getRefreshToken();
+    }
+
+    public static TopSessionParameter getTopSessionParameter(String queryUrl) throws UnsupportedEncodingException {
+        Map<String, String> parameters = Maps.newHashMap();
+        for (String topParameter : queryUrl.split("&")) {
+            String[] kv = topParameter.split("=");
+            if (kv.length != 2) {
+                logger.warn("parameters[{}] length is not valid.", topParameter);
+            } else {
+                if (kv[0].equals("top_parameters")) {
+                    String topParameterValue = kv[1];
+                    String decodeTopParameterValue = new String(Base64.decodeBase64(URLDecoder
+                            .decode(topParameterValue, "GBK")), "GBK");
+                    for (String parameter : decodeTopParameterValue.split("&")) {
+                        String[] parameterKv = parameter.split("=");
+                        parameters.put(parameterKv[0], parameterKv[1]);
+                    }
+                } else {
+                    parameters.put(kv[0], kv[1]);
+                }
+            }
+        }
+        return BeanMapper.map(parameters, TopSessionParameter.class);
+    }
+
 //    @Nullable
 //    public static com.taobao.api.domain.Trade convertJson2TopTrade(String json) {
 //        ObjectJsonParser<TradeFullinfoGetResponse> parser = new ObjectJsonParser(TradeFullinfoGetResponse.class);
@@ -196,7 +209,7 @@ public class TopApiUtils {
 //            return null;
 //        }
 //    }
-
+//
 
     public static List<Long> getItemNumIids(List<Item> items) {
         return Lists.transform(items, new Function<Item, Long>() {

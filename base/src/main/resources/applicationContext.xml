@@ -63,6 +63,8 @@
         <property name="exposeContextBeansAsAttributes" value="true"/>
     </bean>
 
+    <bean id="baseClient" class="com.trilemon.boss360.infrastructure.base.client.impl.BaseClientImpl"/>
+
     <!-- production环境 -->
     <beans profile="production">
         <context:property-placeholder ignore-resource-not-found="true"
@@ -160,23 +162,6 @@
             <property name="filters" value="stat"/>
         </bean>
 
-        <bean id="memcachedClient" class="net.spy.memcached.spring.MemcachedClientFactoryBean">
-            <property name="servers" value="${memcached_address}"/>
-            <property name="protocol" value="BINARY"/>
-            <property name="transcoder">
-                <bean class="net.spy.memcached.transcoders.SerializingTranscoder">
-                    <property name="compressionThreshold" value="1024"/>
-                </bean>
-            </property>
-            <property name="opTimeout" value="1000"/>
-            <property name="timeoutExceptionThreshold" value="1998"/>
-            <property name="hashAlg">
-                <value type="net.spy.memcached.DefaultHashAlgorithm">KETAMA_HASH</value>
-            </property>
-            <property name="locatorType" value="CONSISTENT"/>
-            <property name="failureMode" value="Redistribute"/>
-            <property name="useNagleAlgorithm" value="false"/>
-        </bean>
     </beans>
 
     <!-- test环境 -->

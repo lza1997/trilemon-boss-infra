@@ -1,47 +1,48 @@
 package com.trilemon.boss360.infrastructure.base.model;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
-public class TaobaoSession implements Serializable {
+public class TaobaoSession {
+    @JsonIgnore
     private Integer id;
-
+    @JsonIgnore
     private Long shopId;
-
+    @JsonIgnore
     private String appKey;
-
-    private String sessionKey;
-
-    private String sign;
-
-    private Date ts;
-
-    private Byte iframe;
-
-    private Long visitorId;
-
-    private String visitorNick;
-
+    @JsonProperty("access_token")
+    private String accessToken;
+    @JsonProperty("token_type")
+    private String tokenType;
+    @JsonProperty("taobao_user_id")
+    private Long taobaoUserId;
+    @JsonProperty("taobao_user_nick")
+    private String taobaoUserNick;
+    @JsonProperty("expires_iun")
     private Integer expiresIn;
-
+    @JsonProperty("refresh_token")
     private String refreshToken;
-
+    @JsonProperty("re_expires_in")
     private Integer reExpiresIn;
-
-    private Long subVisitorId;
-
+    @JsonProperty("sub_taobao_user_id")
+    private Long subTaobaoUserId;
+    @JsonProperty("sub_taobao_user_nick")
     private String subTaobaoUserNick;
-
+    @JsonProperty("r1_expires_in")
     private Integer r1ExpiresIn;
-
+    @JsonProperty("w1_expires_in")
     private Integer w1ExpiresIn;
-
+    @JsonProperty("r2_expires_in")
     private Integer r2ExpiresIn;
-
+    @JsonProperty("w2_expires_in")
     private Integer w2ExpiresIn;
-
+    @JsonProperty("state")
+    private String state;
+    @JsonIgnore
     private Date addTime;
-
+    @JsonIgnore
     private Date updTime;
 
     public Integer getId() {
@@ -68,52 +69,36 @@ public class TaobaoSession implements Serializable {
         this.appKey = appKey == null ? null : appKey.trim();
     }
 
-    public String getSessionKey() {
-        return sessionKey;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setSessionKey(String sessionKey) {
-        this.sessionKey = sessionKey == null ? null : sessionKey.trim();
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken == null ? null : accessToken.trim();
     }
 
-    public String getSign() {
-        return sign;
+    public String getTokenType() {
+        return tokenType;
     }
 
-    public void setSign(String sign) {
-        this.sign = sign == null ? null : sign.trim();
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType == null ? null : tokenType.trim();
     }
 
-    public Date getTs() {
-        return ts;
+    public Long getTaobaoUserId() {
+        return taobaoUserId;
     }
 
-    public void setTs(Date ts) {
-        this.ts = ts;
+    public void setTaobaoUserId(Long taobaoUserId) {
+        this.taobaoUserId = taobaoUserId;
     }
 
-    public Byte getIframe() {
-        return iframe;
+    public String getTaobaoUserNick() {
+        return taobaoUserNick;
     }
 
-    public void setIframe(Byte iframe) {
-        this.iframe = iframe;
-    }
-
-    public Long getVisitorId() {
-        return visitorId;
-    }
-
-    public void setVisitorId(Long visitorId) {
-        this.visitorId = visitorId;
-    }
-
-    public String getVisitorNick() {
-        return visitorNick;
-    }
-
-    public void setVisitorNick(String visitorNick) {
-        this.visitorNick = visitorNick == null ? null : visitorNick.trim();
+    public void setTaobaoUserNick(String taobaoUserNick) {
+        this.taobaoUserNick = taobaoUserNick == null ? null : taobaoUserNick.trim();
     }
 
     public Integer getExpiresIn() {
@@ -140,12 +125,12 @@ public class TaobaoSession implements Serializable {
         this.reExpiresIn = reExpiresIn;
     }
 
-    public Long getSubVisitorId() {
-        return subVisitorId;
+    public Long getSubTaobaoUserId() {
+        return subTaobaoUserId;
     }
 
-    public void setSubVisitorId(Long subVisitorId) {
-        this.subVisitorId = subVisitorId;
+    public void setSubTaobaoUserId(Long subTaobaoUserId) {
+        this.subTaobaoUserId = subTaobaoUserId;
     }
 
     public String getSubTaobaoUserNick() {
@@ -186,6 +171,14 @@ public class TaobaoSession implements Serializable {
 
     public void setW2ExpiresIn(Integer w2ExpiresIn) {
         this.w2ExpiresIn = w2ExpiresIn;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state == null ? null : state.trim();
     }
 
     public Date getAddTime() {

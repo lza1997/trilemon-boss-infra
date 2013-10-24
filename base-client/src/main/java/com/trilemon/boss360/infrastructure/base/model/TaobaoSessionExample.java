@@ -295,393 +295,273 @@ public class TaobaoSessionExample {
             return (Criteria) this;
         }
 
-        public Criteria andSessionKeyIsNull() {
-            addCriterion("session_key is null");
+        public Criteria andAccessTokenIsNull() {
+            addCriterion("access_token is null");
             return (Criteria) this;
         }
 
-        public Criteria andSessionKeyIsNotNull() {
-            addCriterion("session_key is not null");
+        public Criteria andAccessTokenIsNotNull() {
+            addCriterion("access_token is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSessionKeyEqualTo(String value) {
-            addCriterion("session_key =", value, "sessionKey");
+        public Criteria andAccessTokenEqualTo(String value) {
+            addCriterion("access_token =", value, "accessToken");
             return (Criteria) this;
         }
 
-        public Criteria andSessionKeyNotEqualTo(String value) {
-            addCriterion("session_key <>", value, "sessionKey");
+        public Criteria andAccessTokenNotEqualTo(String value) {
+            addCriterion("access_token <>", value, "accessToken");
             return (Criteria) this;
         }
 
-        public Criteria andSessionKeyGreaterThan(String value) {
-            addCriterion("session_key >", value, "sessionKey");
+        public Criteria andAccessTokenGreaterThan(String value) {
+            addCriterion("access_token >", value, "accessToken");
             return (Criteria) this;
         }
 
-        public Criteria andSessionKeyGreaterThanOrEqualTo(String value) {
-            addCriterion("session_key >=", value, "sessionKey");
+        public Criteria andAccessTokenGreaterThanOrEqualTo(String value) {
+            addCriterion("access_token >=", value, "accessToken");
             return (Criteria) this;
         }
 
-        public Criteria andSessionKeyLessThan(String value) {
-            addCriterion("session_key <", value, "sessionKey");
+        public Criteria andAccessTokenLessThan(String value) {
+            addCriterion("access_token <", value, "accessToken");
             return (Criteria) this;
         }
 
-        public Criteria andSessionKeyLessThanOrEqualTo(String value) {
-            addCriterion("session_key <=", value, "sessionKey");
+        public Criteria andAccessTokenLessThanOrEqualTo(String value) {
+            addCriterion("access_token <=", value, "accessToken");
             return (Criteria) this;
         }
 
-        public Criteria andSessionKeyLike(String value) {
-            addCriterion("session_key like", value, "sessionKey");
+        public Criteria andAccessTokenLike(String value) {
+            addCriterion("access_token like", value, "accessToken");
             return (Criteria) this;
         }
 
-        public Criteria andSessionKeyNotLike(String value) {
-            addCriterion("session_key not like", value, "sessionKey");
+        public Criteria andAccessTokenNotLike(String value) {
+            addCriterion("access_token not like", value, "accessToken");
             return (Criteria) this;
         }
 
-        public Criteria andSessionKeyIn(List<String> values) {
-            addCriterion("session_key in", values, "sessionKey");
+        public Criteria andAccessTokenIn(List<String> values) {
+            addCriterion("access_token in", values, "accessToken");
             return (Criteria) this;
         }
 
-        public Criteria andSessionKeyNotIn(List<String> values) {
-            addCriterion("session_key not in", values, "sessionKey");
+        public Criteria andAccessTokenNotIn(List<String> values) {
+            addCriterion("access_token not in", values, "accessToken");
             return (Criteria) this;
         }
 
-        public Criteria andSessionKeyBetween(String value1, String value2) {
-            addCriterion("session_key between", value1, value2, "sessionKey");
+        public Criteria andAccessTokenBetween(String value1, String value2) {
+            addCriterion("access_token between", value1, value2, "accessToken");
             return (Criteria) this;
         }
 
-        public Criteria andSessionKeyNotBetween(String value1, String value2) {
-            addCriterion("session_key not between", value1, value2, "sessionKey");
+        public Criteria andAccessTokenNotBetween(String value1, String value2) {
+            addCriterion("access_token not between", value1, value2, "accessToken");
             return (Criteria) this;
         }
 
-        public Criteria andSignIsNull() {
-            addCriterion("sign is null");
+        public Criteria andTokenTypeIsNull() {
+            addCriterion("token_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andSignIsNotNull() {
-            addCriterion("sign is not null");
+        public Criteria andTokenTypeIsNotNull() {
+            addCriterion("token_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSignEqualTo(String value) {
-            addCriterion("sign =", value, "sign");
+        public Criteria andTokenTypeEqualTo(String value) {
+            addCriterion("token_type =", value, "tokenType");
             return (Criteria) this;
         }
 
-        public Criteria andSignNotEqualTo(String value) {
-            addCriterion("sign <>", value, "sign");
+        public Criteria andTokenTypeNotEqualTo(String value) {
+            addCriterion("token_type <>", value, "tokenType");
             return (Criteria) this;
         }
 
-        public Criteria andSignGreaterThan(String value) {
-            addCriterion("sign >", value, "sign");
+        public Criteria andTokenTypeGreaterThan(String value) {
+            addCriterion("token_type >", value, "tokenType");
             return (Criteria) this;
         }
 
-        public Criteria andSignGreaterThanOrEqualTo(String value) {
-            addCriterion("sign >=", value, "sign");
+        public Criteria andTokenTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("token_type >=", value, "tokenType");
             return (Criteria) this;
         }
 
-        public Criteria andSignLessThan(String value) {
-            addCriterion("sign <", value, "sign");
+        public Criteria andTokenTypeLessThan(String value) {
+            addCriterion("token_type <", value, "tokenType");
             return (Criteria) this;
         }
 
-        public Criteria andSignLessThanOrEqualTo(String value) {
-            addCriterion("sign <=", value, "sign");
+        public Criteria andTokenTypeLessThanOrEqualTo(String value) {
+            addCriterion("token_type <=", value, "tokenType");
             return (Criteria) this;
         }
 
-        public Criteria andSignLike(String value) {
-            addCriterion("sign like", value, "sign");
+        public Criteria andTokenTypeLike(String value) {
+            addCriterion("token_type like", value, "tokenType");
             return (Criteria) this;
         }
 
-        public Criteria andSignNotLike(String value) {
-            addCriterion("sign not like", value, "sign");
+        public Criteria andTokenTypeNotLike(String value) {
+            addCriterion("token_type not like", value, "tokenType");
             return (Criteria) this;
         }
 
-        public Criteria andSignIn(List<String> values) {
-            addCriterion("sign in", values, "sign");
+        public Criteria andTokenTypeIn(List<String> values) {
+            addCriterion("token_type in", values, "tokenType");
             return (Criteria) this;
         }
 
-        public Criteria andSignNotIn(List<String> values) {
-            addCriterion("sign not in", values, "sign");
+        public Criteria andTokenTypeNotIn(List<String> values) {
+            addCriterion("token_type not in", values, "tokenType");
             return (Criteria) this;
         }
 
-        public Criteria andSignBetween(String value1, String value2) {
-            addCriterion("sign between", value1, value2, "sign");
+        public Criteria andTokenTypeBetween(String value1, String value2) {
+            addCriterion("token_type between", value1, value2, "tokenType");
             return (Criteria) this;
         }
 
-        public Criteria andSignNotBetween(String value1, String value2) {
-            addCriterion("sign not between", value1, value2, "sign");
+        public Criteria andTokenTypeNotBetween(String value1, String value2) {
+            addCriterion("token_type not between", value1, value2, "tokenType");
             return (Criteria) this;
         }
 
-        public Criteria andTsIsNull() {
-            addCriterion("ts is null");
+        public Criteria andTaobaoUserIdIsNull() {
+            addCriterion("taobao_user_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTsIsNotNull() {
-            addCriterion("ts is not null");
+        public Criteria andTaobaoUserIdIsNotNull() {
+            addCriterion("taobao_user_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTsEqualTo(Date value) {
-            addCriterion("ts =", value, "ts");
+        public Criteria andTaobaoUserIdEqualTo(Long value) {
+            addCriterion("taobao_user_id =", value, "taobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andTsNotEqualTo(Date value) {
-            addCriterion("ts <>", value, "ts");
+        public Criteria andTaobaoUserIdNotEqualTo(Long value) {
+            addCriterion("taobao_user_id <>", value, "taobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andTsGreaterThan(Date value) {
-            addCriterion("ts >", value, "ts");
+        public Criteria andTaobaoUserIdGreaterThan(Long value) {
+            addCriterion("taobao_user_id >", value, "taobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andTsGreaterThanOrEqualTo(Date value) {
-            addCriterion("ts >=", value, "ts");
+        public Criteria andTaobaoUserIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("taobao_user_id >=", value, "taobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andTsLessThan(Date value) {
-            addCriterion("ts <", value, "ts");
+        public Criteria andTaobaoUserIdLessThan(Long value) {
+            addCriterion("taobao_user_id <", value, "taobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andTsLessThanOrEqualTo(Date value) {
-            addCriterion("ts <=", value, "ts");
+        public Criteria andTaobaoUserIdLessThanOrEqualTo(Long value) {
+            addCriterion("taobao_user_id <=", value, "taobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andTsIn(List<Date> values) {
-            addCriterion("ts in", values, "ts");
+        public Criteria andTaobaoUserIdIn(List<Long> values) {
+            addCriterion("taobao_user_id in", values, "taobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andTsNotIn(List<Date> values) {
-            addCriterion("ts not in", values, "ts");
+        public Criteria andTaobaoUserIdNotIn(List<Long> values) {
+            addCriterion("taobao_user_id not in", values, "taobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andTsBetween(Date value1, Date value2) {
-            addCriterion("ts between", value1, value2, "ts");
+        public Criteria andTaobaoUserIdBetween(Long value1, Long value2) {
+            addCriterion("taobao_user_id between", value1, value2, "taobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andTsNotBetween(Date value1, Date value2) {
-            addCriterion("ts not between", value1, value2, "ts");
+        public Criteria andTaobaoUserIdNotBetween(Long value1, Long value2) {
+            addCriterion("taobao_user_id not between", value1, value2, "taobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andIframeIsNull() {
-            addCriterion("iframe is null");
+        public Criteria andTaobaoUserNickIsNull() {
+            addCriterion("taobao_user_nick is null");
             return (Criteria) this;
         }
 
-        public Criteria andIframeIsNotNull() {
-            addCriterion("iframe is not null");
+        public Criteria andTaobaoUserNickIsNotNull() {
+            addCriterion("taobao_user_nick is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIframeEqualTo(Byte value) {
-            addCriterion("iframe =", value, "iframe");
+        public Criteria andTaobaoUserNickEqualTo(String value) {
+            addCriterion("taobao_user_nick =", value, "taobaoUserNick");
             return (Criteria) this;
         }
 
-        public Criteria andIframeNotEqualTo(Byte value) {
-            addCriterion("iframe <>", value, "iframe");
+        public Criteria andTaobaoUserNickNotEqualTo(String value) {
+            addCriterion("taobao_user_nick <>", value, "taobaoUserNick");
             return (Criteria) this;
         }
 
-        public Criteria andIframeGreaterThan(Byte value) {
-            addCriterion("iframe >", value, "iframe");
+        public Criteria andTaobaoUserNickGreaterThan(String value) {
+            addCriterion("taobao_user_nick >", value, "taobaoUserNick");
             return (Criteria) this;
         }
 
-        public Criteria andIframeGreaterThanOrEqualTo(Byte value) {
-            addCriterion("iframe >=", value, "iframe");
+        public Criteria andTaobaoUserNickGreaterThanOrEqualTo(String value) {
+            addCriterion("taobao_user_nick >=", value, "taobaoUserNick");
             return (Criteria) this;
         }
 
-        public Criteria andIframeLessThan(Byte value) {
-            addCriterion("iframe <", value, "iframe");
+        public Criteria andTaobaoUserNickLessThan(String value) {
+            addCriterion("taobao_user_nick <", value, "taobaoUserNick");
             return (Criteria) this;
         }
 
-        public Criteria andIframeLessThanOrEqualTo(Byte value) {
-            addCriterion("iframe <=", value, "iframe");
+        public Criteria andTaobaoUserNickLessThanOrEqualTo(String value) {
+            addCriterion("taobao_user_nick <=", value, "taobaoUserNick");
             return (Criteria) this;
         }
 
-        public Criteria andIframeIn(List<Byte> values) {
-            addCriterion("iframe in", values, "iframe");
+        public Criteria andTaobaoUserNickLike(String value) {
+            addCriterion("taobao_user_nick like", value, "taobaoUserNick");
             return (Criteria) this;
         }
 
-        public Criteria andIframeNotIn(List<Byte> values) {
-            addCriterion("iframe not in", values, "iframe");
+        public Criteria andTaobaoUserNickNotLike(String value) {
+            addCriterion("taobao_user_nick not like", value, "taobaoUserNick");
             return (Criteria) this;
         }
 
-        public Criteria andIframeBetween(Byte value1, Byte value2) {
-            addCriterion("iframe between", value1, value2, "iframe");
+        public Criteria andTaobaoUserNickIn(List<String> values) {
+            addCriterion("taobao_user_nick in", values, "taobaoUserNick");
             return (Criteria) this;
         }
 
-        public Criteria andIframeNotBetween(Byte value1, Byte value2) {
-            addCriterion("iframe not between", value1, value2, "iframe");
+        public Criteria andTaobaoUserNickNotIn(List<String> values) {
+            addCriterion("taobao_user_nick not in", values, "taobaoUserNick");
             return (Criteria) this;
         }
 
-        public Criteria andVisitorIdIsNull() {
-            addCriterion("visitor_id is null");
+        public Criteria andTaobaoUserNickBetween(String value1, String value2) {
+            addCriterion("taobao_user_nick between", value1, value2, "taobaoUserNick");
             return (Criteria) this;
         }
 
-        public Criteria andVisitorIdIsNotNull() {
-            addCriterion("visitor_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorIdEqualTo(Long value) {
-            addCriterion("visitor_id =", value, "visitorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorIdNotEqualTo(Long value) {
-            addCriterion("visitor_id <>", value, "visitorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorIdGreaterThan(Long value) {
-            addCriterion("visitor_id >", value, "visitorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("visitor_id >=", value, "visitorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorIdLessThan(Long value) {
-            addCriterion("visitor_id <", value, "visitorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorIdLessThanOrEqualTo(Long value) {
-            addCriterion("visitor_id <=", value, "visitorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorIdIn(List<Long> values) {
-            addCriterion("visitor_id in", values, "visitorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorIdNotIn(List<Long> values) {
-            addCriterion("visitor_id not in", values, "visitorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorIdBetween(Long value1, Long value2) {
-            addCriterion("visitor_id between", value1, value2, "visitorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorIdNotBetween(Long value1, Long value2) {
-            addCriterion("visitor_id not between", value1, value2, "visitorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorNickIsNull() {
-            addCriterion("visitor_nick is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorNickIsNotNull() {
-            addCriterion("visitor_nick is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorNickEqualTo(String value) {
-            addCriterion("visitor_nick =", value, "visitorNick");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorNickNotEqualTo(String value) {
-            addCriterion("visitor_nick <>", value, "visitorNick");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorNickGreaterThan(String value) {
-            addCriterion("visitor_nick >", value, "visitorNick");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorNickGreaterThanOrEqualTo(String value) {
-            addCriterion("visitor_nick >=", value, "visitorNick");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorNickLessThan(String value) {
-            addCriterion("visitor_nick <", value, "visitorNick");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorNickLessThanOrEqualTo(String value) {
-            addCriterion("visitor_nick <=", value, "visitorNick");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorNickLike(String value) {
-            addCriterion("visitor_nick like", value, "visitorNick");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorNickNotLike(String value) {
-            addCriterion("visitor_nick not like", value, "visitorNick");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorNickIn(List<String> values) {
-            addCriterion("visitor_nick in", values, "visitorNick");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorNickNotIn(List<String> values) {
-            addCriterion("visitor_nick not in", values, "visitorNick");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorNickBetween(String value1, String value2) {
-            addCriterion("visitor_nick between", value1, value2, "visitorNick");
-            return (Criteria) this;
-        }
-
-        public Criteria andVisitorNickNotBetween(String value1, String value2) {
-            addCriterion("visitor_nick not between", value1, value2, "visitorNick");
+        public Criteria andTaobaoUserNickNotBetween(String value1, String value2) {
+            addCriterion("taobao_user_nick not between", value1, value2, "taobaoUserNick");
             return (Criteria) this;
         }
 
@@ -875,63 +755,63 @@ public class TaobaoSessionExample {
             return (Criteria) this;
         }
 
-        public Criteria andSubVisitorIdIsNull() {
-            addCriterion("sub_visitor_id is null");
+        public Criteria andSubTaobaoUserIdIsNull() {
+            addCriterion("sub_taobao_user_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andSubVisitorIdIsNotNull() {
-            addCriterion("sub_visitor_id is not null");
+        public Criteria andSubTaobaoUserIdIsNotNull() {
+            addCriterion("sub_taobao_user_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSubVisitorIdEqualTo(Long value) {
-            addCriterion("sub_visitor_id =", value, "subVisitorId");
+        public Criteria andSubTaobaoUserIdEqualTo(Long value) {
+            addCriterion("sub_taobao_user_id =", value, "subTaobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andSubVisitorIdNotEqualTo(Long value) {
-            addCriterion("sub_visitor_id <>", value, "subVisitorId");
+        public Criteria andSubTaobaoUserIdNotEqualTo(Long value) {
+            addCriterion("sub_taobao_user_id <>", value, "subTaobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andSubVisitorIdGreaterThan(Long value) {
-            addCriterion("sub_visitor_id >", value, "subVisitorId");
+        public Criteria andSubTaobaoUserIdGreaterThan(Long value) {
+            addCriterion("sub_taobao_user_id >", value, "subTaobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andSubVisitorIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("sub_visitor_id >=", value, "subVisitorId");
+        public Criteria andSubTaobaoUserIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("sub_taobao_user_id >=", value, "subTaobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andSubVisitorIdLessThan(Long value) {
-            addCriterion("sub_visitor_id <", value, "subVisitorId");
+        public Criteria andSubTaobaoUserIdLessThan(Long value) {
+            addCriterion("sub_taobao_user_id <", value, "subTaobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andSubVisitorIdLessThanOrEqualTo(Long value) {
-            addCriterion("sub_visitor_id <=", value, "subVisitorId");
+        public Criteria andSubTaobaoUserIdLessThanOrEqualTo(Long value) {
+            addCriterion("sub_taobao_user_id <=", value, "subTaobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andSubVisitorIdIn(List<Long> values) {
-            addCriterion("sub_visitor_id in", values, "subVisitorId");
+        public Criteria andSubTaobaoUserIdIn(List<Long> values) {
+            addCriterion("sub_taobao_user_id in", values, "subTaobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andSubVisitorIdNotIn(List<Long> values) {
-            addCriterion("sub_visitor_id not in", values, "subVisitorId");
+        public Criteria andSubTaobaoUserIdNotIn(List<Long> values) {
+            addCriterion("sub_taobao_user_id not in", values, "subTaobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andSubVisitorIdBetween(Long value1, Long value2) {
-            addCriterion("sub_visitor_id between", value1, value2, "subVisitorId");
+        public Criteria andSubTaobaoUserIdBetween(Long value1, Long value2) {
+            addCriterion("sub_taobao_user_id between", value1, value2, "subTaobaoUserId");
             return (Criteria) this;
         }
 
-        public Criteria andSubVisitorIdNotBetween(Long value1, Long value2) {
-            addCriterion("sub_visitor_id not between", value1, value2, "subVisitorId");
+        public Criteria andSubTaobaoUserIdNotBetween(Long value1, Long value2) {
+            addCriterion("sub_taobao_user_id not between", value1, value2, "subTaobaoUserId");
             return (Criteria) this;
         }
 
@@ -1242,6 +1122,76 @@ public class TaobaoSessionExample {
 
         public Criteria andW2ExpiresInNotBetween(Integer value1, Integer value2) {
             addCriterion("w2_expires_in not between", value1, value2, "w2ExpiresIn");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIsNull() {
+            addCriterion("state is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIsNotNull() {
+            addCriterion("state is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateEqualTo(String value) {
+            addCriterion("state =", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotEqualTo(String value) {
+            addCriterion("state <>", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateGreaterThan(String value) {
+            addCriterion("state >", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateGreaterThanOrEqualTo(String value) {
+            addCriterion("state >=", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLessThan(String value) {
+            addCriterion("state <", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLessThanOrEqualTo(String value) {
+            addCriterion("state <=", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLike(String value) {
+            addCriterion("state like", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotLike(String value) {
+            addCriterion("state not like", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIn(List<String> values) {
+            addCriterion("state in", values, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotIn(List<String> values) {
+            addCriterion("state not in", values, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateBetween(String value1, String value2) {
+            addCriterion("state between", value1, value2, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotBetween(String value1, String value2) {
+            addCriterion("state not between", value1, value2, "state");
             return (Criteria) this;
         }
 

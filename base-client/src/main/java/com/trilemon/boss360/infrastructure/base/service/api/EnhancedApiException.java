@@ -31,6 +31,16 @@ public class EnhancedApiException extends Exception {
         this.errorMsg = apiException.getErrMsg();
     }
 
+    public EnhancedApiException(String msg,TaobaoRequest request, TaobaoResponse response) {
+        super(msg);
+        this.taobaoRequest = request;
+        this.taobaoResponse = response;
+        this.subCode = response.getSubCode();
+        this.subMsg = response.getSubMsg();
+        this.errorCode = response.getErrorCode();
+        this.errorMsg = response.getMsg();
+    }
+
     public EnhancedApiException(TaobaoRequest request, TaobaoResponse response) {
         this.taobaoRequest = request;
         this.taobaoResponse = response;

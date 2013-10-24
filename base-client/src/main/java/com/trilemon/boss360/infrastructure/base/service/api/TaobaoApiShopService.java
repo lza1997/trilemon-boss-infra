@@ -24,8 +24,6 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -38,12 +36,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * @author kevin
  */
-@Service
 public class TaobaoApiShopService {
     private static Logger logger = LoggerFactory.getLogger(TaobaoApiShopService.class);
-    @Autowired
     private TaobaoApiService taobaoApiService;
-    @Autowired
     private BaseClient baseClient;
 
     /**
@@ -189,7 +184,7 @@ public class TaobaoApiShopService {
         request.setUseHasNext(false);
 
         TradesSoldGetResponse response = taobaoApiService.request(request, appKey,
-                taobaoSession.getSessionKey());
+                taobaoSession.getAccessToken());
         if (response.isSuccess()) {
             return response.getTotalResults();
         } else {
@@ -261,7 +256,7 @@ public class TaobaoApiShopService {
             throw new EnhancedApiException("no taobaoSession of userId[" + userId + "]");
         }
         ItemsOnsaleGetResponse response = taobaoApiService.request(request, taobaoApiService.getAppKey(),
-                taobaoSession.getSessionKey());
+                taobaoSession.getAccessToken());
         if (response.isSuccess()) {
             List<Item> items = response.getItems();
             items = (null == items ? Lists.<Item>newArrayList() : items);
@@ -292,7 +287,7 @@ public class TaobaoApiShopService {
         ItemGetRequest request = new ItemGetRequest();
         request.setFields(Joiner.on(",").join(fields));
         request.setNumIid(numIid);
-        ItemGetResponse response = taobaoApiService.request(request, taobaoSession.getSessionKey());
+        ItemGetResponse response = taobaoApiService.request(request, taobaoSession.getAccessToken());
         if (response.isSuccess()) {
             return response.getItem();
         } else {
@@ -303,5 +298,21 @@ public class TaobaoApiShopService {
                 throw new EnhancedApiException(request, response);
             }
         }
+    }
+
+    public TaobaoApiService getTaobaoApiService() {
+        return taobaoApiService;
+    }
+
+    public void setTaobaoApiService(TaobaoApiService taobaoApiService) {
+        this.taobaoApiService = taobaoApiService;
+    }
+
+    public BaseClient getBaseClient() {
+        return baseClient;
+    }
+
+    public void setBaseClient(BaseClient baseClient) {
+        this.baseClient = baseClient;
     }
 }

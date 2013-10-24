@@ -2,10 +2,12 @@ package com.trilemon.boss360.infrastructure.base.client.impl;
 
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoApp;
+import com.trilemon.boss360.infrastructure.base.model.TaobaoSeller;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
 import com.trilemon.boss360.infrastructure.base.service.TaobaoAppService;
 import com.trilemon.boss360.infrastructure.base.service.TaobaoSessionService;
 import com.trilemon.boss360.infrastructure.base.service.TaobaoShopService;
+import com.trilemon.boss360.infrastructure.base.service.api.EnhancedApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,21 @@ public class BaseClientImpl implements BaseClient {
     @Override
     public String getNick(Long userId) {
         return taobaoShopService.getNick(userId);
+    }
+
+    @Override
+    public TaobaoSeller getSeller(Long taobaoUserId) {
+        return taobaoShopService.getSeller(taobaoUserId);
+    }
+
+    @Override
+    public void createSeller(String accessToken, String appKey) throws EnhancedApiException {
+        taobaoShopService.createSeller(accessToken, appKey);
+    }
+
+    @Override
+    public void saveOrUpdateTaobaoSession(TaobaoSession taobaoSession) {
+        taobaoSessionService.saveOrUpdateTaobaoSession(taobaoSession);
     }
 
     @Override

@@ -20,8 +20,6 @@ import com.google.common.collect.Maps;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -30,13 +28,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 /**
  * @author kevin
  */
-@Service
 public class AppService {
     private static Logger logger = LoggerFactory.getLogger(AppService.class);
     private Map<String, ThreadPoolExecutor> threadPoolExecutorMap = Maps.newHashMap();
-    @Value("${service_name}")
     private String serviceName;
-    @Value("${service_id}")
     private String serviceId;
     private Map<String, ThreadPoolExecutor> threadMap = Maps.newHashMap();
 

@@ -22,10 +22,8 @@
     <artifactId>trilemon-360boss-infrastructure</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>trade</module>
         <module>base</module>
         <module>base-client</module>
-        <module>base-client-ext</module>
     </modules>
     <packaging>pom</packaging>
 
