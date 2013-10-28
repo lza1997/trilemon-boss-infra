@@ -53,7 +53,8 @@ public class TaobaoApiService {
         RES response;
         try {
             response = taobaoClient.execute(req, sessionKey);
-            if(response.getSubCode().equals("session-expired")){
+
+            if(null!=response.getSubCode()&&response.getSubCode().equals("session-expired")){
                 throw new TaobaoSessionExpiredException("session expired",req);
             }
         } catch (ApiException e) {
