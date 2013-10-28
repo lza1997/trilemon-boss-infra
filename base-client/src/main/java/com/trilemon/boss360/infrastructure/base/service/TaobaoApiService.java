@@ -4,9 +4,10 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.taobao.api.*;
+import com.trilemon.boss360.infrastructure.base.service.api.TaobaoEnhancedApiException;
+import com.trilemon.boss360.infrastructure.base.service.api.TaobaoSessionExpiredException;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoApp;
-import com.trilemon.boss360.infrastructure.base.service.api.EnhancedApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,19 +42,22 @@ public class TaobaoApiService {
                 taobaoApp.getAppKey(), taobaoApp.getAppSecret());
     }
 
-    public <REQ extends TaobaoRequest<RES>, RES extends TaobaoResponse> RES request(REQ req, String appKey) throws EnhancedApiException {
+    public <REQ extends TaobaoRequest<RES>, RES extends TaobaoResponse> RES request(REQ req, String appKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
         return request(req, appKey, null);
     }
 
-    public <REQ extends TaobaoRequest<RES>, RES extends TaobaoResponse> RES request(REQ req, String appKey, String sessionKey) throws EnhancedApiException {
+    public <REQ extends TaobaoRequest<RES>, RES extends TaobaoResponse> RES request(REQ req, String appKey, String sessionKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
         checkNotNull(taobaoClient);
 
         final Stopwatch stopwatch = new Stopwatch().start();
         RES response;
         try {
             response = taobaoClient.execute(req, sessionKey);
+            if(response.getSubCode().equals("session-expired")){
+                throw new TaobaoSessionExpiredException("session expired",req);
+            }
         } catch (ApiException e) {
-            throw new EnhancedApiException(e);
+            throw new TaobaoEnhancedApiException(e);
         }
         final long elapsedMillis = stopwatch.elapsed(TimeUnit.MILLISECONDS);
         totalApiExecTime.add(appKey, (int) elapsedMillis);

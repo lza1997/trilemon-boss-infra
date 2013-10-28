@@ -3,9 +3,10 @@ package com.trilemon.boss360.infrastructure.base.service;
 import com.taobao.api.domain.User;
 import com.taobao.api.request.UserSellerGetRequest;
 import com.taobao.api.response.UserSellerGetResponse;
+import com.trilemon.boss360.infrastructure.base.service.api.TaobaoEnhancedApiException;
+import com.trilemon.boss360.infrastructure.base.service.api.TaobaoSessionExpiredException;
 import com.trilemon.boss360.infrastructure.base.dao.TaobaoSellerMapper;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoSeller;
-import com.trilemon.boss360.infrastructure.base.service.api.EnhancedApiException;
 import com.trilemon.commons.BeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class TaobaoShopService {
         return taobaoSeller;
     }
 
-    public TaobaoSeller createSeller(String accessToken, String appKey) throws EnhancedApiException {
+    public TaobaoSeller createSeller(String accessToken, String appKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
         UserSellerGetRequest req = new UserSellerGetRequest();
         req.setFields("nick");
         UserSellerGetResponse response = taobaoApiService.request(req, appKey, accessToken);
@@ -45,7 +46,7 @@ public class TaobaoShopService {
             taobaoSellerMapper.insertSelective(taobaoSeller);
             return taobaoSeller;
         } else {
-            throw new EnhancedApiException("create taobao seller error", req, response);
+            throw new TaobaoEnhancedApiException("create taobao seller error", req, response);
         }
     }
 }

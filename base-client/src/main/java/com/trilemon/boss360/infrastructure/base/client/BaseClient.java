@@ -1,9 +1,10 @@
 package com.trilemon.boss360.infrastructure.base.client;
 
+import com.trilemon.boss360.infrastructure.base.service.api.TaobaoEnhancedApiException;
+import com.trilemon.boss360.infrastructure.base.service.api.TaobaoSessionExpiredException;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoApp;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoSeller;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
-import com.trilemon.boss360.infrastructure.base.service.api.EnhancedApiException;
 
 import java.util.Date;
 
@@ -41,7 +42,7 @@ public interface BaseClient {
 
     TaobaoSeller getSeller(Long taobaoUserId);
 
-    void createSeller(String accessToken, String appKey) throws EnhancedApiException;
+    void createSeller(String accessToken, String appKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException;
 
     void saveOrUpdateTaobaoSession(TaobaoSession taobaoSession);
 }

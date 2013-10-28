@@ -18,7 +18,9 @@ package com.trilemon.boss360.infrastructure.base.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.taobao.api.domain.Item;
@@ -35,6 +37,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -221,6 +224,27 @@ public class TopApiUtils {
         });
     }
 
+    public static List<Item> getItems(List<Item> items, Collection<Long> numIids) {
+        List<Item> filerItems = Lists.newArrayList();
+
+        for (Item item : items) {
+            if (numIids.contains(item.getNumIid())) {
+                filerItems.add(item);
+            }
+        }
+        return filerItems;
+    }
+
+    public static Item getItem(List<Item> items, Long numIid) {
+
+        for (Item item : items) {
+            if (numIid == item.getNumIid()) {
+                return item;
+            }
+        }
+        return null;
+    }
+
     /**
      * 获取宝贝分类 id
      *
@@ -250,4 +274,19 @@ public class TopApiUtils {
             }
         });
     }
+
+    public static Iterable<Item> getShowcaseItems(Iterable<Item> items, final boolean showcase) {
+        return Iterables.filter(items, new Predicate<Item>() {
+            @Override
+            public boolean apply(@Nullable Item input) {
+                if (showcase) {
+                    return input.getHasShowcase();
+                } else {
+                    return !input.getHasShowcase();
+                }
+            }
+        });
+
+    }
+
 }
