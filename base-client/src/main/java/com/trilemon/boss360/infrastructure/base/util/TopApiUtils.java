@@ -275,6 +275,12 @@ public class TopApiUtils {
         });
     }
 
+    /**
+     * 获取指定橱窗状态的宝贝
+     * @param items 候选宝贝
+     * @param showcase true 橱窗；false 非橱窗
+     * @return
+     */
     public static Iterable<Item> getShowcaseItems(Iterable<Item> items, final boolean showcase) {
         return Iterables.filter(items, new Predicate<Item>() {
             @Override
