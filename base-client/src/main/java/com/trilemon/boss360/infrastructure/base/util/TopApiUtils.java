@@ -214,6 +214,16 @@ public class TopApiUtils {
 //    }
 //
 
+    public static List<Item> excludeItems(List<Item> items, List<Long> excludeItemIds) {
+        List<Item> newItems = Lists.newArrayList();
+        for (Item item : items) {
+            if (!excludeItemIds.contains(item.getNumIid())) {
+                newItems.add(item);
+            }
+        }
+        return newItems;
+    }
+
     public static List<Long> getItemNumIids(List<Item> items) {
         return Lists.transform(items, new Function<Item, Long>() {
             @Nullable
