@@ -1,7 +1,7 @@
 package com.trilemon.boss360.infrastructure.base.client.impl;
 
-import com.trilemon.boss360.infrastructure.base.service.api.TaobaoEnhancedApiException;
-import com.trilemon.boss360.infrastructure.base.service.api.TaobaoSessionExpiredException;
+import com.trilemon.boss360.infrastructure.base.service.api.exception.TaobaoEnhancedApiException;
+import com.trilemon.boss360.infrastructure.base.service.api.exception.TaobaoSessionExpiredException;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoApp;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoSeller;

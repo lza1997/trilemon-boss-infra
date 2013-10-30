@@ -12,6 +12,9 @@ import com.taobao.api.response.*;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
 import com.trilemon.boss360.infrastructure.base.service.TaobaoApiService;
+import com.trilemon.boss360.infrastructure.base.service.api.exception.TaobaoEnhancedApiException;
+import com.trilemon.boss360.infrastructure.base.service.api.exception.TaobaoSessionExpiredException;
+import com.trilemon.boss360.infrastructure.base.util.TopApiUtils;
 import com.trilemon.commons.Collections3;
 import com.trilemon.commons.web.Page;
 import org.apache.commons.collections.CollectionUtils;
@@ -38,13 +41,16 @@ public class TaobaoApiShopService {
     private BaseClient baseClient;
 
     /**
-     * 根据用户昵称获取卖家的宝贝分类
+     * 根据taobao user id获取宝贝分类
      *
-     * @param nick 用户昵称
-     * @return {@link List<SellerCat>}
+     * @param userId 用户 淘宝 id
+     * @return
      * @throws TaobaoEnhancedApiException
      */
-    public List<SellerCat> getSellerCats(@NotNull String nick) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
+    public List<SellerCat> getSellerCats(@NotNull Long userId) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
+        checkNotNull(userId, "userId must be not null.");
+
+        String nick = baseClient.getNick(userId);
         checkNotNull(nick, "nick must be not null.");
 
         SellercatsListGetRequest request = new SellercatsListGetRequest();
@@ -60,24 +66,16 @@ public class TaobaoApiShopService {
             throw new TaobaoEnhancedApiException("response is null", request);
         }
         if (response.isSuccess()) {
-            return response.getSellerCats();
+            List<SellerCat> sellerCats = response.getSellerCats();
+            //获取未分类商品
+            long unclassifiedItemNum = getOnSaleItemNum(userId, Lists.newArrayList(-1L));
+            if (unclassifiedItemNum > 0) {
+                sellerCats.add(TopApiUtils.getUnclassifiedSellerCat());
+            }
+            return sellerCats;
         } else {
             throw new TaobaoEnhancedApiException(nick, request, response);
         }
-    }
-
-    /**
-     * 根据taobao user id获取宝贝分类
-     *
-     * @param userId 用户 淘宝 id
-     * @return
-     * @throws TaobaoEnhancedApiException
-     */
-    public List<SellerCat> getSellerCats(@NotNull Long userId) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
-        checkNotNull(userId, "userId must be not null.");
-
-        String nick = baseClient.getNick(userId);
-        return getSellerCats(nick);
     }
 
     /**
@@ -88,11 +86,10 @@ public class TaobaoApiShopService {
      * @throws TaobaoEnhancedApiException
      */
     @NotNull
-    public Map<SellerCat, Long> getSellerCatAndOnSaleItemNum(@NotNull Long userId) throws
+    public Map<SellerCat, Long> getSellerCatAndOnSaleItemNum(@NotNull Long userId,List<SellerCat> sellerCats) throws
             TaobaoEnhancedApiException, TaobaoSessionExpiredException {
         checkNotNull(userId, "userId must be not null.");
 
-        List<SellerCat> sellerCats = getSellerCats(userId);
         Map<SellerCat, Long> result = Maps.newHashMap();
         for (SellerCat sellerCat : sellerCats) {
             long num = getOnSaleItemNum(userId, Lists.newArrayList(sellerCat.getCid()));
@@ -119,7 +116,7 @@ public class TaobaoApiShopService {
         Page<Item> page = Page.create(result.getRight().intValue(), request.getPageNo().intValue(),
                 request.getPageSize().intValue(),
                 result.getLeft());
-        if (null != page && CollectionUtils.isNotEmpty(page.getItems())) {
+        if (null != page) {
             return page.getTotalSize();
         } else {
             return 0;
@@ -131,7 +128,7 @@ public class TaobaoApiShopService {
      *
      * @param userId
      * @param sellerCats
-     * @return sellerCats为 null ，则返回所有的在线销售商品
+     * @return sellerCats为 null ，则返回所有的在线销售商品；为-1则返回无分类
      * @throws TaobaoEnhancedApiException
      */
     public long getOnSaleItemNum(@NotNull Long userId, List<Long> sellerCats) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
@@ -153,8 +150,8 @@ public class TaobaoApiShopService {
                 Page<Item> page = Page.create(result.getRight().intValue(), request.getPageNo().intValue(),
                         request.getPageSize().intValue(),
                         result.getLeft());
-                if (null != page && CollectionUtils.isNotEmpty(page.getItems())) {
-                    num += page.getItems().size();
+                if (null != page) {
+                    num += page.getTotalSize();
                 }
             }
             return num;
@@ -217,16 +214,16 @@ public class TaobaoApiShopService {
      * 翻页在售宝贝
      *
      * @param userId
-     * @param query      null 搜索全部类目
+     * @param query        null 搜索全部类目
      * @param fields
-     * @param sellerCats null 为搜索全部类目
+     * @param sellerCatIds null 为搜索全部类目
      * @param pageNum
      * @param pageSize
-     * @param fuzzy      true 为首先对宝贝 id 进行搜索；然后搜索关键词
+     * @param fuzzy        true 为首先对宝贝 id 进行搜索；然后搜索关键词
      * @return
      * @throws TaobaoEnhancedApiException
      */
-    public Page<Item> paginateOnSaleItems(Long userId, String query, List<String> fields, List<Long> sellerCats,
+    public Page<Item> paginateOnSaleItems(Long userId, String query, List<String> fields, List<Long> sellerCatIds,
                                           long pageNum, long pageSize, boolean fuzzy) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
         checkNotNull(userId, "userId must be not null.");
         checkNotNull(fields, "fields must be not null.");
@@ -243,10 +240,10 @@ public class TaobaoApiShopService {
         request.setQ(query);
         request.setPageNo(pageNum);
         request.setPageSize(pageSize);
-        if (CollectionUtils.isNotEmpty(sellerCats)) {
-            checkArgument(sellerCats.size() <= 32, "seller cid num should <= 32, http://api.taobao.com/apidoc/api" +
+        if (CollectionUtils.isNotEmpty(sellerCatIds)) {
+            checkArgument(sellerCatIds.size() <= 32, "seller cid num should <= 32, http://api.taobao.com/apidoc/api" +
                     ".htm?spm=0.0.0.0.bANlsY&path=cid:4-apiId:18");
-            request.setSellerCids(Joiner.on(",").join(sellerCats));
+            request.setSellerCids(Joiner.on(",").join(sellerCatIds));
         }
         Pair<List<Item>, Long> result = getOnSaleItems(userId, request);
         return Page.create(result.getRight().intValue(), request.getPageNo().intValue(),
@@ -439,6 +436,7 @@ public class TaobaoApiShopService {
 
     /**
      * 获取橱窗的使用情况，[总数，已使用，未使用]
+     *
      * @param userId
      * @return
      * @throws TaobaoEnhancedApiException
@@ -488,4 +486,5 @@ public class TaobaoApiShopService {
     public void setBaseClient(BaseClient baseClient) {
         this.baseClient = baseClient;
     }
+
 }

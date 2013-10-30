@@ -277,7 +277,8 @@ public class TopApiUtils {
 
     /**
      * 获取指定橱窗状态的宝贝
-     * @param items 候选宝贝
+     *
+     * @param items    候选宝贝
      * @param showcase true 橱窗；false 非橱窗
      * @return
      */
@@ -295,4 +296,16 @@ public class TopApiUtils {
 
     }
 
+    /**
+     * 定义未分类的{@link SellerCat}对象。
+     *
+     * @return
+     */
+    public static SellerCat getUnclassifiedSellerCat() {
+        SellerCat sellerCat = new SellerCat();
+        sellerCat.setName("未分类");
+        sellerCat.setCid(-1L);
+        sellerCat.setParentCid(0L);
+        return sellerCat;
+    }
 }
