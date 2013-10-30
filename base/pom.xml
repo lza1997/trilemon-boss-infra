@@ -431,10 +431,10 @@
                 <configuration>
                     <scanIntervalSeconds>0</scanIntervalSeconds>
                     <stopKey>base</stopKey>
-                    <stopPort>9999</stopPort>
+                    <stopPort>9950</stopPort>
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                            <port>8081</port>
+                            <port>8030</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>

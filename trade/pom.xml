@@ -393,10 +393,10 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <configuration>
                     <stopKey>trilemon</stopKey>
-                    <stopPort>9997</stopPort>
+                    <stopPort>9949</stopPort>
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                            <port>8083</port>
+                            <port>8029</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
