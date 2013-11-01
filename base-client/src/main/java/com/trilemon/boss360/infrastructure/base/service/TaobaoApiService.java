@@ -4,10 +4,10 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.taobao.api.*;
-import com.trilemon.boss360.infrastructure.base.service.api.exception.TaobaoEnhancedApiException;
-import com.trilemon.boss360.infrastructure.base.service.api.exception.TaobaoSessionExpiredException;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoApp;
+import com.trilemon.boss360.infrastructure.base.service.api.exception.TaobaoEnhancedApiException;
+import com.trilemon.boss360.infrastructure.base.service.api.exception.TaobaoSessionExpiredException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,16 +46,26 @@ public class TaobaoApiService {
         return request(req, appKey, null);
     }
 
+    public <REQ extends TaobaoRequest<RES>, RES extends TaobaoResponse> RES request2(REQ req, String sessionKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
+        return request(req, taobaoAppKey, sessionKey);
+    }
+
+    public <REQ extends TaobaoRequest<RES>, RES extends TaobaoResponse> RES request(REQ req) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
+        return request(req, taobaoAppKey, null);
+    }
+
     public <REQ extends TaobaoRequest<RES>, RES extends TaobaoResponse> RES request(REQ req, String appKey, String sessionKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
         checkNotNull(taobaoClient);
+        checkNotNull(req);
+        checkNotNull(appKey);
 
         final Stopwatch stopwatch = new Stopwatch().start();
         RES response;
         try {
             response = taobaoClient.execute(req, sessionKey);
 
-            if(null!=response.getSubCode()&&response.getSubCode().equals("session-expired")){
-                throw new TaobaoSessionExpiredException("session expired",req);
+            if (null != response.getSubCode() && response.getSubCode().equals("session-expired")) {
+                throw new TaobaoSessionExpiredException("session expired", req);
             }
         } catch (ApiException e) {
             throw new TaobaoEnhancedApiException(e);
@@ -74,12 +84,12 @@ public class TaobaoApiService {
         return taobaoAppKey;
     }
 
-    public void setTaobaoAppKey(String taobaoAppKey) {
-        this.taobaoAppKey = taobaoAppKey;
-    }
-
     public String getTaobaoAppKey() {
         return taobaoAppKey;
+    }
+
+    public void setTaobaoAppKey(String taobaoAppKey) {
+        this.taobaoAppKey = taobaoAppKey;
     }
 
     public AppService getAppService() {
