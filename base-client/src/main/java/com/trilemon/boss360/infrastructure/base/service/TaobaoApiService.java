@@ -66,6 +66,8 @@ public class TaobaoApiService {
 
             if (null != response.getSubCode() && response.getSubCode().equals("session-expired")) {
                 throw new TaobaoSessionExpiredException("session expired", req);
+            }else if(null != response.getSubCode() && response.getSubCode().equals("accesscontrol.limited-by-api-access-count")){
+
             }
         } catch (ApiException e) {
             throw new TaobaoEnhancedApiException(e);
