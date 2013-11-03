@@ -1,5 +1,6 @@
 package com.trilemon.boss360.infrastructure.base.service;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
 import com.trilemon.commons.BlockingThreadPoolExecutor;
@@ -22,11 +23,13 @@ public abstract class AbstractQueueService<E> implements QueueService<E> {
     private BlockingThreadPoolExecutor taskPool = new BlockingThreadPoolExecutor(5);
     private BlockingThreadPoolExecutor pool = new BlockingThreadPoolExecutor(1);
     private Map<String, ThreadPoolExecutor> threadPoolExecutorMap = Maps.newHashMap();
+    private int pollRoundCount = 0;
+    private boolean init = true;
 
     @Override
     public void startPoll() {
-        threadPoolExecutorMap.put(getClass().getSimpleName()+"-task", taskPool);
-        threadPoolExecutorMap.put(getClass().getSimpleName()+"-poll", pool);
+        threadPoolExecutorMap.put(getClass().getSimpleName() + "-task", taskPool);
+        threadPoolExecutorMap.put(getClass().getSimpleName() + "-poll", pool);
 
         pool.submit(new Runnable() {
             @Override
@@ -38,9 +41,18 @@ public abstract class AbstractQueueService<E> implements QueueService<E> {
 
     @Override
     public void pollProcess() {
+        Stopwatch stopwatch = new Stopwatch().start();
         while (true) {
             final E e = queue.poll();
             if (null == e) {
+                if (!init) {
+                    logger.info("end [{}] poll,spend [{}] seconds.", pollRoundCount,
+                            stopwatch.elapsed(TimeUnit.SECONDS));
+                    init = false;
+                }
+                pollRoundCount++;
+                stopwatch.reset();
+                logger.info("start [{}] poll.", pollRoundCount);
                 fillQueue();
                 if (queue.isEmpty()) {
                     Threads.sleep(1, TimeUnit.MINUTES);
