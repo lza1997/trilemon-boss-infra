@@ -49,14 +49,13 @@ public abstract class AbstractQueueService<E> implements QueueService<E> {
                     logger.info("end [{}] poll,spend [{}] seconds.", pollRoundCount,
                             stopwatch.elapsed(TimeUnit.SECONDS));
                     init = false;
+                } else {
+                    Threads.sleep(1, TimeUnit.MINUTES);
                 }
                 pollRoundCount++;
                 stopwatch.reset();
                 logger.info("start [{}] poll.", pollRoundCount);
                 fillQueue();
-                if (queue.isEmpty()) {
-                    Threads.sleep(1, TimeUnit.MINUTES);
-                }
             } else {
                 taskPool.submit(new Runnable() {
                     @Override
