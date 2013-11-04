@@ -39,7 +39,7 @@ public class TaobaoShopService {
     public TaobaoSeller createSeller(String accessToken, String appKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
         UserSellerGetRequest req = new UserSellerGetRequest();
         req.setFields("nick");
-        UserSellerGetResponse response = taobaoApiService.request(req, appKey, accessToken);
+        UserSellerGetResponse response = taobaoApiService.requestWithAppKey(req, appKey, accessToken);
         if (response.isSuccess()) {
             User user = response.getUser();
             TaobaoSeller taobaoSeller = BeanMapper.map(user, TaobaoSeller.class);
