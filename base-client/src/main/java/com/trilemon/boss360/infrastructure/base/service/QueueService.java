@@ -6,7 +6,7 @@ import java.util.Queue;
 /**
  * @author kevin
  */
-public interface QueueService<E> {
+public interface QueueService<E extends Comparable<E>> {
 
     Byte LOCK = 1;
     Byte UNLOCK = 0;

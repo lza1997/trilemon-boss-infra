@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author kevin
  */
-public abstract class AbstractQueueService<E> implements QueueService<E> {
+public abstract class AbstractQueueService<E extends Comparable<E>> implements QueueService<E> {
     private static Logger logger = LoggerFactory.getLogger(AbstractQueueService.class);
     private PriorityQueue<E> queue = Queues.newPriorityQueue();
     private BlockingThreadPoolExecutor taskPool = new BlockingThreadPoolExecutor(5);
