@@ -24,10 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.validation.constraints.NotNull;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -57,7 +54,7 @@ public class TaobaoApiShopService {
         request.setNick(nick);
         SellercatsListGetResponse response;
         try {
-            response = taobaoApiService.request(request, taobaoApiService.getAppKey());
+            response = taobaoApiService.request(request);
         } catch (TaobaoSessionExpiredException e) {
             e.setNick(nick);
             throw e;
@@ -90,11 +87,25 @@ public class TaobaoApiShopService {
             TaobaoEnhancedApiException, TaobaoSessionExpiredException {
         checkNotNull(userId, "userId must be not null.");
 
-        Map<SellerCat, Long> result = Maps.newHashMap();
+        Map<SellerCat, Long> result = Maps.newTreeMap(new Comparator<SellerCat>() {
+            @Override
+            public int compare(SellerCat o1, SellerCat o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
         for (SellerCat sellerCat : sellerCats) {
             long num = getOnSaleItemNum(userId, Lists.newArrayList(sellerCat.getCid()));
             result.put(sellerCat, num);
         }
+
+        for (Map.Entry<SellerCat, Long> entry1 : result.entrySet()) {
+            for (Map.Entry<SellerCat, Long> entry2 : result.entrySet()) {
+                if (entry1.getKey().getCid().equals(entry2.getKey().getParentCid())) {
+                    entry1.setValue(entry1.getValue() + entry2.getValue());
+                }
+            }
+        }
+        System.out.println(result);
         return result;
     }
 
@@ -128,7 +139,6 @@ public class TaobaoApiShopService {
      *
      * @param userId
      * @param sellerCats
-     * @return sellerCats为 null ，则返回所有的在线销售商品；为-1则返回无分类
      * @throws TaobaoEnhancedApiException
      */
     public long getOnSaleItemNum(@NotNull Long userId, List<Long> sellerCats) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
@@ -177,7 +187,7 @@ public class TaobaoApiShopService {
         checkNotNull(endDate, "endDate must be not null.");
         checkArgument(endDate.getTime() <= endDate.getTime(), "startDate must be before endDate.");
 
-        TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId, taobaoApiService.getAppKey());
+        TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId, appKey);
         TradesSoldGetRequest request = new TradesSoldGetRequest();
         request.setFields("tid");
         request.setType(Joiner.on(",").join(tradeTypes));
@@ -189,7 +199,7 @@ public class TaobaoApiShopService {
 
         TradesSoldGetResponse response;
         try {
-            response = taobaoApiService.request(request, appKey,
+            response = taobaoApiService.requestWithAppKey(request, appKey,
                     taobaoSession.getAccessToken());
         } catch (TaobaoSessionExpiredException e) {
             e.setUserId(userId);
@@ -270,7 +280,7 @@ public class TaobaoApiShopService {
         }
         ItemsOnsaleGetResponse response;
         try {
-            response = taobaoApiService.request(request, taobaoApiService.getAppKey(),
+            response = taobaoApiService.requestWithAppKey(request,taobaoApiService.getAppKey(),
                     taobaoSession.getAccessToken());
         } catch (TaobaoSessionExpiredException e) {
             e.setUserId(userId);
@@ -311,7 +321,8 @@ public class TaobaoApiShopService {
         request.setNumIid(numIid);
         ItemGetResponse response;
         try {
-            response = taobaoApiService.request(request, taobaoSession.getAccessToken());
+            response = taobaoApiService.requestWithAppKey(request,taobaoApiService.getAppKey(),
+                    taobaoSession.getAccessToken());
         } catch (TaobaoSessionExpiredException e) {
             e.setUserId(userId);
             throw e;
@@ -360,9 +371,10 @@ public class TaobaoApiShopService {
             ItemsListGetRequest request = new ItemsListGetRequest();
             request.setFields(Joiner.on(",").join(fields));
             request.setNumIids(Collections3.COMMA_JOINER.join(partition));
-            ItemsListGetResponse response = null;
+            ItemsListGetResponse response;
             try {
-                response = taobaoApiService.request(request, taobaoSession.getAccessToken());
+                response = taobaoApiService.requestWithAppKey(request,taobaoApiService.getAppKey(),
+                        taobaoSession.getAccessToken());
             } catch (TaobaoSessionExpiredException e) {
                 e.setUserId(userId);
                 throw e;
@@ -428,7 +440,7 @@ public class TaobaoApiShopService {
         request.setNumIid(numIid);
         ItemRecommendDeleteResponse response;
         try {
-            response = taobaoApiService.request(request, taobaoApiService.getAppKey(),
+            response = taobaoApiService.requestWithAppKey(request, taobaoApiService.getAppKey(),
                     taobaoSession.getAccessToken());
         } catch (TaobaoSessionExpiredException e) {
             e.setUserId(userId);
@@ -458,7 +470,7 @@ public class TaobaoApiShopService {
         request.setNumIid(numIid);
         ItemRecommendAddResponse response;
         try {
-            response = taobaoApiService.request(request, taobaoApiService.getAppKey(),
+            response = taobaoApiService.requestWithAppKey(request,taobaoApiService.getAppKey(),
                     taobaoSession.getAccessToken());
         } catch (TaobaoSessionExpiredException e) {
             e.setUserId(userId);
@@ -492,7 +504,7 @@ public class TaobaoApiShopService {
         ShopRemainshowcaseGetResponse response;
 
         try {
-            response = taobaoApiService.request(request, taobaoApiService.getAppKey(),
+            response = taobaoApiService.requestWithAppKey(request,taobaoApiService.getAppKey(),
                     taobaoSession.getAccessToken());
         } catch (TaobaoSessionExpiredException e) {
             e.setUserId(userId);

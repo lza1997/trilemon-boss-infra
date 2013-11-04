@@ -42,19 +42,22 @@ public class TaobaoApiService {
                 taobaoApp.getAppKey(), taobaoApp.getAppSecret());
     }
 
-    public <REQ extends TaobaoRequest<RES>, RES extends TaobaoResponse> RES request(REQ req, String appKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
-        return request(req, appKey, null);
+    public <REQ extends TaobaoRequest<RES>, RES extends TaobaoResponse> RES requestWithAppKey(REQ req,
+                                                                                     String appKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
+        return requestWithAppKey(req, appKey, null);
     }
 
-    public <REQ extends TaobaoRequest<RES>, RES extends TaobaoResponse> RES request2(REQ req, String sessionKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
-        return request(req, taobaoAppKey, sessionKey);
+    public <REQ extends TaobaoRequest<RES>, RES extends TaobaoResponse> RES request(REQ req,
+                                                                                     String sessionKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
+        return requestWithAppKey(req, taobaoAppKey, sessionKey);
     }
 
     public <REQ extends TaobaoRequest<RES>, RES extends TaobaoResponse> RES request(REQ req) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
-        return request(req, taobaoAppKey, null);
+        return requestWithAppKey(req, taobaoAppKey, null);
     }
 
-    public <REQ extends TaobaoRequest<RES>, RES extends TaobaoResponse> RES request(REQ req, String appKey, String sessionKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
+    public <REQ extends TaobaoRequest<RES>, RES extends TaobaoResponse> RES requestWithAppKey(REQ req, String appKey,
+                                                                                     String sessionKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
         checkNotNull(taobaoClient);
         checkNotNull(req);
         checkNotNull(appKey);
