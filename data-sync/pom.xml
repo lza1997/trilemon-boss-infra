@@ -11,15 +11,16 @@
     </parent>
 
     <groupId>com.trilemon.360boss</groupId>
-    <artifactId>trilemon-360boss-infrastructure-trade</artifactId>
+    <artifactId>trilemon-360boss-infrastructure-data-sync</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <properties>
         <!-- 主要依赖库的版本定义 -->
         <trilemon.commons.version>1.0-SNAPSHOT</trilemon.commons.version>
-        <trilemon.360boss.infrastructure.base.client>1.0-SNAPSHOT</trilemon.360boss.infrastructure.base.client>
-        <trilemon.360boss.infrastructure.base.client.ext>1.0-SNAPSHOT</trilemon.360boss.infrastructure.base.client.ext>
+        <trilemon.360boss.infrastructure.base.client.version>
+            1.0-SNAPSHOT
+        </trilemon.360boss.infrastructure.base.client.version>
     </properties>
 
     <!-- 依赖项定义 -->
@@ -33,13 +34,7 @@
         <dependency>
             <groupId>com.trilemon.360boss</groupId>
             <artifactId>trilemon-360boss-infrastructure-base-client</artifactId>
-            <version>${trilemon.360boss.infrastructure.base.client}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.trilemon.360boss</groupId>
-            <artifactId>trilemon-360boss-infrastructure-base-client-ext</artifactId>
-            <version>${trilemon.360boss.infrastructure.base.client.ext}</version>
+            <version>${trilemon.360boss.infrastructure.base.client.version}</version>
         </dependency>
 
         <dependency>
@@ -392,7 +387,7 @@
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <configuration>
-                    <stopKey>trilemon</stopKey>
+                    <stopKey>data-sync</stopKey>
                     <stopPort>9949</stopPort>
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
@@ -422,7 +417,7 @@
                         </systemProperty>
                     </systemProperties>
                     <webAppConfig>
-                        <contextPath>/${project.artifactId}</contextPath>
+                        <contextPath>/data-sync</contextPath>
                     </webAppConfig>
                 </configuration>
             </plugin>
