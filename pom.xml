@@ -24,6 +24,8 @@
     <modules>
         <module>base</module>
         <module>base-client</module>
+        <module>sms</module>
+        <module>sms-client</module>
     </modules>
     <packaging>pom</packaging>
 
