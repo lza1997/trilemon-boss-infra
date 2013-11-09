@@ -1,5 +1,6 @@
 package com.trilemon.boss360.infrastructure.base.client.impl;
 
+import com.trilemon.boss360.infrastructure.base.service.api.exception.TaobaoAccessControlException;
 import com.trilemon.boss360.infrastructure.base.service.api.exception.TaobaoEnhancedApiException;
 import com.trilemon.boss360.infrastructure.base.service.api.exception.TaobaoSessionExpiredException;
 import com.trilemon.boss360.infrastructure.base.client.BaseClient;
@@ -42,7 +43,7 @@ public class BaseClientImpl implements BaseClient {
     }
 
     @Override
-    public void createSeller(String accessToken, String appKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException {
+    public void createSeller(String accessToken, String appKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException, TaobaoAccessControlException {
         taobaoShopService.createSeller(accessToken, appKey);
     }
 

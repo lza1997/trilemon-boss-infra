@@ -1,38 +1,22 @@
 package com.trilemon.boss360.infrastructure.base.service.api.exception;
 
 import com.taobao.api.TaobaoRequest;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import com.taobao.api.TaobaoResponse;
 
 /**
+ * taobao session 过期了
+ *
  * @author kevin
  */
-public class TaobaoSessionExpiredException extends Exception {
+public class TaobaoSessionExpiredException extends BaseTaobaoApiException {
     private Long userId;
     private String nick;
+    private TaobaoResponse taobaoResponse;
     private TaobaoRequest taobaoRequest;
 
-    public TaobaoSessionExpiredException(TaobaoRequest taobaoRequest) {
-        this.taobaoRequest = taobaoRequest;
-    }
-
-    public TaobaoSessionExpiredException(String message, TaobaoRequest taobaoRequest) {
-        super(message);
-        this.taobaoRequest = taobaoRequest;
-    }
-
-    public TaobaoSessionExpiredException(String message, Throwable cause, TaobaoRequest taobaoRequest) {
-        super(message, cause);
-        this.taobaoRequest = taobaoRequest;
-    }
-
-    public TaobaoSessionExpiredException(Throwable cause, TaobaoRequest taobaoRequest) {
-        super(cause);
-        this.taobaoRequest = taobaoRequest;
-    }
-
-    public TaobaoSessionExpiredException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, TaobaoRequest taobaoRequest) {
-        super(message, cause, enableSuppression, writableStackTrace);
-        this.taobaoRequest = taobaoRequest;
+    public TaobaoSessionExpiredException(TaobaoRequest request, TaobaoResponse response) {
+        this.taobaoRequest = request;
+        this.taobaoResponse = response;
     }
 
     public Long getUserId() {
@@ -43,14 +27,6 @@ public class TaobaoSessionExpiredException extends Exception {
         this.userId = userId;
     }
 
-    public TaobaoRequest getTaobaoRequest() {
-        return taobaoRequest;
-    }
-
-    public void setTaobaoRequest(TaobaoRequest taobaoRequest) {
-        this.taobaoRequest = taobaoRequest;
-    }
-
     public String getNick() {
         return nick;
     }
@@ -59,7 +35,19 @@ public class TaobaoSessionExpiredException extends Exception {
         this.nick = nick;
     }
 
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+    public TaobaoResponse getTaobaoResponse() {
+        return taobaoResponse;
+    }
+
+    public void setTaobaoResponse(TaobaoResponse taobaoResponse) {
+        this.taobaoResponse = taobaoResponse;
+    }
+
+    public TaobaoRequest getTaobaoRequest() {
+        return taobaoRequest;
+    }
+
+    public void setTaobaoRequest(TaobaoRequest taobaoRequest) {
+        this.taobaoRequest = taobaoRequest;
     }
 }

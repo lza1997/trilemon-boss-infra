@@ -3,70 +3,25 @@ package com.trilemon.boss360.infrastructure.base.service.api.exception;
 import com.taobao.api.ApiException;
 import com.taobao.api.TaobaoRequest;
 import com.taobao.api.TaobaoResponse;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
+ * 淘宝的 response（非 success 状态） 和{@link ApiException}全部用这个异常表达
+ *
  * @author kevin
  */
-public class TaobaoEnhancedApiException extends Exception {
-    private String subCode;
-    private String subMsg;
-    private String errorCode;
-    private String errorMsg;
+public class TaobaoEnhancedApiException extends BaseTaobaoApiException {
     private TaobaoResponse taobaoResponse;
     private TaobaoRequest taobaoRequest;
+    private ApiException apiException;
 
-    public TaobaoEnhancedApiException(String msg) {
-        super(msg);
-    }
-
-    public TaobaoEnhancedApiException(String msg,TaobaoRequest request) {
-        super(msg);
+    public TaobaoEnhancedApiException(TaobaoRequest request, ApiException apiException) {
+        this.apiException = apiException;
         this.taobaoRequest = request;
     }
 
-    public TaobaoEnhancedApiException(TaobaoRequest request, TaobaoResponse response,
-                                      ApiException apiException) {
-        super(apiException);
+    public TaobaoEnhancedApiException(TaobaoRequest request, TaobaoResponse response) {
         this.taobaoRequest = request;
         this.taobaoResponse = response;
-        this.subCode = response.getSubCode();
-        this.subMsg = response.getSubMsg();
-        this.errorCode = apiException.getErrCode();
-        this.errorMsg = apiException.getErrMsg();
-    }
-
-    public TaobaoEnhancedApiException(String msg, TaobaoRequest request, TaobaoResponse response) {
-        super(msg);
-        this.taobaoRequest = request;
-        this.taobaoResponse = response;
-        this.subCode = response.getSubCode();
-        this.subMsg = response.getSubMsg();
-        this.errorCode = response.getErrorCode();
-        this.errorMsg = response.getMsg();
-    }
-
-    public TaobaoEnhancedApiException(ApiException apiException) {
-        super(apiException);
-        this.errorCode = apiException.getErrCode();
-        this.errorMsg = apiException.getErrMsg();
-
-    }
-
-    public String getSubCode() {
-        return subCode;
-    }
-
-    public void setSubCode(String subCode) {
-        this.subCode = subCode;
-    }
-
-    public String getSubMsg() {
-        return subMsg;
-    }
-
-    public void setSubMsg(String subMsg) {
-        this.subMsg = subMsg;
     }
 
     public TaobaoResponse getTaobaoResponse() {
@@ -77,22 +32,6 @@ public class TaobaoEnhancedApiException extends Exception {
         this.taobaoResponse = taobaoResponse;
     }
 
-    public String getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getErrorMsg() {
-        return errorMsg;
-    }
-
-    public void setErrorMsg(String errorMsg) {
-        this.errorMsg = errorMsg;
-    }
-
     public TaobaoRequest getTaobaoRequest() {
         return taobaoRequest;
     }
@@ -101,8 +40,11 @@ public class TaobaoEnhancedApiException extends Exception {
         this.taobaoRequest = taobaoRequest;
     }
 
+    public ApiException getApiException() {
+        return apiException;
+    }
 
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+    public void setApiException(ApiException apiException) {
+        this.apiException = apiException;
     }
 }

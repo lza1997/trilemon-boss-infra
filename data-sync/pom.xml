@@ -26,6 +26,15 @@
     <!-- 依赖项定义 -->
     <dependencies>
         <dependency>
+            <groupId>com.alibaba.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.rocketmq</groupId>
+            <artifactId>rocketmq-common</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.trilemon</groupId>
             <artifactId>trilemon-commons</artifactId>
             <version>${trilemon.commons.version}</version>

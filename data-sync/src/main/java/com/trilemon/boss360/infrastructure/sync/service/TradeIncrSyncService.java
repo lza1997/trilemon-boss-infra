@@ -15,13 +15,14 @@ import com.trilemon.boss360.infrastructure.base.client.BaseClient;
 import com.trilemon.boss360.infrastructure.base.model.TaobaoSession;
 import com.trilemon.boss360.infrastructure.base.service.AbstractQueueService;
 import com.trilemon.boss360.infrastructure.base.service.AppService;
-import com.trilemon.boss360.infrastructure.base.service.api.EnhancedApiException;
 import com.trilemon.boss360.infrastructure.base.service.TaobaoApiService;
-import com.trilemon.boss360.infrastructure.trade.TradeConstants;
-import com.trilemon.boss360.infrastructure.trade.dao.TradeAsyncMapper;
-import com.trilemon.boss360.infrastructure.trade.dao.TradeSyncMapper;
-import com.trilemon.boss360.infrastructure.trade.model.TradeAsync;
-import com.trilemon.boss360.infrastructure.trade.model.TradeSync;
+import com.trilemon.boss360.infrastructure.base.service.api.exception.TaobaoEnhancedApiException;
+import com.trilemon.boss360.infrastructure.base.service.api.exception.TaobaoTaobaoEnhancedApiException;
+import com.trilemon.boss360.infrastructure.sync.Constants;
+import com.trilemon.boss360.infrastructure.sync.dao.TradeAsyncMapper;
+import com.trilemon.boss360.infrastructure.sync.dao.TradeSyncMapper;
+import com.trilemon.boss360.infrastructure.sync.model.TradeAsync;
+import com.trilemon.boss360.infrastructure.sync.model.TradeSync;
 import com.trilemon.commons.DateUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
@@ -136,7 +137,7 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
         //同步退款
         try {
             syncRefund(tradeSync.getUserId(), tradeSync.getSyncAppKey(), tradeStartDateTime.toDate(), tradeEndDateTime.toDate());
-        } catch (EnhancedApiException e) {
+        } catch (TaobaoEnhancedApiException e) {
             fail(tradeSync);
             throw e;
         }
@@ -182,7 +183,7 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
     }
 
     public void syncRefund(Long userId, String appKey, Date startDate,
-                           Date endDate) throws EnhancedApiException {
+                           Date endDate) throws TaobaoEnhancedApiException {
         TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId,taobaoApiService.getAppKey());
         long pageNo = 1;
         while (true) {
@@ -205,13 +206,13 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
                     processRefunds(userId, refunds);
                 }
             } else {
-                throw new EnhancedApiException(request, response);
+                throw new TaobaoEnhancedApiException(request, response);
             }
         }
     }
 
     public void syncByCreated(Long userId, String appKey, Date startDate,
-                              Date endDate) throws EnhancedApiException {
+                              Date endDate) throws TaobaoEnhancedApiException {
         TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId,appKey);
         long pageNo = 1;
         while (true) {
@@ -235,13 +236,13 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
                     processTrades(userId, trades);
                 }
             } else {
-                throw new EnhancedApiException(request, response);
+                throw new TaobaoEnhancedApiException(request, response);
             }
         }
     }
 
     public void syncByModified(Long userId, String appKey, Date startDate,
-                               Date endDate) throws EnhancedApiException {
+                               Date endDate) throws TaobaoEnhancedApiException {
         TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId,appKey);
         long pageNo = 1;
         while (true) {
@@ -266,7 +267,7 @@ public class TradeIncrSyncService extends AbstractQueueService<TradeSync> {
                     processTrades(userId, trades);
                 }
             } else {
-                throw new EnhancedApiException(request, response);
+                throw new TaobaoTaobaoEnhancedApiException(request, response);
             }
         }
     }
