@@ -5,14 +5,14 @@ package com.trilemon.boss360.infrastructure.base.service.api.exception;
  */
 public class DefaultTaobaoApiExceptionHandler extends TaobaoApiExceptionHandler {
     @Override
-    void handlerApiException(TaobaoEnhancedApiException e) {
+    public void handlerApiException(TaobaoEnhancedApiException e) {
     }
 
     @Override
-    void handlerSessionExpired(TaobaoSessionExpiredException e) {
+    public void handlerSessionExpired(TaobaoSessionExpiredException e) {
     }
 
     @Override
-    void handlerAccessControl(TaobaoAccessControlException e) {
+    public void handlerAccessControl(TaobaoAccessControlException e) {
     }
 }

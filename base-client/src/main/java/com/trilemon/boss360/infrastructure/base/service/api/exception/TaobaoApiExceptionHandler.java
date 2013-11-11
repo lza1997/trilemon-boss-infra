@@ -21,9 +21,9 @@ public abstract class TaobaoApiExceptionHandler {
         handler(null, e);
     }
 
-    abstract void handlerApiException(TaobaoEnhancedApiException e);
+    public abstract void handlerApiException(TaobaoEnhancedApiException e);
 
-    abstract void handlerSessionExpired(TaobaoSessionExpiredException e);
+    public abstract void handlerSessionExpired(TaobaoSessionExpiredException e);
 
-    abstract void handlerAccessControl(TaobaoAccessControlException e);
+    public abstract void handlerAccessControl(TaobaoAccessControlException e);
 }
