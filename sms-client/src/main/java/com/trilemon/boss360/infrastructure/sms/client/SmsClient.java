@@ -1,6 +1,6 @@
-package com.trilemon.boss360.infrastructure.sms.client;
+package com.trilemon.boss.infra.sms.client;
 
-import com.trilemon.boss360.infrastructure.sms.model.SendStatus;
+import com.trilemon.boss.infra.sms.model.SendStatus;
 
 /**
  * @author kevin

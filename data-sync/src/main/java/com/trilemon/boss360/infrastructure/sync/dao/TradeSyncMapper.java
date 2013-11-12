@@ -1,7 +1,7 @@
-package com.trilemon.boss360.infrastructure.trade.dao;
+package com.trilemon.boss.infra.trade.dao;
 
-import com.trilemon.boss360.infrastructure.trade.model.TradeSync;
-import com.trilemon.boss360.infrastructure.trade.model.TradeSyncExample;
+import com.trilemon.boss.infra.trade.model.TradeSync;
+import com.trilemon.boss.infra.trade.model.TradeSyncExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;

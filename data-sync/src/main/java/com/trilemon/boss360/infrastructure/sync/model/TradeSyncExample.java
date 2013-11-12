@@ -1,4 +1,4 @@
-package com.trilemon.boss360.infrastructure.trade.model;
+package com.trilemon.boss.infra.trade.model;
 
 import java.util.ArrayList;
 import java.util.Date;

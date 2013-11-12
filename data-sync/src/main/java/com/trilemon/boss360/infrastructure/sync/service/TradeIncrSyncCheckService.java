@@ -1,13 +1,13 @@
-package com.trilemon.boss360.infrastructure.trade.service;
+package com.trilemon.boss.infra.trade.service;
 
-import com.trilemon.boss360.infrastructure.base.BaseConstants;
-import com.trilemon.boss360.infrastructure.base.client.BaseClient;
-import com.trilemon.boss360.infrastructure.base.service.AbstractQueueService;
-import com.trilemon.boss360.infrastructure.base.service.AppService;
-import com.trilemon.boss360.infrastructure.base.service.api.TaobaoApiShopService;
-import com.trilemon.boss360.infrastructure.trade.TradeConstants;
-import com.trilemon.boss360.infrastructure.trade.dao.TradeSyncMapper;
-import com.trilemon.boss360.infrastructure.trade.model.TradeSync;
+import com.trilemon.boss.infra.base.BaseConstants;
+import com.trilemon.boss.infra.base.client.BaseClient;
+import com.trilemon.boss.infra.base.service.AbstractQueueService;
+import com.trilemon.boss.infra.base.service.AppService;
+import com.trilemon.boss.infra.base.service.api.TaobaoApiShopService;
+import com.trilemon.boss.infra.trade.TradeConstants;
+import com.trilemon.boss.infra.trade.dao.TradeSyncMapper;
+import com.trilemon.boss.infra.trade.model.TradeSync;
 import com.trilemon.commons.DateUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;

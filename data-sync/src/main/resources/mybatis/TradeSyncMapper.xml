@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.trilemon.boss360.infrastructure.trade.dao.TradeSyncMapper" >
-  <resultMap id="BaseResultMap" type="com.trilemon.boss360.infrastructure.trade.model.TradeSync" >
+<mapper namespace="com.trilemon.boss.infra.trade.dao.TradeSyncMapper" >
+  <resultMap id="BaseResultMap" type="com.trilemon.boss.infra.trade.model.TradeSync" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="user_id" property="userId" jdbcType="BIGINT" />
     <result column="sync_app_key" property="syncAppKey" jdbcType="VARCHAR" />
@@ -88,7 +88,7 @@
     check_trade_end_time, check_start_time, check_end_time, check_status, check_lock, 
     check_service_name, check_service_id, add_time, upd_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.trilemon.boss360.infrastructure.trade.model.TradeSyncExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.trilemon.boss.infra.trade.model.TradeSyncExample" >
     select
     <if test="distinct" >
       distinct
@@ -112,13 +112,13 @@
     delete from trade_sync
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.trilemon.boss360.infrastructure.trade.model.TradeSyncExample" >
+  <delete id="deleteByExample" parameterType="com.trilemon.boss.infra.trade.model.TradeSyncExample" >
     delete from trade_sync
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.trilemon.boss360.infrastructure.trade.model.TradeSync" >
+  <insert id="insert" parameterType="com.trilemon.boss.infra.trade.model.TradeSync" >
     insert into trade_sync (id, user_id, sync_app_key, 
       sync_trade_start_time, sync_trade_end_time, 
       sync_start_time, sync_end_time, sync_status, 
@@ -136,7 +136,7 @@
       #{checkLock,jdbcType=TINYINT}, #{checkServiceName,jdbcType=VARCHAR}, #{checkServiceId,jdbcType=VARCHAR}, 
       #{addTime,jdbcType=TIMESTAMP}, #{updTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.trilemon.boss360.infrastructure.trade.model.TradeSync" >
+  <insert id="insertSelective" parameterType="com.trilemon.boss.infra.trade.model.TradeSync" >
     insert into trade_sync
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -269,7 +269,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.trilemon.boss360.infrastructure.trade.model.TradeSyncExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.trilemon.boss.infra.trade.model.TradeSyncExample" resultType="java.lang.Integer" >
     select count(*) from trade_sync
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -373,7 +373,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.trilemon.boss360.infrastructure.trade.model.TradeSync" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.trilemon.boss.infra.trade.model.TradeSync" >
     update trade_sync
     <set >
       <if test="userId != null" >
@@ -439,7 +439,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.trilemon.boss360.infrastructure.trade.model.TradeSync" >
+  <update id="updateByPrimaryKey" parameterType="com.trilemon.boss.infra.trade.model.TradeSync" >
     update trade_sync
     set user_id = #{userId,jdbcType=BIGINT},
       sync_app_key = #{syncAppKey,jdbcType=VARCHAR},

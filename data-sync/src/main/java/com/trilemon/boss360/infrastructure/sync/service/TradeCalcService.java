@@ -1,6 +1,6 @@
-package com.trilemon.boss360.infrastructure.trade.service;
+package com.trilemon.boss.infra.trade.service;
 
-import com.trilemon.boss360.infrastructure.trade.model.TradeAsync;
+import com.trilemon.boss.infra.trade.model.TradeAsync;
 import org.springframework.stereotype.Service;
 
 import java.io.File;

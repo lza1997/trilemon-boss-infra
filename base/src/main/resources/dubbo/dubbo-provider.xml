@@ -16,10 +16,10 @@
     <dubbo:protocol name="dubbo" port="20880"/>
 
     <!-- 声明需要暴露的服务接口 -->
-    <dubbo:service interface="com.trilemon.boss360.infrastructure.base.client.BaseClient" ref="baseClient"/>
+    <dubbo:service interface="com.trilemon.boss.infra.base.client.BaseClient" ref="baseClient"/>
 
     <!-- 和本地bean一样实现服务 -->
-    <bean id="baseClient" class="com.trilemon.boss360.infrastructure.base.client.impl.BaseClientImpl"/>
+    <bean id="baseClient" class="com.trilemon.boss.infra.base.client.impl.BaseClientImpl"/>
     <dubbo:registry protocol="zookeeper" address="${zk}"/>
 
     <beans profile="development">

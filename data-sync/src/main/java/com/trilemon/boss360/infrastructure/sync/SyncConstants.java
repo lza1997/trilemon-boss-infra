@@ -1,4 +1,4 @@
-package com.trilemon.boss360.infrastructure.trade;
+package com.trilemon.boss.infra.trade;
 
 /**
  * @author kevin

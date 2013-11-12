@@ -1,4 +1,4 @@
-package com.trilemon.boss360.infrastructure.sms.model;
+package com.trilemon.boss.infra.sms.model;
 
 /**
  * @author kevin

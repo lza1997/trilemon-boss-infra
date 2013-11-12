@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.trilemon.boss360.infrastructure.base.dao.TaobaoApiUsageMapper">
-    <resultMap id="BaseResultMap" type="com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsage">
+<mapper namespace="com.trilemon.boss.infra.base.dao.TaobaoApiUsageMapper">
+    <resultMap id="BaseResultMap" type="com.trilemon.boss.infra.base.model.TaobaoApiUsage">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="service_name" property="serviceName" jdbcType="VARCHAR"/>
         <result column="service_id" property="serviceId" jdbcType="VARCHAR"/>
@@ -78,7 +78,7 @@
     avg_exec_time, add_time, upd_time
   </sql>
     <select id="selectByExample" resultMap="BaseResultMap"
-            parameterType="com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsageExample">
+            parameterType="com.trilemon.boss.infra.base.model.TaobaoApiUsageExample">
         select
         <if test="distinct">
             distinct
@@ -102,13 +102,13 @@
     delete from taobao_api_usage
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <delete id="deleteByExample" parameterType="com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsageExample">
+    <delete id="deleteByExample" parameterType="com.trilemon.boss.infra.base.model.TaobaoApiUsageExample">
         delete from taobao_api_usage
         <if test="_parameter != null">
             <include refid="Example_Where_Clause"/>
         </if>
     </delete>
-    <insert id="insert" parameterType="com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsage">
+    <insert id="insert" parameterType="com.trilemon.boss.infra.base.model.TaobaoApiUsage">
     insert into taobao_api_usage (id, service_name, service_id, 
       taobao_app_key, api_name, successful_call, 
       failed_call, avg_exec_time, add_time, 
@@ -118,7 +118,7 @@
       #{failedCall,jdbcType=BIGINT}, #{avgExecTime,jdbcType=INTEGER}, #{addTime,jdbcType=TIMESTAMP}, 
       #{updTime,jdbcType=TIMESTAMP})
   </insert>
-    <insert id="insertSelective" parameterType="com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsage">
+    <insert id="insertSelective" parameterType="com.trilemon.boss.infra.base.model.TaobaoApiUsage">
         insert into taobao_api_usage
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -185,7 +185,7 @@
             </if>
         </trim>
     </insert>
-    <select id="countByExample" parameterType="com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsageExample"
+    <select id="countByExample" parameterType="com.trilemon.boss.infra.base.model.TaobaoApiUsageExample"
             resultType="java.lang.Integer">
         select count(*) from taobao_api_usage
         <if test="_parameter != null">
@@ -247,7 +247,7 @@
         </if>
     </update>
     <update id="updateByPrimaryKeySelective"
-            parameterType="com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsage">
+            parameterType="com.trilemon.boss.infra.base.model.TaobaoApiUsage">
         update taobao_api_usage
         <set>
             <if test="serviceName != null">
@@ -280,7 +280,7 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.trilemon.boss360.infrastructure.base.model.TaobaoApiUsage">
+    <update id="updateByPrimaryKey" parameterType="com.trilemon.boss.infra.base.model.TaobaoApiUsage">
     update taobao_api_usage
     set service_name = #{serviceName,jdbcType=VARCHAR},
       service_id = #{serviceId,jdbcType=VARCHAR},
