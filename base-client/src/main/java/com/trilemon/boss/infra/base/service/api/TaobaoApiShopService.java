@@ -12,6 +12,7 @@ import com.taobao.api.response.*;
 import com.trilemon.boss.infra.base.client.BaseClient;
 import com.trilemon.boss.infra.base.model.TaobaoSession;
 import com.trilemon.boss.infra.base.model.dto.SellerCatExtended;
+import com.trilemon.boss.infra.base.model.dto.ShowcaseNum;
 import com.trilemon.boss.infra.base.service.TaobaoApiService;
 import com.trilemon.boss.infra.base.service.api.exception.TaobaoAccessControlException;
 import com.trilemon.boss.infra.base.service.api.exception.TaobaoEnhancedApiException;
@@ -601,14 +602,15 @@ public class TaobaoApiShopService {
     }
 
     /**
-     * 获取橱窗的使用情况，[总数，已使用，未使用]
+     * 获取橱窗的使用情况
      *
      * @param userId
-     * @return
+     * @return ShowcaseNum
      * @throws TaobaoEnhancedApiException
      * @throws TaobaoSessionExpiredException
      */
-    public Long[] getShowcaseRemain(Long userId) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException, TaobaoAccessControlException {
+    public ShowcaseNum getShowcaseStatus(Long userId) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException,
+            TaobaoAccessControlException {
         TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId, taobaoApiService.getAppKey());
         checkNotNull(taobaoSession, "taobaoSession must be not null, userId[%s]", userId);
 
@@ -618,7 +620,7 @@ public class TaobaoApiShopService {
         long allCount = response.getShop().getAllCount();
         long remainCount = response.getShop().getRemainCount();
         long usedCount = response.getShop().getUsedCount();
-        return new Long[]{allCount, usedCount, remainCount};
+        return new ShowcaseNum(allCount, usedCount,remainCount);
     }
 
     /**
@@ -681,7 +683,7 @@ public class TaobaoApiShopService {
             sellerCatExtended.setSellerCat(sellerCat);
             sellerCatExtended.setItemNum(sellerCatAndItemNum.get(sellerCat));
             //设置是否分类已经被占用了
-            if (null!=usedSellCats&&usedSellCats.contains(sellerCat.getCid())) {
+            if (null != usedSellCats && usedSellCats.contains(sellerCat.getCid())) {
                 sellerCatExtended.setUsed(true);
             }
             list.add(sellerCatExtended);
