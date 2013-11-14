@@ -56,10 +56,12 @@ public class RedisJobQueueService<T> implements JobQueueService<T> {
             jedisTemplate.setex(group.getBytes(), master, expireTime);
             master = jedisTemplate.getObj(group);
         }
-        if (null == master) {
+        if (null == master || null == master.getMaster()) {
             logger.warn("group[{}] has no master.", group);
+            isMaster = false;
+        } else {
+            isMaster = master.getMaster().equals(masterName);
         }
-        isMaster = master.getMaster().equals(masterName);
     }
 
     @Override
