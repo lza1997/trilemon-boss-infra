@@ -63,7 +63,14 @@ public class RedisJobQueueService<T> implements JobQueueService<T> {
     }
 
     @Override
-    public T getJob(String tag) {
+    public T getJob(final String tag) {
+        jedisTemplate.execute(new JedisTemplate.JedisAction<T>() {
+            @Override
+            public T action(Jedis jedis) {
+                byte[] result = jedis.lpop(tag.getBytes());
+                return (T) SerializationUtils.deserialize(result);
+            }
+        });
         return null;
     }
 
@@ -91,9 +98,9 @@ public class RedisJobQueueService<T> implements JobQueueService<T> {
     }
 
     public void doAddJobs(final String tag, List<T> jobs) {
-        final List<byte[]> byteOfJobs= Lists.newArrayList();
-        for(T job:jobs){
-            byteOfJobs.add( SerializationUtils.serialize(job));
+        final List<byte[]> byteOfJobs = Lists.newArrayList();
+        for (T job : jobs) {
+            byteOfJobs.add(SerializationUtils.serialize(job));
         }
         jedisTemplate.execute(new JedisTemplate.JedisAction<Long>() {
             @Override
@@ -125,5 +132,21 @@ public class RedisJobQueueService<T> implements JobQueueService<T> {
 
     public void setMasterName(String masterName) {
         this.masterName = masterName;
+    }
+
+    public JedisTemplate getJedisTemplate() {
+        return jedisTemplate;
+    }
+
+    public void setJedisTemplate(JedisTemplate jedisTemplate) {
+        this.jedisTemplate = jedisTemplate;
+    }
+
+    public int getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(int expireTime) {
+        this.expireTime = expireTime;
     }
 }
