@@ -106,9 +106,11 @@ public class TaobaoApiShopService {
      */
     @NotNull
     public Map<SellerCat, Long> getSellerCatAndInventoryItemNum(@NotNull Long userId,
-                                                                List<SellerCat> sellerCats) throws
+                                                                List<SellerCat> sellerCats,
+                                                                String banner) throws
             TaobaoEnhancedApiException, TaobaoSessionExpiredException, TaobaoAccessControlException {
         checkNotNull(userId, "userId must be not null.");
+        checkNotNull(sellerCats, "sellerCats must be not null.");
 
         Map<SellerCat, Long> result = Maps.newTreeMap(new Comparator<SellerCat>() {
             @Override
@@ -117,7 +119,7 @@ public class TaobaoApiShopService {
             }
         });
         for (SellerCat sellerCat : sellerCats) {
-            long num = getInventoryItemNum(userId, Lists.newArrayList(sellerCat.getCid()));
+            long num = getInventoryItemNum(userId, Lists.newArrayList(sellerCat.getCid()), banner);
             result.put(sellerCat, num);
         }
 
@@ -135,13 +137,15 @@ public class TaobaoApiShopService {
      * 获取库存商品数量，如果没有库存返回0
      *
      * @param userId
+     * @param banner
      * @return
      * @throws TaobaoAccessControlException
      * @throws TaobaoEnhancedApiException
      * @throws TaobaoSessionExpiredException
      */
     @NotNull
-    public long getInventoryItemNum(Long userId) throws TaobaoAccessControlException, TaobaoEnhancedApiException,
+    public long getInventoryItemNum(Long userId, String banner) throws TaobaoAccessControlException,
+            TaobaoEnhancedApiException,
             TaobaoSessionExpiredException {
         checkNotNull(userId, "userId must be not null.");
 
@@ -149,6 +153,7 @@ public class TaobaoApiShopService {
         request.setFields("num_iid");
         request.setPageNo(1L);
         request.setPageSize(1L);
+        request.setBanner(banner);
         ItemsInventoryGetResponse result = getInventoryItems(userId, request);
         Page<Item> page = Page.create(result.getTotalResults().intValue(), request.getPageNo().intValue(),
                 request.getPageSize().intValue(),
@@ -161,21 +166,45 @@ public class TaobaoApiShopService {
     }
 
     /**
+     * 获取全部分类的库存量
+     *
+     * @param userId
+     * @param banners
+     * @return
+     * @throws TaobaoAccessControlException
+     * @throws TaobaoEnhancedApiException
+     * @throws TaobaoSessionExpiredException
+     */
+    public Map<String, Long> getInventoryItemNum(Long userId, List<String> banners) throws TaobaoAccessControlException,
+            TaobaoEnhancedApiException,
+            TaobaoSessionExpiredException {
+        checkNotNull(userId, "userId must be not null.");
+
+        Map<String, Long> inventoryNumMap = Maps.newHashMap();
+        for (String banner : banners) {
+            inventoryNumMap.put(banner, getInventoryItemNum(userId, banner));
+        }
+        return inventoryNumMap;
+    }
+
+    /**
      * 获取指定分类的商品数量
      *
      * @param userId
-     * @param sellerCats
+     * @param sellerCats null查询所有分类
+     * @param banner
      * @return
      * @throws TaobaoEnhancedApiException
      * @throws TaobaoSessionExpiredException
      * @throws TaobaoAccessControlException
      */
     @NotNull
-    public long getInventoryItemNum(@NotNull Long userId, List<Long> sellerCats) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException, TaobaoAccessControlException {
-        checkNotNull(userId, "userId must be not null.");
+    public long getInventoryItemNum(@NotNull Long userId, List<Long> sellerCats, String banner)
+            throws TaobaoEnhancedApiException, TaobaoSessionExpiredException, TaobaoAccessControlException {
+        checkNotNull(userId, "userId must not be null.");
 
         if (null == sellerCats) {
-            return getOnSaleItemNum(userId);
+            return getInventoryItemNum(userId, banner);
         } else {
             long num = 0L;
             //淘宝 api 目前只支持一次性传入32个宝贝分类（参见http://api.taobao.com/apidoc/api.htm?spm=0.0.0.0.bANlsY&path=cid:4-apiId:18）。
@@ -184,6 +213,7 @@ public class TaobaoApiShopService {
                 ItemsInventoryGetRequest request = new ItemsInventoryGetRequest();
                 request.setFields("num_iid");
                 request.setSellerCids(Joiner.on(",").join(sellerCatsPartition));
+                request.setBanner(banner);
                 request.setPageNo(1L);
                 request.setPageSize(1L);
                 ItemsInventoryGetResponse result = getInventoryItems(userId, request);
@@ -620,7 +650,7 @@ public class TaobaoApiShopService {
         long allCount = response.getShop().getAllCount();
         long remainCount = response.getShop().getRemainCount();
         long usedCount = response.getShop().getUsedCount();
-        return new ShowcaseNum(allCount, usedCount,remainCount);
+        return new ShowcaseNum(allCount, usedCount, remainCount);
     }
 
     /**
@@ -646,34 +676,34 @@ public class TaobaoApiShopService {
      * 根据传入的分类 id 扩展分类（设置商品数量和是否被使用）
      *
      * @param userId
-     * @param usedSellCats 被使用的分类
+     * @param sellerCatIds 被使用的分类
      * @return
      * @throws TaobaoAccessControlException
      * @throws TaobaoEnhancedApiException
      * @throws TaobaoSessionExpiredException
      */
     public List<SellerCatExtended> getInventorySellerCatExtended(Long userId,
-                                                                 List<Long> usedSellCats) throws
+                                                                 List<Long> sellerCatIds, String banner) throws
             TaobaoAccessControlException,
             TaobaoEnhancedApiException,
             TaobaoSessionExpiredException {
         List<SellerCat> sellerCats = getSellerCats(userId);
-        Map<SellerCat, Long> sellerCatAndItemNum = getSellerCatAndInventoryItemNum(userId, sellerCats);
-        return getSellerCatExtended(sellerCatAndItemNum, usedSellCats);
+        Map<SellerCat, Long> sellerCatAndItemNum = getSellerCatAndInventoryItemNum(userId, sellerCats, banner);
+        return getSellerCatExtended(sellerCatAndItemNum, sellerCatIds);
     }
 
     /**
      * 得到扩展分类
      *
      * @param sellerCatAndItemNum
-     * @param usedSellCats
+     * @param usedSellCatIds
      * @return
      * @throws TaobaoAccessControlException
      * @throws TaobaoEnhancedApiException
      * @throws TaobaoSessionExpiredException
      */
     public List<SellerCatExtended> getSellerCatExtended(Map<SellerCat, Long> sellerCatAndItemNum,
-                                                        List<Long> usedSellCats) throws
+                                                        List<Long> usedSellCatIds) throws
             TaobaoAccessControlException,
             TaobaoEnhancedApiException,
             TaobaoSessionExpiredException {
@@ -683,12 +713,75 @@ public class TaobaoApiShopService {
             sellerCatExtended.setSellerCat(sellerCat);
             sellerCatExtended.setItemNum(sellerCatAndItemNum.get(sellerCat));
             //设置是否分类已经被占用了
-            if (null != usedSellCats && usedSellCats.contains(sellerCat.getCid())) {
+            if (null != usedSellCatIds && usedSellCatIds.contains(sellerCat.getCid())) {
                 sellerCatExtended.setUsed(true);
             }
             list.add(sellerCatExtended);
         }
         return list;
+    }
+
+    /**
+     * 获取仓库商品数量
+     *
+     * @param userId
+     * @param banners
+     * @param sellerCatIds
+     * @return
+     * @throws TaobaoSessionExpiredException
+     * @throws TaobaoEnhancedApiException
+     * @throws TaobaoAccessControlException
+     */
+    public Map<String, Long> getInventoryItemNum(Long userId, List<Long> sellerCatIds, List<String> banners)
+            throws TaobaoSessionExpiredException, TaobaoEnhancedApiException, TaobaoAccessControlException {
+        checkNotNull(userId, "userId must be not null.");
+        checkNotNull(userId, "inventoryTypes must be not null, userId[%s]", userId);
+
+        Map<String, Long> inventoryNumMap = Maps.newHashMap();
+        for (String banner : banners) {
+            inventoryNumMap.put(banner, getInventoryItemNum(userId, sellerCatIds, banner));
+        }
+        return inventoryNumMap;
+    }
+
+    /**
+     * 上架操作
+     *
+     * @param userId
+     * @param numIid
+     * @throws TaobaoAccessControlException
+     * @throws TaobaoEnhancedApiException
+     * @throws TaobaoSessionExpiredException
+     */
+    public void listItem(Long userId, Long numIid)
+            throws TaobaoAccessControlException, TaobaoEnhancedApiException, TaobaoSessionExpiredException {
+        TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId, taobaoApiService.getAppKey());
+        checkNotNull(taobaoSession, "taobaoSession must be not null, userId[%s]", userId);
+
+        ItemUpdateListingRequest listingRequest = new ItemUpdateListingRequest();
+        listingRequest.setNumIid(numIid);
+        Item item = getItem(userId, numIid, ImmutableList.of("num"));
+        listingRequest.setNum(item.getNum());
+        taobaoApiService.request(listingRequest, taobaoSession.getAccessToken());
+    }
+
+    /**
+     * 下架操作
+     *
+     * @param userId
+     * @param numIid
+     * @throws TaobaoAccessControlException
+     * @throws TaobaoEnhancedApiException
+     * @throws TaobaoSessionExpiredException
+     */
+    public void delistItem(Long userId, Long numIid) throws TaobaoAccessControlException, TaobaoEnhancedApiException, TaobaoSessionExpiredException {
+        TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId, taobaoApiService.getAppKey());
+        checkNotNull(taobaoSession, "taobaoSession must be not null, userId[%s]", userId);
+
+        ItemUpdateDelistingRequest request = new ItemUpdateDelistingRequest();
+        request.setNumIid(numIid);
+        //下架
+        taobaoApiService.request(request, taobaoSession.getAccessToken());
     }
 
     public TaobaoApiService getTaobaoApiService() {
