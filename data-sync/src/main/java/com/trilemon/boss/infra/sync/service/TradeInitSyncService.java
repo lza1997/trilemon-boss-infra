@@ -15,7 +15,7 @@ import com.trilemon.boss.infra.base.service.AbstractQueueService;
 import com.trilemon.boss.infra.base.service.AppService;
 import com.trilemon.boss.infra.base.service.api.EnhancedApiException;
 import com.trilemon.boss.infra.base.service.TaobaoApiService;
-import com.trilemon.boss.infra.trade.TradeConstants;
+import com.trilemon.boss.infra.sync.TradeConstants;
 import com.trilemon.boss.infra.trade.dao.TradeAsyncMapper;
 import com.trilemon.boss.infra.trade.model.TradeAsync;
 import com.trilemon.commons.DateUtils;

@@ -1,4 +1,4 @@
-package com.trilemon.boss.infra.trade;
+package com.trilemon.boss.infra.sync;
 
 /**
  * @author kevin
