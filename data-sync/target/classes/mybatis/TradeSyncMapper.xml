@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trilemon.boss360.infrastructure.trade.dao.TradeSyncMapper" >
+  <resultMap id="BaseResultMap" type="com.trilemon.boss360.infrastructure.trade.model.TradeSync" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="sync_app_key" property="syncAppKey" jdbcType="VARCHAR" />
+    <result column="sync_trade_start_time" property="syncTradeStartTime" jdbcType="TIMESTAMP" />
+    <result column="sync_trade_end_time" property="syncTradeEndTime" jdbcType="TIMESTAMP" />
+    <result column="sync_start_time" property="syncStartTime" jdbcType="TIMESTAMP" />
+    <result column="sync_end_time" property="syncEndTime" jdbcType="TIMESTAMP" />
+    <result column="sync_status" property="syncStatus" jdbcType="TINYINT" />
+    <result column="sync_lock" property="syncLock" jdbcType="TINYINT" />
+    <result column="sync_service_name" property="syncServiceName" jdbcType="VARCHAR" />
+    <result column="sync_service_id" property="syncServiceId" jdbcType="VARCHAR" />
+    <result column="check_trade_start_time" property="checkTradeStartTime" jdbcType="TIMESTAMP" />
+    <result column="check_trade_end_time" property="checkTradeEndTime" jdbcType="TIMESTAMP" />
+    <result column="check_start_time" property="checkStartTime" jdbcType="TIMESTAMP" />
+    <result column="check_end_time" property="checkEndTime" jdbcType="TIMESTAMP" />
+    <result column="check_status" property="checkStatus" jdbcType="TINYINT" />
+    <result column="check_lock" property="checkLock" jdbcType="TINYINT" />
+    <result column="check_service_name" property="checkServiceName" jdbcType="VARCHAR" />
+    <result column="check_service_id" property="checkServiceId" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="upd_time" property="updTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, sync_app_key, sync_trade_start_time, sync_trade_end_time, sync_start_time, 
+    sync_end_time, sync_status, sync_lock, sync_service_name, sync_service_id, check_trade_start_time, 
+    check_trade_end_time, check_start_time, check_end_time, check_status, check_lock, 
+    check_service_name, check_service_id, add_time, upd_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.trilemon.boss360.infrastructure.trade.model.TradeSyncExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from trade_sync
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from trade_sync
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from trade_sync
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.trilemon.boss360.infrastructure.trade.model.TradeSyncExample" >
+    delete from trade_sync
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.trilemon.boss360.infrastructure.trade.model.TradeSync" >
+    insert into trade_sync (id, user_id, sync_app_key, 
+      sync_trade_start_time, sync_trade_end_time, 
+      sync_start_time, sync_end_time, sync_status, 
+      sync_lock, sync_service_name, sync_service_id, 
+      check_trade_start_time, check_trade_end_time, 
+      check_start_time, check_end_time, check_status, 
+      check_lock, check_service_name, check_service_id, 
+      add_time, upd_time)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{syncAppKey,jdbcType=VARCHAR}, 
+      #{syncTradeStartTime,jdbcType=TIMESTAMP}, #{syncTradeEndTime,jdbcType=TIMESTAMP}, 
+      #{syncStartTime,jdbcType=TIMESTAMP}, #{syncEndTime,jdbcType=TIMESTAMP}, #{syncStatus,jdbcType=TINYINT}, 
+      #{syncLock,jdbcType=TINYINT}, #{syncServiceName,jdbcType=VARCHAR}, #{syncServiceId,jdbcType=VARCHAR}, 
+      #{checkTradeStartTime,jdbcType=TIMESTAMP}, #{checkTradeEndTime,jdbcType=TIMESTAMP}, 
+      #{checkStartTime,jdbcType=TIMESTAMP}, #{checkEndTime,jdbcType=TIMESTAMP}, #{checkStatus,jdbcType=TINYINT}, 
+      #{checkLock,jdbcType=TINYINT}, #{checkServiceName,jdbcType=VARCHAR}, #{checkServiceId,jdbcType=VARCHAR}, 
+      #{addTime,jdbcType=TIMESTAMP}, #{updTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.trilemon.boss360.infrastructure.trade.model.TradeSync" >
+    insert into trade_sync
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="syncAppKey != null" >
+        sync_app_key,
+      </if>
+      <if test="syncTradeStartTime != null" >
+        sync_trade_start_time,
+      </if>
+      <if test="syncTradeEndTime != null" >
+        sync_trade_end_time,
+      </if>
+      <if test="syncStartTime != null" >
+        sync_start_time,
+      </if>
+      <if test="syncEndTime != null" >
+        sync_end_time,
+      </if>
+      <if test="syncStatus != null" >
+        sync_status,
+      </if>
+      <if test="syncLock != null" >
+        sync_lock,
+      </if>
+      <if test="syncServiceName != null" >
+        sync_service_name,
+      </if>
+      <if test="syncServiceId != null" >
+        sync_service_id,
+      </if>
+      <if test="checkTradeStartTime != null" >
+        check_trade_start_time,
+      </if>
+      <if test="checkTradeEndTime != null" >
+        check_trade_end_time,
+      </if>
+      <if test="checkStartTime != null" >
+        check_start_time,
+      </if>
+      <if test="checkEndTime != null" >
+        check_end_time,
+      </if>
+      <if test="checkStatus != null" >
+        check_status,
+      </if>
+      <if test="checkLock != null" >
+        check_lock,
+      </if>
+      <if test="checkServiceName != null" >
+        check_service_name,
+      </if>
+      <if test="checkServiceId != null" >
+        check_service_id,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="updTime != null" >
+        upd_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="syncAppKey != null" >
+        #{syncAppKey,jdbcType=VARCHAR},
+      </if>
+      <if test="syncTradeStartTime != null" >
+        #{syncTradeStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncTradeEndTime != null" >
+        #{syncTradeEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncStartTime != null" >
+        #{syncStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncEndTime != null" >
+        #{syncEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncStatus != null" >
+        #{syncStatus,jdbcType=TINYINT},
+      </if>
+      <if test="syncLock != null" >
+        #{syncLock,jdbcType=TINYINT},
+      </if>
+      <if test="syncServiceName != null" >
+        #{syncServiceName,jdbcType=VARCHAR},
+      </if>
+      <if test="syncServiceId != null" >
+        #{syncServiceId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTradeStartTime != null" >
+        #{checkTradeStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkTradeEndTime != null" >
+        #{checkTradeEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkStartTime != null" >
+        #{checkStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkEndTime != null" >
+        #{checkEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkStatus != null" >
+        #{checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="checkLock != null" >
+        #{checkLock,jdbcType=TINYINT},
+      </if>
+      <if test="checkServiceName != null" >
+        #{checkServiceName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkServiceId != null" >
+        #{checkServiceId,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updTime != null" >
+        #{updTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.trilemon.boss360.infrastructure.trade.model.TradeSyncExample" resultType="java.lang.Integer" >
+    select count(*) from trade_sync
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update trade_sync
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.syncAppKey != null" >
+        sync_app_key = #{record.syncAppKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syncTradeStartTime != null" >
+        sync_trade_start_time = #{record.syncTradeStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.syncTradeEndTime != null" >
+        sync_trade_end_time = #{record.syncTradeEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.syncStartTime != null" >
+        sync_start_time = #{record.syncStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.syncEndTime != null" >
+        sync_end_time = #{record.syncEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.syncStatus != null" >
+        sync_status = #{record.syncStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.syncLock != null" >
+        sync_lock = #{record.syncLock,jdbcType=TINYINT},
+      </if>
+      <if test="record.syncServiceName != null" >
+        sync_service_name = #{record.syncServiceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syncServiceId != null" >
+        sync_service_id = #{record.syncServiceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkTradeStartTime != null" >
+        check_trade_start_time = #{record.checkTradeStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkTradeEndTime != null" >
+        check_trade_end_time = #{record.checkTradeEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkStartTime != null" >
+        check_start_time = #{record.checkStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkEndTime != null" >
+        check_end_time = #{record.checkEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkStatus != null" >
+        check_status = #{record.checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.checkLock != null" >
+        check_lock = #{record.checkLock,jdbcType=TINYINT},
+      </if>
+      <if test="record.checkServiceName != null" >
+        check_service_name = #{record.checkServiceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkServiceId != null" >
+        check_service_id = #{record.checkServiceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addTime != null" >
+        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updTime != null" >
+        upd_time = #{record.updTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update trade_sync
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      sync_app_key = #{record.syncAppKey,jdbcType=VARCHAR},
+      sync_trade_start_time = #{record.syncTradeStartTime,jdbcType=TIMESTAMP},
+      sync_trade_end_time = #{record.syncTradeEndTime,jdbcType=TIMESTAMP},
+      sync_start_time = #{record.syncStartTime,jdbcType=TIMESTAMP},
+      sync_end_time = #{record.syncEndTime,jdbcType=TIMESTAMP},
+      sync_status = #{record.syncStatus,jdbcType=TINYINT},
+      sync_lock = #{record.syncLock,jdbcType=TINYINT},
+      sync_service_name = #{record.syncServiceName,jdbcType=VARCHAR},
+      sync_service_id = #{record.syncServiceId,jdbcType=VARCHAR},
+      check_trade_start_time = #{record.checkTradeStartTime,jdbcType=TIMESTAMP},
+      check_trade_end_time = #{record.checkTradeEndTime,jdbcType=TIMESTAMP},
+      check_start_time = #{record.checkStartTime,jdbcType=TIMESTAMP},
+      check_end_time = #{record.checkEndTime,jdbcType=TIMESTAMP},
+      check_status = #{record.checkStatus,jdbcType=TINYINT},
+      check_lock = #{record.checkLock,jdbcType=TINYINT},
+      check_service_name = #{record.checkServiceName,jdbcType=VARCHAR},
+      check_service_id = #{record.checkServiceId,jdbcType=VARCHAR},
+      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      upd_time = #{record.updTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.trilemon.boss360.infrastructure.trade.model.TradeSync" >
+    update trade_sync
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="syncAppKey != null" >
+        sync_app_key = #{syncAppKey,jdbcType=VARCHAR},
+      </if>
+      <if test="syncTradeStartTime != null" >
+        sync_trade_start_time = #{syncTradeStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncTradeEndTime != null" >
+        sync_trade_end_time = #{syncTradeEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncStartTime != null" >
+        sync_start_time = #{syncStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncEndTime != null" >
+        sync_end_time = #{syncEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="syncStatus != null" >
+        sync_status = #{syncStatus,jdbcType=TINYINT},
+      </if>
+      <if test="syncLock != null" >
+        sync_lock = #{syncLock,jdbcType=TINYINT},
+      </if>
+      <if test="syncServiceName != null" >
+        sync_service_name = #{syncServiceName,jdbcType=VARCHAR},
+      </if>
+      <if test="syncServiceId != null" >
+        sync_service_id = #{syncServiceId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTradeStartTime != null" >
+        check_trade_start_time = #{checkTradeStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkTradeEndTime != null" >
+        check_trade_end_time = #{checkTradeEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkStartTime != null" >
+        check_start_time = #{checkStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkEndTime != null" >
+        check_end_time = #{checkEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkStatus != null" >
+        check_status = #{checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="checkLock != null" >
+        check_lock = #{checkLock,jdbcType=TINYINT},
+      </if>
+      <if test="checkServiceName != null" >
+        check_service_name = #{checkServiceName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkServiceId != null" >
+        check_service_id = #{checkServiceId,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updTime != null" >
+        upd_time = #{updTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.trilemon.boss360.infrastructure.trade.model.TradeSync" >
+    update trade_sync
+    set user_id = #{userId,jdbcType=BIGINT},
+      sync_app_key = #{syncAppKey,jdbcType=VARCHAR},
+      sync_trade_start_time = #{syncTradeStartTime,jdbcType=TIMESTAMP},
+      sync_trade_end_time = #{syncTradeEndTime,jdbcType=TIMESTAMP},
+      sync_start_time = #{syncStartTime,jdbcType=TIMESTAMP},
+      sync_end_time = #{syncEndTime,jdbcType=TIMESTAMP},
+      sync_status = #{syncStatus,jdbcType=TINYINT},
+      sync_lock = #{syncLock,jdbcType=TINYINT},
+      sync_service_name = #{syncServiceName,jdbcType=VARCHAR},
+      sync_service_id = #{syncServiceId,jdbcType=VARCHAR},
+      check_trade_start_time = #{checkTradeStartTime,jdbcType=TIMESTAMP},
+      check_trade_end_time = #{checkTradeEndTime,jdbcType=TIMESTAMP},
+      check_start_time = #{checkStartTime,jdbcType=TIMESTAMP},
+      check_end_time = #{checkEndTime,jdbcType=TIMESTAMP},
+      check_status = #{checkStatus,jdbcType=TINYINT},
+      check_lock = #{checkLock,jdbcType=TINYINT},
+      check_service_name = #{checkServiceName,jdbcType=VARCHAR},
+      check_service_id = #{checkServiceId,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      upd_time = #{updTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
