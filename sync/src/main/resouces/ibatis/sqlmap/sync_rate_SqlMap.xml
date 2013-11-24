@@ -17,34 +17,35 @@
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="reply" property="reply" jdbcType="VARCHAR" />
     <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
-    <result column="upd_time" property="updTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     user_id, num_iid, valid_score, tid, oid, role, nick, result, created, rated_nick, 
-    item_title, item_price, content, reply, add_time, upd_time
+    item_title, item_price, content, reply, add_time
+  </sql>
+  <sql id="Table_Name" >
+    sync_rate_#tableId:BIGINT#
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="com.trilemon.boss.infra.sync.model.SyncRate" >
     select 
     <include refid="sync_rate.Base_Column_List" />
-    from sync_rate
+    from <include refid="sync_rate.Table_Name" />
     where user_id = #userId:BIGINT#
   </select>
   <delete id="deleteByPrimaryKey" parameterClass="com.trilemon.boss.infra.sync.model.SyncRate" >
-    delete from sync_rate
-    where user_id = #userId:BIGINT#
+    DELETE FROM <include refid="sync_rate.Table_Name" />
+    WHERE user_id = #userId:BIGINT#
   </delete>
   <insert id="insert" parameterClass="com.trilemon.boss.infra.sync.model.SyncRate" >
-    insert into sync_rate (user_id, num_iid, valid_score, tid, oid, 
+    INSERT INTO <include refid="sync_rate.Table_Name" /> (user_id, num_iid, valid_score, tid, oid,
       role, nick, result, created, rated_nick, 
-      item_title, item_price, content, reply, add_time, 
-      upd_time)
-    values (#userId:BIGINT#, #numIid:BIGINT#, #validScore:BIT#, #tid:BIGINT#, #oid:BIGINT#, 
+      item_title, item_price, content, reply, add_time)
+    VALUES (#userId:BIGINT#, #numIid:BIGINT#, #validScore:BIT#, #tid:BIGINT#, #oid:BIGINT#,
       #role:VARCHAR#, #nick:VARCHAR#, #result:VARCHAR#, #created:TIMESTAMP#, #ratedNick:VARCHAR#, 
       #itemTitle:VARCHAR#, #itemPrice:DECIMAL#, #content:VARCHAR#, #reply:VARCHAR#, #addTime:TIMESTAMP#, 
       #updTime:TIMESTAMP#)
   </insert>
   <insert id="insertSelective" parameterClass="com.trilemon.boss.infra.sync.model.SyncRate" >
-    insert into sync_rate
+    insert into <include refid="sync_rate.Table_Name" />
     <dynamic prepend="(" >
       <isNotNull prepend="," property="userId" >
         user_id
@@ -90,9 +91,6 @@
       </isNotNull>
       <isNotNull prepend="," property="addTime" >
         add_time
-      </isNotNull>
-      <isNotNull prepend="," property="updTime" >
-        upd_time
       </isNotNull>
       )
     </dynamic>
@@ -150,7 +148,7 @@
     </dynamic>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterClass="com.trilemon.boss.infra.sync.model.SyncRate" >
-    update sync_rate
+    update <include refid="sync_rate.Table_Name" />
     <dynamic prepend="set" >
       <isNotNull prepend="," property="numIid" >
         num_iid = #numIid:BIGINT#
@@ -194,15 +192,12 @@
       <isNotNull prepend="," property="addTime" >
         add_time = #addTime:TIMESTAMP#
       </isNotNull>
-      <isNotNull prepend="," property="updTime" >
-        upd_time = #updTime:TIMESTAMP#
-      </isNotNull>
     </dynamic>
     where user_id = #userId:BIGINT#
   </update>
   <update id="updateByPrimaryKey" parameterClass="com.trilemon.boss.infra.sync.model.SyncRate" >
-    update sync_rate
-    set num_iid = #numIid:BIGINT#,
+    UPDATE <include refid="sync_rate.Table_Name" />
+    SET num_iid = #numIid:BIGINT#,
       valid_score = #validScore:BIT#,
       tid = #tid:BIGINT#,
       oid = #oid:BIGINT#,
@@ -215,8 +210,7 @@
       item_price = #itemPrice:DECIMAL#,
       content = #content:VARCHAR#,
       reply = #reply:VARCHAR#,
-      add_time = #addTime:TIMESTAMP#,
-      upd_time = #updTime:TIMESTAMP#
-    where user_id = #userId:BIGINT#
+      add_time = #addTime:TIMESTAMP#
+    WHERE user_id = #userId:BIGINT#
   </update>
 </sqlMap>

@@ -63,10 +63,15 @@ public class AppService {
         this.serviceId = serviceId;
     }
 
-    public void addThread(String name,ThreadPoolExecutor threadPoolExecutor) {
-        threadMap.put(name,threadPoolExecutor);
+    public void addThread(String name, ThreadPoolExecutor threadPoolExecutor) {
+        threadMap.put(name, threadPoolExecutor);
     }
-    public void addThreads(Map<String,ThreadPoolExecutor> threadPoolExecutorMap) {
+
+    public void addThreads(Map<String, ThreadPoolExecutor> threadPoolExecutorMap) {
         threadMap.putAll(threadPoolExecutorMap);
+    }
+
+    public String getOwner() {
+        return serviceName + "-" + serviceId;
     }
 }

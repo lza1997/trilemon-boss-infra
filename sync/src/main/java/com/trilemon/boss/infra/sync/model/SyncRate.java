@@ -1,9 +1,11 @@
 package com.trilemon.boss.infra.sync.model;
 
+import com.alibaba.cobarclient.ShardTable;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class SyncRate {
+public class SyncRate extends ShardTable {
     private Long userId;
 
     private Long numIid;

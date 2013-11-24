@@ -47,7 +47,7 @@
 
     <!-- 定义总router -->
     <bean id="router" class="com.alibaba.cobarclient.config.SimpleRouterFactoryBean">
-        <property name="configLocation" value="classpath:/cobarclient/sharding-rules.xml"/>
+        <property name="configLocation" value="classpath:/cobarclient/shard-rules.xml"/>
         <property name="functions" ref="functionsMap"/>
         <property name="shards" ref="shards"/>
     </bean>

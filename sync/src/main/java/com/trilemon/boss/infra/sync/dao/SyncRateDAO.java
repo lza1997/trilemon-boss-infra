@@ -1,9 +1,9 @@
 package com.trilemon.boss.infra.sync.dao;
 
 import com.trilemon.boss.infra.sync.model.SyncRate;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import java.util.List;
+
 public interface SyncRateDAO {
     int deleteByPrimaryKey(Long userId);
 
@@ -16,4 +16,6 @@ public interface SyncRateDAO {
     int updateByPrimaryKeySelective(SyncRate record);
 
     int updateByPrimaryKey(SyncRate record);
+
+    int batchInsertSelective(List<SyncRate> records);
 }

@@ -1,6 +1,7 @@
 package com.trilemon.boss.infra.sync.dao.impl;
 
 import com.alibaba.cobarclient.MysdalCobarSqlMapClientDaoSupport;
+import com.google.common.collect.ImmutableList;
 import com.trilemon.boss.infra.sync.dao.SyncStatusDAO;
 import com.trilemon.boss.infra.sync.model.SyncStatus;
 
@@ -40,5 +41,19 @@ public class SyncStatusDAOImpl extends MysdalCobarSqlMapClientDaoSupport impleme
     public int updateByPrimaryKey(SyncStatus record) {
         int rows = getSqlMapClientTemplate().update("sync_status.updateByPrimaryKey", record);
         return rows;
+    }
+
+    @Override
+    public SyncStatus selectByUserId(Long userId) {
+        SyncStatus _key = new SyncStatus();
+        _key.setUserId(userId);
+        SyncStatus record = (SyncStatus) getSqlMapClientTemplate().queryForObject("sync_status.selectByUserId",
+                _key);
+        return record;
+    }
+
+    @Override
+    public int deleteByRateSyncOwnerAndStatus(String owner, ImmutableList<Byte> statusList) {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

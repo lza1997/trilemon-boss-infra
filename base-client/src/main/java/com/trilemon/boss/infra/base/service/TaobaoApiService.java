@@ -95,7 +95,7 @@ public class TaobaoApiService {
                 if (null != subCode) {
                     if (subCode.equals("session-expired")) {
                         throw new TaobaoSessionExpiredException(request, response);
-                    } else if (subCode.equals("accesscontrol.limited-by-api-access-count")) {
+                    } else if (subCode.contains("accesscontrol")) {
                         throw new TaobaoAccessControlException(request, response);
                     }
                 }

@@ -784,6 +784,26 @@ public class TaobaoApiShopService {
         taobaoApiService.request(request, taobaoSession.getAccessToken());
     }
 
+    /**
+     * 获取评论
+     *
+     * @param userId
+     * @param request
+     * @return ItemsOnsaleGetResponse
+     * @throws TaobaoEnhancedApiException
+     */
+    public TraderatesGetResponse getRates(Long userId, TraderatesGetRequest request) throws
+            TaobaoEnhancedApiException, TaobaoSessionExpiredException, TaobaoAccessControlException {
+        checkNotNull(userId, "userId must be not null.");
+        checkNotNull(request, "request must be not null.");
+
+        TaobaoSession taobaoSession = baseClient.getTaobaoSession(userId, taobaoApiService.getAppKey());
+        checkNotNull(taobaoSession, "taobaoSession must be not null, userId[%s]", userId);
+
+        return taobaoApiService.requestWithAppKey(request, taobaoApiService.getAppKey(),
+                taobaoSession.getAccessToken());
+    }
+
     public TaobaoApiService getTaobaoApiService() {
         return taobaoApiService;
     }

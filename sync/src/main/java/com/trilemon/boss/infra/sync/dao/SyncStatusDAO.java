@@ -1,5 +1,6 @@
 package com.trilemon.boss.infra.sync.dao;
 
+import com.google.common.collect.ImmutableList;
 import com.trilemon.boss.infra.sync.model.SyncStatus;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,8 @@ public interface SyncStatusDAO {
     int updateByPrimaryKeySelective(SyncStatus record);
 
     int updateByPrimaryKey(SyncStatus record);
+
+    SyncStatus selectByUserId(Long userId);
+
+    int deleteByRateSyncOwnerAndStatus(String owner, ImmutableList<Byte> statusList);
 }
