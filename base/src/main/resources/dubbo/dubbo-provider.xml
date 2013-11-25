@@ -19,7 +19,6 @@
     <dubbo:service interface="com.trilemon.boss.infra.base.client.BaseClient" ref="baseClient"/>
 
     <!-- 和本地bean一样实现服务 -->
-    <bean id="baseClient" class="com.trilemon.boss.infra.base.client.impl.BaseClientImpl"/>
     <dubbo:registry protocol="zookeeper" address="${zk}"/>
 
     <beans profile="development">

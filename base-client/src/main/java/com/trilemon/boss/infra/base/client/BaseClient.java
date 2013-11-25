@@ -1,13 +1,15 @@
 package com.trilemon.boss.infra.base.client;
 
-import com.trilemon.boss.infra.base.service.api.exception.TaobaoAccessControlException;
-import com.trilemon.boss.infra.base.service.api.exception.TaobaoEnhancedApiException;
-import com.trilemon.boss.infra.base.service.api.exception.TaobaoSessionExpiredException;
+import com.trilemon.boss.infra.base.model.BuyerBlacklist;
 import com.trilemon.boss.infra.base.model.TaobaoApp;
 import com.trilemon.boss.infra.base.model.TaobaoSeller;
 import com.trilemon.boss.infra.base.model.TaobaoSession;
+import com.trilemon.boss.infra.base.service.api.exception.TaobaoAccessControlException;
+import com.trilemon.boss.infra.base.service.api.exception.TaobaoEnhancedApiException;
+import com.trilemon.boss.infra.base.service.api.exception.TaobaoSessionExpiredException;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author kevin
@@ -46,4 +48,12 @@ public interface BaseClient {
     void createSeller(String accessToken, String appKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException, TaobaoAccessControlException;
 
     void saveOrUpdateTaobaoSession(TaobaoSession taobaoSession);
+
+    void addBuyerBlacklist(BuyerBlacklist buyerBlacklist);
+    void addBuyerBlacklists(List<BuyerBlacklist> buyerBlacklists);
+
+    void updateBuyerBlacklist(BuyerBlacklist buyerBlacklist);
+
+    void deleteBuyerBlacklist(Long userId,String buyerNick,byte type);
+
 }

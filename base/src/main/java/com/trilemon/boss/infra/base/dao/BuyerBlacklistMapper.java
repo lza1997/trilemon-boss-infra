@@ -28,4 +28,9 @@ public interface BuyerBlacklistMapper {
     int updateByPrimaryKeySelective(BuyerBlacklist record);
 
     int updateByPrimaryKey(BuyerBlacklist record);
+
+    void deleteByUserIdAndBuyerNickAndType(@Param("userId") Long userId, @Param("buyerNick") String buyerNick,
+                                           @Param("type") Byte type);
+
+    void updateByUserIdAndBuyerNickAndType(BuyerBlacklist buyerBlacklist);
 }

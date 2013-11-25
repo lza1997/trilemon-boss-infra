@@ -29,4 +29,5 @@ public interface BaseConstants {
             "split_seller_fee", "refund_id", "tid", "oid", "alipay_no", "total_fee", "buyer_nick", "seller_nick", "created", "modified",
             "order_status", "status", "good_status", "has_good_return", "refund_fee", "payment", "reason", "desc", "title",
             "price", "num", "good_return_time", "company_name", "sid", "address", "refund_remind_timeout", "num_iid");
+    byte BLACKLIST_TYPE_RATE = 1;
 }

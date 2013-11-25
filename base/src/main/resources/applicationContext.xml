@@ -65,6 +65,10 @@
 
     <bean id="baseClient" class="com.trilemon.boss.infra.base.client.impl.BaseClientImpl"/>
 
+    <bean id="myBatisBatchWriter" class="com.trilemon.commons.mybatis.MyBatisBatchWriter">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <!-- 基本属性 url、user、password -->
         <property name="url" value="${jdbc_url}"/>

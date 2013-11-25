@@ -1,19 +1,21 @@
 package com.trilemon.boss.infra.base.client.impl;
 
+import com.trilemon.boss.infra.base.client.BaseClient;
+import com.trilemon.boss.infra.base.model.BuyerBlacklist;
+import com.trilemon.boss.infra.base.model.TaobaoApp;
+import com.trilemon.boss.infra.base.model.TaobaoSeller;
+import com.trilemon.boss.infra.base.model.TaobaoSession;
 import com.trilemon.boss.infra.base.service.TaobaoAppService;
 import com.trilemon.boss.infra.base.service.TaobaoSessionService;
 import com.trilemon.boss.infra.base.service.TaobaoShopService;
 import com.trilemon.boss.infra.base.service.api.exception.TaobaoAccessControlException;
 import com.trilemon.boss.infra.base.service.api.exception.TaobaoEnhancedApiException;
 import com.trilemon.boss.infra.base.service.api.exception.TaobaoSessionExpiredException;
-import com.trilemon.boss.infra.base.client.BaseClient;
-import com.trilemon.boss.infra.base.model.TaobaoApp;
-import com.trilemon.boss.infra.base.model.TaobaoSeller;
-import com.trilemon.boss.infra.base.model.TaobaoSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author kevin
@@ -50,6 +52,26 @@ public class BaseClientImpl implements BaseClient {
     @Override
     public void saveOrUpdateTaobaoSession(TaobaoSession taobaoSession) {
         taobaoSessionService.saveOrUpdateTaobaoSession(taobaoSession);
+    }
+
+    @Override
+    public void addBuyerBlacklist(BuyerBlacklist buyerBlacklist) {
+        taobaoShopService.addBuyerBlacklist(buyerBlacklist);
+    }
+
+    @Override
+    public void addBuyerBlacklists(List<BuyerBlacklist> buyerBlacklists) {
+        taobaoShopService.addBuyerBlacklists(buyerBlacklists);
+    }
+
+    @Override
+    public void updateBuyerBlacklist(BuyerBlacklist buyerBlacklist) {
+        taobaoShopService.updateBuyerBlacklist(buyerBlacklist);
+    }
+
+    @Override
+    public void deleteBuyerBlacklist(Long userId, String buyerNick, byte type) {
+        taobaoShopService.deleteBuyerBlacklist(userId, buyerNick, type);
     }
 
     @Override
