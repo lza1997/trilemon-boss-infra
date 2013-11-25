@@ -44,9 +44,12 @@ public class TaobaoApiService {
 
     public void initTaobaoClient() {
         TaobaoApp taobaoApp = baseClient.getTaobaoApp(taobaoAppKey);
+        if (null == taobaoApp) {
+            throw new RuntimeException("init taobao client fail, app key[" + taobaoAppKey + "]");
+        }
         taobaoClient = new AutoRetryTaobaoClient(taobaoApp.getAppCallbackUrl(),
                 taobaoApp.getAppKey(), taobaoApp.getAppSecret());
-        logger.info("init taobao client successfully, appKey[{}].", taobaoApp.getAppKey());
+        logger.info("init taobao client successfully, app key[{}].", taobaoApp.getAppKey());
     }
 
     public <REQ extends TaobaoRequest<RES>, RES extends TaobaoResponse> RES requestWithAppKey(REQ req,

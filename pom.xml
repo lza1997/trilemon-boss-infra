@@ -26,7 +26,6 @@
         <module>base-client</module>
         <!--<module>sms</module>-->
         <!--<module>sms-client</module>-->
-        <module>sync</module>
     </modules>
     <packaging>pom</packaging>
 
