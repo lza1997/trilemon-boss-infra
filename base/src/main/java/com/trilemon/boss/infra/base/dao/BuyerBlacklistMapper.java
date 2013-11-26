@@ -33,4 +33,14 @@ public interface BuyerBlacklistMapper {
                                            @Param("type") Byte type);
 
     void updateByUserIdAndBuyerNickAndType(BuyerBlacklist buyerBlacklist);
+
+    List<BuyerBlacklist> paginateBuyerBlacklist(@Param("userId") Long userId,
+                                                @Param("type") Byte type,
+                                                @Param("offset") Integer offset,
+                                                @Param("limit") Integer limit,
+                                                @Param("sortField") String sortField,
+                                                @Param("sortType") String sortType);
+
+    BuyerBlacklist selectByUserIdAndBuyerNick(@Param("userId")Long userId,
+                                              @Param("buyerNick")String buyerNick);
 }

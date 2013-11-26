@@ -74,4 +74,12 @@ public class TaobaoShopService {
     public void deleteBuyerBlacklist(Long userId,String buyerNick,byte type) {
         blacklistMapper.deleteByUserIdAndBuyerNickAndType(userId,buyerNick,type);
     }
+
+    public List<BuyerBlacklist>  paginateBuyerBlacklist(long userId, byte type, int pageNum, int pageSize, String sortField, String sortType) {
+       return blacklistMapper.paginateBuyerBlacklist(userId,type,(pageNum-1)*pageSize,pageSize,sortField,sortType);
+    }
+
+    public BuyerBlacklist getBuyerBlacklist(Long userId, String buyerNick) {
+        return blacklistMapper.selectByUserIdAndBuyerNick(userId,buyerNick);
+    }
 }

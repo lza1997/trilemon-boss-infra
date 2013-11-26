@@ -55,6 +55,12 @@ public class BaseClientImpl implements BaseClient {
     }
 
     @Override
+    public List<BuyerBlacklist> paginateBuyerBlacklist(long userId, byte type, int pageNum, int pageSize, String sortField,
+                                                       String sortType) {
+        return taobaoShopService.paginateBuyerBlacklist(userId, type, pageNum, pageSize, sortField, sortType);
+    }
+
+    @Override
     public void addBuyerBlacklist(BuyerBlacklist buyerBlacklist) {
         taobaoShopService.addBuyerBlacklist(buyerBlacklist);
     }
@@ -72,6 +78,11 @@ public class BaseClientImpl implements BaseClient {
     @Override
     public void deleteBuyerBlacklist(Long userId, String buyerNick, byte type) {
         taobaoShopService.deleteBuyerBlacklist(userId, buyerNick, type);
+    }
+
+    @Override
+    public BuyerBlacklist getBuyerBlacklist(Long userId, String buyerNick) {
+        return taobaoShopService.getBuyerBlacklist(userId, buyerNick);
     }
 
     @Override

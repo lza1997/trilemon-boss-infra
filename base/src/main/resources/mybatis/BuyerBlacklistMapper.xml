@@ -296,4 +296,22 @@
         AND buyer_nick=#{buyerNick,jdbcType=VARCHAR}
         AND type=#{type,jdbcType=TINYINT}
     </update>
+    <select id="paginateBuyerBlacklist" resultMap="BaseResultMap"
+            parameterType="map">
+        select id from buyer_blacklist
+        where
+        user_id = #{userId,jdbcType=BIGINT}
+        and type = #{type,jdbcType=TINYINT}
+        limit ${offset}, ${limit}
+        <if test="sortField != null">
+            order by ${sortField} ${sortType}
+        </if>
+    </select>
+    <select id="selectByUserIdAndBuyerNick" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from buyer_blacklist
+        where user_id = #{userId,jdbcType=BIGINT}
+        and buyer_nick = #{buyerNick,jdbcType=VARCHAR}
+    </select>
 </mapper>

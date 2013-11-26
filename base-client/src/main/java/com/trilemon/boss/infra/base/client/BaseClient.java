@@ -49,11 +49,16 @@ public interface BaseClient {
 
     void saveOrUpdateTaobaoSession(TaobaoSession taobaoSession);
 
+    List<BuyerBlacklist> paginateBuyerBlacklist(long userId, byte type, int pageNum, int pageSize, String sortField,
+                                                String sortType);
+
     void addBuyerBlacklist(BuyerBlacklist buyerBlacklist);
+
     void addBuyerBlacklists(List<BuyerBlacklist> buyerBlacklists);
 
     void updateBuyerBlacklist(BuyerBlacklist buyerBlacklist);
 
-    void deleteBuyerBlacklist(Long userId,String buyerNick,byte type);
+    void deleteBuyerBlacklist(Long userId, String buyerNick, byte type);
 
+    BuyerBlacklist getBuyerBlacklist(Long userId, String buyerNick);
 }
