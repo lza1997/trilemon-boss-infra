@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.taobao.api.domain.Item;
 import com.taobao.api.domain.SellerCat;
+import com.taobao.api.domain.TradeRate;
 import com.taobao.api.request.*;
 import com.taobao.api.response.*;
 import com.trilemon.boss.infra.base.client.BaseClient;
@@ -18,7 +19,6 @@ import com.trilemon.boss.infra.base.service.api.exception.TaobaoAccessControlExc
 import com.trilemon.boss.infra.base.service.api.exception.TaobaoEnhancedApiException;
 import com.trilemon.boss.infra.base.service.api.exception.TaobaoSessionExpiredException;
 import com.trilemon.boss.infra.base.util.TopApiUtils;
-import com.trilemon.commons.Collections3;
 import com.trilemon.commons.web.Page;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -30,6 +30,7 @@ import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.trilemon.commons.Collections3.COMMA_JOINER;
 
 /**
  * @author kevin
@@ -370,7 +371,7 @@ public class TaobaoApiShopService {
         }
 
         ItemsOnsaleGetRequest request = new ItemsOnsaleGetRequest();
-        request.setFields(Collections3.COMMA_JOINER.join(fields));
+        request.setFields(COMMA_JOINER.join(fields));
         request.setQ(query);
         request.setPageNo(pageNum);
         request.setPageSize(pageSize);
@@ -443,16 +444,16 @@ public class TaobaoApiShopService {
         }
 
         ItemsInventoryGetRequest request = new ItemsInventoryGetRequest();
-        request.setFields(Collections3.COMMA_JOINER.join(fields));
+        request.setFields(COMMA_JOINER.join(fields));
         request.setQ(query);
-        request.setBanner(Collections3.COMMA_JOINER.join(banners));
+        request.setBanner(COMMA_JOINER.join(banners));
         request.setPageNo(pageNum);
         request.setPageSize(pageSize);
         request.setOrderBy(orderBy);
         if (CollectionUtils.isNotEmpty(sellerCatIds)) {
             checkArgument(sellerCatIds.size() <= 32, "seller cid num should <= 32, http://api.taobao.com/apidoc/api" +
                     ".htm?spm=0.0.0.0.bANlsY&path=cid:4-apiId:18");
-            request.setSellerCids(Collections3.COMMA_JOINER.join(sellerCatIds));
+            request.setSellerCids(COMMA_JOINER.join(sellerCatIds));
         }
         ItemsInventoryGetResponse result = getInventoryItems(userId, request);
         return Page.create(result.getTotalResults().intValue(), request.getPageNo().intValue(),
@@ -541,7 +542,7 @@ public class TaobaoApiShopService {
         for (List<Long> partition : numIidPartitions) {
             ItemsListGetRequest request = new ItemsListGetRequest();
             request.setFields(Joiner.on(",").join(fields));
-            request.setNumIids(Collections3.COMMA_JOINER.join(partition));
+            request.setNumIids(COMMA_JOINER.join(partition));
             ItemsListGetResponse response = taobaoApiService.requestWithAppKey(request, taobaoApiService.getAppKey(),
                     taobaoSession.getAccessToken());
             items.addAll(response.getItems());
@@ -802,6 +803,28 @@ public class TaobaoApiShopService {
 
         return taobaoApiService.requestWithAppKey(request, taobaoApiService.getAppKey(),
                 taobaoSession.getAccessToken());
+    }
+
+    /**
+     * 获取卖家某个trade 或者 order 的评论
+     *
+     * @param userId
+     * @param tidOrOid
+     * @return ItemsOnsaleGetResponse
+     * @throws TaobaoEnhancedApiException
+     */
+    public List<TradeRate> getBuyerRates(Long userId, Long tidOrOid) throws
+            TaobaoEnhancedApiException, TaobaoSessionExpiredException, TaobaoAccessControlException {
+        checkNotNull(userId, "userId must be not null.");
+        checkNotNull(tidOrOid, "tidOrOid must be not null.");
+
+        TraderatesGetRequest request = new TraderatesGetRequest();
+        request.setFields("get");
+        request.setRole("buyer");
+        request.setTid(tidOrOid);
+        request.setUseHasNext(true);
+        TraderatesGetResponse response = getRates(userId, request);
+        return response.getTradeRates();
     }
 
     public TaobaoApiService getTaobaoApiService() {
