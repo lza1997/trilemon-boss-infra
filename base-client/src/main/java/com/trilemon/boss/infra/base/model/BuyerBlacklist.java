@@ -1,8 +1,9 @@
 package com.trilemon.boss.infra.base.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class BuyerBlacklist {
+public class BuyerBlacklist implements Serializable {
     private Long id;
 
     private Long userId;
