@@ -813,16 +813,17 @@ public class TaobaoApiShopService {
      * @return ItemsOnsaleGetResponse
      * @throws TaobaoEnhancedApiException
      */
-    public List<TradeRate> getBuyerRates(Long userId, Long tidOrOid) throws
+    public List<TradeRate> getBuyerRates(Long userId, Long tidOrOid,List<String> fields) throws
             TaobaoEnhancedApiException, TaobaoSessionExpiredException, TaobaoAccessControlException {
         checkNotNull(userId, "userId must be not null.");
         checkNotNull(tidOrOid, "tidOrOid must be not null.");
 
         TraderatesGetRequest request = new TraderatesGetRequest();
-        request.setFields("get");
+        request.setFields(COMMA_JOINER.join(fields));
         request.setRole("buyer");
         request.setTid(tidOrOid);
         request.setUseHasNext(true);
+        request.setRateType("get");
         TraderatesGetResponse response = getRates(userId, request);
         return response.getTradeRates();
     }

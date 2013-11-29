@@ -29,6 +29,10 @@ public interface BaseConstants {
             "split_seller_fee", "refund_id", "tid", "oid", "alipay_no", "total_fee", "buyer_nick", "seller_nick", "created", "modified",
             "order_status", "status", "good_status", "has_good_return", "refund_fee", "payment", "reason", "desc", "title",
             "price", "num", "good_return_time", "company_name", "sid", "address", "refund_remind_timeout", "num_iid");
+    //rate field
+    List<String> RATE_FIELDS = ImmutableList.of("num_iid", "valid_score", "tid", "oid", "role", "nick", "result", "created",
+            "rated_nick", "item_title", "item_price", "content", "reply");
+    List<String> RATE_TYPES = ImmutableList.of("good", "neutral", "bad");
     //黑名单类型
     byte BLACKLIST_TYPE_RATE = 1;
     //黑名单状态
