@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="taobao_api_usage" >
+  <resultMap id="BaseResultMap" class="com.trilemon.boss.infra.base.model.TaobaoApiUsage" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="service_name" property="serviceName" jdbcType="VARCHAR" />
+    <result column="service_id" property="serviceId" jdbcType="VARCHAR" />
+    <result column="taobao_app_key" property="taobaoAppKey" jdbcType="VARCHAR" />
+    <result column="api_name" property="apiName" jdbcType="VARCHAR" />
+    <result column="successful_call" property="successfulCall" jdbcType="BIGINT" />
+    <result column="failed_call" property="failedCall" jdbcType="BIGINT" />
+    <result column="avg_exec_time" property="avgExecTime" jdbcType="INTEGER" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="upd_time" property="updTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, service_name, service_id, taobao_app_key, api_name, successful_call, failed_call, 
+    avg_exec_time, add_time, upd_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="com.trilemon.boss.infra.base.model.TaobaoApiUsage" >
+    select 
+    <include refid="taobao_api_usage.Base_Column_List" />
+    from taobao_api_usage
+    where id = #id:INTEGER#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.TaobaoApiUsage" >
+    delete from taobao_api_usage
+    where id = #id:INTEGER#
+  </delete>
+  <insert id="insert" parameterClass="com.trilemon.boss.infra.base.model.TaobaoApiUsage" >
+    insert into taobao_api_usage (id, service_name, service_id, taobao_app_key, 
+      api_name, successful_call, failed_call, avg_exec_time, 
+      add_time, upd_time)
+    values (#id:INTEGER#, #serviceName:VARCHAR#, #serviceId:VARCHAR#, #taobaoAppKey:VARCHAR#, 
+      #apiName:VARCHAR#, #successfulCall:BIGINT#, #failedCall:BIGINT#, #avgExecTime:INTEGER#, 
+      #addTime:TIMESTAMP#, #updTime:TIMESTAMP#)
+  </insert>
+  <insert id="insertSelective" parameterClass="com.trilemon.boss.infra.base.model.TaobaoApiUsage" >
+    insert into taobao_api_usage
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="serviceName" >
+        service_name
+      </isNotNull>
+      <isNotNull prepend="," property="serviceId" >
+        service_id
+      </isNotNull>
+      <isNotNull prepend="," property="taobaoAppKey" >
+        taobao_app_key
+      </isNotNull>
+      <isNotNull prepend="," property="apiName" >
+        api_name
+      </isNotNull>
+      <isNotNull prepend="," property="successfulCall" >
+        successful_call
+      </isNotNull>
+      <isNotNull prepend="," property="failedCall" >
+        failed_call
+      </isNotNull>
+      <isNotNull prepend="," property="avgExecTime" >
+        avg_exec_time
+      </isNotNull>
+      <isNotNull prepend="," property="addTime" >
+        add_time
+      </isNotNull>
+      <isNotNull prepend="," property="updTime" >
+        upd_time
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        #id:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="serviceName" >
+        #serviceName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="serviceId" >
+        #serviceId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="taobaoAppKey" >
+        #taobaoAppKey:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="apiName" >
+        #apiName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="successfulCall" >
+        #successfulCall:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="failedCall" >
+        #failedCall:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="avgExecTime" >
+        #avgExecTime:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="addTime" >
+        #addTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="updTime" >
+        #updTime:TIMESTAMP#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.trilemon.boss.infra.base.model.TaobaoApiUsage" >
+    update taobao_api_usage
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="serviceName" >
+        service_name = #serviceName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="serviceId" >
+        service_id = #serviceId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="taobaoAppKey" >
+        taobao_app_key = #taobaoAppKey:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="apiName" >
+        api_name = #apiName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="successfulCall" >
+        successful_call = #successfulCall:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="failedCall" >
+        failed_call = #failedCall:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="avgExecTime" >
+        avg_exec_time = #avgExecTime:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="addTime" >
+        add_time = #addTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="updTime" >
+        upd_time = #updTime:TIMESTAMP#
+      </isNotNull>
+    </dynamic>
+    where id = #id:INTEGER#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.TaobaoApiUsage" >
+    update taobao_api_usage
+    set service_name = #serviceName:VARCHAR#,
+      service_id = #serviceId:VARCHAR#,
+      taobao_app_key = #taobaoAppKey:VARCHAR#,
+      api_name = #apiName:VARCHAR#,
+      successful_call = #successfulCall:BIGINT#,
+      failed_call = #failedCall:BIGINT#,
+      avg_exec_time = #avgExecTime:INTEGER#,
+      add_time = #addTime:TIMESTAMP#,
+      upd_time = #updTime:TIMESTAMP#
+    where id = #id:INTEGER#
+  </update>
+</sqlMap>

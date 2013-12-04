@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="taobao_shop" >
+  <resultMap id="BaseResultMap" class="com.trilemon.boss.infra.base.model.TaobaoShop" >
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="cid" property="cid" jdbcType="BIGINT" />
+    <result column="nick" property="nick" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="bulletin" property="bulletin" jdbcType="VARCHAR" />
+    <result column="pic_path" property="picPath" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    <result column="shop_score_item_score" property="shopScoreItemScore" jdbcType="VARCHAR" />
+    <result column="shop_score_service_score" property="shopScoreServiceScore" jdbcType="VARCHAR" />
+    <result column="shop_score_delivery_score" property="shopScoreDeliveryScore" jdbcType="VARCHAR" />
+    <result column="remain_count" property="remainCount" jdbcType="BIGINT" />
+    <result column="all_count" property="allCount" jdbcType="BIGINT" />
+    <result column="used_count" property="usedCount" jdbcType="BIGINT" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="upd_time" property="updTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, cid, nick, title, description, bulletin, pic_path, created, modified, shop_score_item_score, 
+    shop_score_service_score, shop_score_delivery_score, remain_count, all_count, used_count, 
+    add_time, upd_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="com.trilemon.boss.infra.base.model.TaobaoShop" >
+    select 
+    <include refid="taobao_shop.Base_Column_List" />
+    from taobao_shop
+    where user_id = #userId:BIGINT#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.TaobaoShop" >
+    delete from taobao_shop
+    where user_id = #userId:BIGINT#
+  </delete>
+  <insert id="insert" parameterClass="com.trilemon.boss.infra.base.model.TaobaoShop" >
+    insert into taobao_shop (user_id, cid, nick, title, description, 
+      bulletin, pic_path, created, modified, 
+      shop_score_item_score, shop_score_service_score, shop_score_delivery_score, 
+      remain_count, all_count, used_count, add_time, 
+      upd_time)
+    values (#userId:BIGINT#, #cid:BIGINT#, #nick:VARCHAR#, #title:VARCHAR#, #description:VARCHAR#, 
+      #bulletin:VARCHAR#, #picPath:VARCHAR#, #created:TIMESTAMP#, #modified:TIMESTAMP#, 
+      #shopScoreItemScore:VARCHAR#, #shopScoreServiceScore:VARCHAR#, #shopScoreDeliveryScore:VARCHAR#, 
+      #remainCount:BIGINT#, #allCount:BIGINT#, #usedCount:BIGINT#, #addTime:TIMESTAMP#, 
+      #updTime:TIMESTAMP#)
+  </insert>
+  <insert id="insertSelective" parameterClass="com.trilemon.boss.infra.base.model.TaobaoShop" >
+    insert into taobao_shop
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="userId" >
+        user_id
+      </isNotNull>
+      <isNotNull prepend="," property="cid" >
+        cid
+      </isNotNull>
+      <isNotNull prepend="," property="nick" >
+        nick
+      </isNotNull>
+      <isNotNull prepend="," property="title" >
+        title
+      </isNotNull>
+      <isNotNull prepend="," property="description" >
+        description
+      </isNotNull>
+      <isNotNull prepend="," property="bulletin" >
+        bulletin
+      </isNotNull>
+      <isNotNull prepend="," property="picPath" >
+        pic_path
+      </isNotNull>
+      <isNotNull prepend="," property="created" >
+        created
+      </isNotNull>
+      <isNotNull prepend="," property="modified" >
+        modified
+      </isNotNull>
+      <isNotNull prepend="," property="shopScoreItemScore" >
+        shop_score_item_score
+      </isNotNull>
+      <isNotNull prepend="," property="shopScoreServiceScore" >
+        shop_score_service_score
+      </isNotNull>
+      <isNotNull prepend="," property="shopScoreDeliveryScore" >
+        shop_score_delivery_score
+      </isNotNull>
+      <isNotNull prepend="," property="remainCount" >
+        remain_count
+      </isNotNull>
+      <isNotNull prepend="," property="allCount" >
+        all_count
+      </isNotNull>
+      <isNotNull prepend="," property="usedCount" >
+        used_count
+      </isNotNull>
+      <isNotNull prepend="," property="addTime" >
+        add_time
+      </isNotNull>
+      <isNotNull prepend="," property="updTime" >
+        upd_time
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="userId" >
+        #userId:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="cid" >
+        #cid:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="nick" >
+        #nick:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="title" >
+        #title:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="description" >
+        #description:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="bulletin" >
+        #bulletin:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="picPath" >
+        #picPath:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="created" >
+        #created:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="modified" >
+        #modified:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="shopScoreItemScore" >
+        #shopScoreItemScore:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="shopScoreServiceScore" >
+        #shopScoreServiceScore:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="shopScoreDeliveryScore" >
+        #shopScoreDeliveryScore:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="remainCount" >
+        #remainCount:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="allCount" >
+        #allCount:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="usedCount" >
+        #usedCount:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="addTime" >
+        #addTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="updTime" >
+        #updTime:TIMESTAMP#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.trilemon.boss.infra.base.model.TaobaoShop" >
+    update taobao_shop
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="cid" >
+        cid = #cid:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="nick" >
+        nick = #nick:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="title" >
+        title = #title:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="description" >
+        description = #description:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="bulletin" >
+        bulletin = #bulletin:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="picPath" >
+        pic_path = #picPath:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="created" >
+        created = #created:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="modified" >
+        modified = #modified:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="shopScoreItemScore" >
+        shop_score_item_score = #shopScoreItemScore:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="shopScoreServiceScore" >
+        shop_score_service_score = #shopScoreServiceScore:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="shopScoreDeliveryScore" >
+        shop_score_delivery_score = #shopScoreDeliveryScore:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="remainCount" >
+        remain_count = #remainCount:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="allCount" >
+        all_count = #allCount:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="usedCount" >
+        used_count = #usedCount:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="addTime" >
+        add_time = #addTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="updTime" >
+        upd_time = #updTime:TIMESTAMP#
+      </isNotNull>
+    </dynamic>
+    where user_id = #userId:BIGINT#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.TaobaoShop" >
+    update taobao_shop
+    set cid = #cid:BIGINT#,
+      nick = #nick:VARCHAR#,
+      title = #title:VARCHAR#,
+      description = #description:VARCHAR#,
+      bulletin = #bulletin:VARCHAR#,
+      pic_path = #picPath:VARCHAR#,
+      created = #created:TIMESTAMP#,
+      modified = #modified:TIMESTAMP#,
+      shop_score_item_score = #shopScoreItemScore:VARCHAR#,
+      shop_score_service_score = #shopScoreServiceScore:VARCHAR#,
+      shop_score_delivery_score = #shopScoreDeliveryScore:VARCHAR#,
+      remain_count = #remainCount:BIGINT#,
+      all_count = #allCount:BIGINT#,
+      used_count = #usedCount:BIGINT#,
+      add_time = #addTime:TIMESTAMP#,
+      upd_time = #updTime:TIMESTAMP#
+    where user_id = #userId:BIGINT#
+  </update>
+    <insert id="replaceSelective" parameterClass="com.trilemon.boss.infra.base.model.TaobaoShop" >
+        replace into taobao_shop
+        <dynamic prepend="(" >
+            <isNotNull prepend="," property="userId" >
+                user_id
+            </isNotNull>
+            <isNotNull prepend="," property="cid" >
+                cid
+            </isNotNull>
+            <isNotNull prepend="," property="nick" >
+                nick
+            </isNotNull>
+            <isNotNull prepend="," property="title" >
+                title
+            </isNotNull>
+            <isNotNull prepend="," property="description" >
+                description
+            </isNotNull>
+            <isNotNull prepend="," property="bulletin" >
+                bulletin
+            </isNotNull>
+            <isNotNull prepend="," property="picPath" >
+                pic_path
+            </isNotNull>
+            <isNotNull prepend="," property="created" >
+                created
+            </isNotNull>
+            <isNotNull prepend="," property="modified" >
+                modified
+            </isNotNull>
+            <isNotNull prepend="," property="shopScoreItemScore" >
+                shop_score_item_score
+            </isNotNull>
+            <isNotNull prepend="," property="shopScoreServiceScore" >
+                shop_score_service_score
+            </isNotNull>
+            <isNotNull prepend="," property="shopScoreDeliveryScore" >
+                shop_score_delivery_score
+            </isNotNull>
+            <isNotNull prepend="," property="remainCount" >
+                remain_count
+            </isNotNull>
+            <isNotNull prepend="," property="allCount" >
+                all_count
+            </isNotNull>
+            <isNotNull prepend="," property="usedCount" >
+                used_count
+            </isNotNull>
+            <isNotNull prepend="," property="addTime" >
+                add_time
+            </isNotNull>
+            <isNotNull prepend="," property="updTime" >
+                upd_time
+            </isNotNull>
+            )
+        </dynamic>
+        values
+        <dynamic prepend="(" >
+            <isNotNull prepend="," property="userId" >
+                #userId:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="cid" >
+                #cid:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="nick" >
+                #nick:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="title" >
+                #title:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="description" >
+                #description:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="bulletin" >
+                #bulletin:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="picPath" >
+                #picPath:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="created" >
+                #created:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="modified" >
+                #modified:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="shopScoreItemScore" >
+                #shopScoreItemScore:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="shopScoreServiceScore" >
+                #shopScoreServiceScore:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="shopScoreDeliveryScore" >
+                #shopScoreDeliveryScore:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="remainCount" >
+                #remainCount:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="allCount" >
+                #allCount:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="usedCount" >
+                #usedCount:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="addTime" >
+                #addTime:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="updTime" >
+                #updTime:TIMESTAMP#
+            </isNotNull>
+            )
+        </dynamic>
+    </insert>
+</sqlMap>

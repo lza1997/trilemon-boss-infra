@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+    <settings cacheModelsEnabled="true" enhancementEnabled="true"
+              lazyLoadingEnabled="true" errorTracingEnabled="true"
+              useStatementNamespaces="true" />
+    <sqlMap resource="ibatis/sqlmap/app_user_sign_in_log_SqlMap.xml" />
+    <sqlMap resource="ibatis/sqlmap/app_user_SqlMap.xml" />
+    <sqlMap resource="ibatis/sqlmap/buyer_blacklist_SqlMap.xml" />
+    <sqlMap resource="ibatis/sqlmap/taobao_api_usage_SqlMap.xml" />
+    <sqlMap resource="ibatis/sqlmap/taobao_app_SqlMap.xml" />
+    <sqlMap resource="ibatis/sqlmap/taobao_seller_SqlMap.xml" />
+    <sqlMap resource="ibatis/sqlmap/taobao_session_SqlMap.xml" />
+    <sqlMap resource="ibatis/sqlmap/taobao_shop_SqlMap.xml" />
+</sqlMapConfig>

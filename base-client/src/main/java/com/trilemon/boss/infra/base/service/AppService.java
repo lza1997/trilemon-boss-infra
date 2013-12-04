@@ -33,6 +33,7 @@ public class AppService {
     private Map<String, ThreadPoolExecutor> threadPoolExecutorMap = Maps.newHashMap();
     private String serviceName;
     private String serviceId;
+    private String casUrl;
     private Map<String, ThreadPoolExecutor> threadMap = Maps.newHashMap();
 
     public DateTime getLocalSystemTime() {
@@ -73,5 +74,13 @@ public class AppService {
 
     public String getOwner() {
         return serviceName + "-" + serviceId;
+    }
+
+    public String getCasUrl() {
+        return casUrl;
+    }
+
+    public void setCasUrl(String casUrl) {
+        this.casUrl = casUrl;
     }
 }

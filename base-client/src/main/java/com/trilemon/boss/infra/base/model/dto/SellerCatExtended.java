@@ -2,10 +2,12 @@ package com.trilemon.boss.infra.base.model.dto;
 
 import com.taobao.api.domain.SellerCat;
 
+import java.io.Serializable;
+
 /**
  * @author kevin
  */
-public class SellerCatExtended {
+public class SellerCatExtended implements Serializable {
     private SellerCat sellerCat;
     private Long itemNum;
     private boolean isUsed = false;

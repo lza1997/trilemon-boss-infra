@@ -1,0 +1,879 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="taobao_seller" >
+  <resultMap id="BaseResultMap" class="com.trilemon.boss.infra.base.model.TaobaoSeller" >
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="uid" property="uid" jdbcType="VARCHAR" />
+    <result column="nick" property="nick" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="buyer_credit_level" property="buyerCreditLevel" jdbcType="TINYINT" />
+    <result column="buyer_credit_score" property="buyerCreditScore" jdbcType="INTEGER" />
+    <result column="buyer_credit_total_num" property="buyerCreditTotalNum" jdbcType="INTEGER" />
+    <result column="buyer_credit_good_num" property="buyerCreditGoodNum" jdbcType="INTEGER" />
+    <result column="seller_credit_level" property="sellerCreditLevel" jdbcType="TINYINT" />
+    <result column="seller_credit_score" property="sellerCreditScore" jdbcType="INTEGER" />
+    <result column="seller_credit_total_num" property="sellerCreditTotalNum" jdbcType="INTEGER" />
+    <result column="seller_credit_good_num" property="sellerCreditGoodNum" jdbcType="INTEGER" />
+    <result column="location_country" property="locationCountry" jdbcType="VARCHAR" />
+    <result column="location_state" property="locationState" jdbcType="VARCHAR" />
+    <result column="location_city" property="locationCity" jdbcType="VARCHAR" />
+    <result column="location_district" property="locationDistrict" jdbcType="VARCHAR" />
+    <result column="location_address" property="locationAddress" jdbcType="VARCHAR" />
+    <result column="location_zip" property="locationZip" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="last_visit" property="lastVisit" jdbcType="TIMESTAMP" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="has_more_pic" property="hasMorePic" jdbcType="BIT" />
+    <result column="item_img_num" property="itemImgNum" jdbcType="INTEGER" />
+    <result column="item_img_size" property="itemImgSize" jdbcType="INTEGER" />
+    <result column="prop_img_num" property="propImgNum" jdbcType="INTEGER" />
+    <result column="prop_img_size" property="propImgSize" jdbcType="INTEGER" />
+    <result column="auto_repost" property="autoRepost" jdbcType="VARCHAR" />
+    <result column="promoted_type" property="promotedType" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="alipay_bind" property="alipayBind" jdbcType="VARCHAR" />
+    <result column="consumer_protection" property="consumerProtection" jdbcType="BIT" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="liangpin" property="liangpin" jdbcType="BIT" />
+    <result column="sign_food_seller_promise" property="signFoodSellerPromise" jdbcType="BIT" />
+    <result column="has_shop" property="hasShop" jdbcType="BIT" />
+    <result column="is_lightning_consignment" property="isLightningConsignment" jdbcType="BIT" />
+    <result column="has_sub_stock" property="hasSubStock" jdbcType="BIT" />
+    <result column="is_golden_seller" property="isGoldenSeller" jdbcType="BIT" />
+    <result column="vip_info" property="vipInfo" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="magazine_subscribe" property="magazineSubscribe" jdbcType="BIT" />
+    <result column="vertical_market" property="verticalMarket" jdbcType="VARCHAR" />
+    <result column="online_gaming" property="onlineGaming" jdbcType="BIT" />
+    <result column="alipay_id" property="alipayId" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="upd_time" property="updTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, uid, nick, sex, buyer_credit_level, buyer_credit_score, buyer_credit_total_num, 
+    buyer_credit_good_num, seller_credit_level, seller_credit_score, seller_credit_total_num, 
+    seller_credit_good_num, location_country, location_state, location_city, location_district, 
+    location_address, location_zip, created, last_visit, birthday, type, has_more_pic, 
+    item_img_num, item_img_size, prop_img_num, prop_img_size, auto_repost, promoted_type, 
+    status, alipay_bind, consumer_protection, avatar, liangpin, sign_food_seller_promise, 
+    has_shop, is_lightning_consignment, has_sub_stock, is_golden_seller, vip_info, email, 
+    magazine_subscribe, vertical_market, online_gaming, alipay_id, add_time, upd_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="com.trilemon.boss.infra.base.model.TaobaoSeller" >
+    select 
+    <include refid="taobao_seller.Base_Column_List" />
+    from taobao_seller
+    where user_id = #userId:BIGINT#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.TaobaoSeller" >
+    DELETE FROM taobao_seller
+    WHERE user_id = #userId:BIGINT#
+  </delete>
+  <insert id="insert" parameterClass="com.trilemon.boss.infra.base.model.TaobaoSeller" >
+    INSERT INTO taobao_seller (user_id, uid, nick, sex, buyer_credit_level,
+      buyer_credit_score, buyer_credit_total_num, buyer_credit_good_num, 
+      seller_credit_level, seller_credit_score, seller_credit_total_num, 
+      seller_credit_good_num, location_country, location_state, 
+      location_city, location_district, location_address, 
+      location_zip, created, last_visit, birthday, 
+      type, has_more_pic, item_img_num, item_img_size, 
+      prop_img_num, prop_img_size, auto_repost, promoted_type, 
+      status, alipay_bind, consumer_protection, avatar, 
+      liangpin, sign_food_seller_promise, has_shop, is_lightning_consignment, 
+      has_sub_stock, is_golden_seller, vip_info, email, magazine_subscribe, 
+      vertical_market, online_gaming, alipay_id, add_time, 
+      upd_time)
+    VALUES (#userId:BIGINT#, #uid:VARCHAR#, #nick:VARCHAR#, #sex:VARCHAR#, #buyerCreditLevel:TINYINT#,
+      #buyerCreditScore:INTEGER#, #buyerCreditTotalNum:INTEGER#, #buyerCreditGoodNum:INTEGER#, 
+      #sellerCreditLevel:TINYINT#, #sellerCreditScore:INTEGER#, #sellerCreditTotalNum:INTEGER#, 
+      #sellerCreditGoodNum:INTEGER#, #locationCountry:VARCHAR#, #locationState:VARCHAR#, 
+      #locationCity:VARCHAR#, #locationDistrict:VARCHAR#, #locationAddress:VARCHAR#, 
+      #locationZip:VARCHAR#, #created:TIMESTAMP#, #lastVisit:TIMESTAMP#, #birthday:DATE#, 
+      #type:VARCHAR#, #hasMorePic:BIT#, #itemImgNum:INTEGER#, #itemImgSize:INTEGER#, 
+      #propImgNum:INTEGER#, #propImgSize:INTEGER#, #autoRepost:VARCHAR#, #promotedType:VARCHAR#, 
+      #status:VARCHAR#, #alipayBind:VARCHAR#, #consumerProtection:BIT#, #avatar:VARCHAR#, 
+      #liangpin:BIT#, #signFoodSellerPromise:BIT#, #hasShop:BIT#, #isLightningConsignment:BIT#, 
+      #hasSubStock:BIT#, #isGoldenSeller:BIT#, #vipInfo:VARCHAR#, #email:VARCHAR#, #magazineSubscribe:BIT#, 
+      #verticalMarket:VARCHAR#, #onlineGaming:BIT#, #alipayId:VARCHAR#, #addTime:TIMESTAMP#, 
+      #updTime:TIMESTAMP#)
+  </insert>
+  <insert id="insertSelective" parameterClass="com.trilemon.boss.infra.base.model.TaobaoSeller" >
+    insert into taobao_seller
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="userId" >
+        user_id
+      </isNotNull>
+      <isNotNull prepend="," property="uid" >
+        uid
+      </isNotNull>
+      <isNotNull prepend="," property="nick" >
+        nick
+      </isNotNull>
+      <isNotNull prepend="," property="sex" >
+        sex
+      </isNotNull>
+      <isNotNull prepend="," property="buyerCreditLevel" >
+        buyer_credit_level
+      </isNotNull>
+      <isNotNull prepend="," property="buyerCreditScore" >
+        buyer_credit_score
+      </isNotNull>
+      <isNotNull prepend="," property="buyerCreditTotalNum" >
+        buyer_credit_total_num
+      </isNotNull>
+      <isNotNull prepend="," property="buyerCreditGoodNum" >
+        buyer_credit_good_num
+      </isNotNull>
+      <isNotNull prepend="," property="sellerCreditLevel" >
+        seller_credit_level
+      </isNotNull>
+      <isNotNull prepend="," property="sellerCreditScore" >
+        seller_credit_score
+      </isNotNull>
+      <isNotNull prepend="," property="sellerCreditTotalNum" >
+        seller_credit_total_num
+      </isNotNull>
+      <isNotNull prepend="," property="sellerCreditGoodNum" >
+        seller_credit_good_num
+      </isNotNull>
+      <isNotNull prepend="," property="locationCountry" >
+        location_country
+      </isNotNull>
+      <isNotNull prepend="," property="locationState" >
+        location_state
+      </isNotNull>
+      <isNotNull prepend="," property="locationCity" >
+        location_city
+      </isNotNull>
+      <isNotNull prepend="," property="locationDistrict" >
+        location_district
+      </isNotNull>
+      <isNotNull prepend="," property="locationAddress" >
+        location_address
+      </isNotNull>
+      <isNotNull prepend="," property="locationZip" >
+        location_zip
+      </isNotNull>
+      <isNotNull prepend="," property="created" >
+        created
+      </isNotNull>
+      <isNotNull prepend="," property="lastVisit" >
+        last_visit
+      </isNotNull>
+      <isNotNull prepend="," property="birthday" >
+        birthday
+      </isNotNull>
+      <isNotNull prepend="," property="type" >
+        type
+      </isNotNull>
+      <isNotNull prepend="," property="hasMorePic" >
+        has_more_pic
+      </isNotNull>
+      <isNotNull prepend="," property="itemImgNum" >
+        item_img_num
+      </isNotNull>
+      <isNotNull prepend="," property="itemImgSize" >
+        item_img_size
+      </isNotNull>
+      <isNotNull prepend="," property="propImgNum" >
+        prop_img_num
+      </isNotNull>
+      <isNotNull prepend="," property="propImgSize" >
+        prop_img_size
+      </isNotNull>
+      <isNotNull prepend="," property="autoRepost" >
+        auto_repost
+      </isNotNull>
+      <isNotNull prepend="," property="promotedType" >
+        promoted_type
+      </isNotNull>
+      <isNotNull prepend="," property="status" >
+        status
+      </isNotNull>
+      <isNotNull prepend="," property="alipayBind" >
+        alipay_bind
+      </isNotNull>
+      <isNotNull prepend="," property="consumerProtection" >
+        consumer_protection
+      </isNotNull>
+      <isNotNull prepend="," property="avatar" >
+        avatar
+      </isNotNull>
+      <isNotNull prepend="," property="liangpin" >
+        liangpin
+      </isNotNull>
+      <isNotNull prepend="," property="signFoodSellerPromise" >
+        sign_food_seller_promise
+      </isNotNull>
+      <isNotNull prepend="," property="hasShop" >
+        has_shop
+      </isNotNull>
+      <isNotNull prepend="," property="isLightningConsignment" >
+        is_lightning_consignment
+      </isNotNull>
+      <isNotNull prepend="," property="hasSubStock" >
+        has_sub_stock
+      </isNotNull>
+      <isNotNull prepend="," property="isGoldenSeller" >
+        is_golden_seller
+      </isNotNull>
+      <isNotNull prepend="," property="vipInfo" >
+        vip_info
+      </isNotNull>
+      <isNotNull prepend="," property="email" >
+        email
+      </isNotNull>
+      <isNotNull prepend="," property="magazineSubscribe" >
+        magazine_subscribe
+      </isNotNull>
+      <isNotNull prepend="," property="verticalMarket" >
+        vertical_market
+      </isNotNull>
+      <isNotNull prepend="," property="onlineGaming" >
+        online_gaming
+      </isNotNull>
+      <isNotNull prepend="," property="alipayId" >
+        alipay_id
+      </isNotNull>
+      <isNotNull prepend="," property="addTime" >
+        add_time
+      </isNotNull>
+      <isNotNull prepend="," property="updTime" >
+        upd_time
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="userId" >
+        #userId:BIGINT#
+      </isNotNull>
+      <isNotNull prepend="," property="uid" >
+        #uid:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="nick" >
+        #nick:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sex" >
+        #sex:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="buyerCreditLevel" >
+        #buyerCreditLevel:TINYINT#
+      </isNotNull>
+      <isNotNull prepend="," property="buyerCreditScore" >
+        #buyerCreditScore:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="buyerCreditTotalNum" >
+        #buyerCreditTotalNum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="buyerCreditGoodNum" >
+        #buyerCreditGoodNum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="sellerCreditLevel" >
+        #sellerCreditLevel:TINYINT#
+      </isNotNull>
+      <isNotNull prepend="," property="sellerCreditScore" >
+        #sellerCreditScore:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="sellerCreditTotalNum" >
+        #sellerCreditTotalNum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="sellerCreditGoodNum" >
+        #sellerCreditGoodNum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="locationCountry" >
+        #locationCountry:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="locationState" >
+        #locationState:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="locationCity" >
+        #locationCity:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="locationDistrict" >
+        #locationDistrict:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="locationAddress" >
+        #locationAddress:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="locationZip" >
+        #locationZip:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="created" >
+        #created:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="lastVisit" >
+        #lastVisit:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="birthday" >
+        #birthday:DATE#
+      </isNotNull>
+      <isNotNull prepend="," property="type" >
+        #type:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="hasMorePic" >
+        #hasMorePic:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="itemImgNum" >
+        #itemImgNum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="itemImgSize" >
+        #itemImgSize:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="propImgNum" >
+        #propImgNum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="propImgSize" >
+        #propImgSize:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="autoRepost" >
+        #autoRepost:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="promotedType" >
+        #promotedType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="status" >
+        #status:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="alipayBind" >
+        #alipayBind:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="consumerProtection" >
+        #consumerProtection:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="avatar" >
+        #avatar:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="liangpin" >
+        #liangpin:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="signFoodSellerPromise" >
+        #signFoodSellerPromise:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="hasShop" >
+        #hasShop:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="isLightningConsignment" >
+        #isLightningConsignment:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="hasSubStock" >
+        #hasSubStock:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="isGoldenSeller" >
+        #isGoldenSeller:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="vipInfo" >
+        #vipInfo:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="email" >
+        #email:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="magazineSubscribe" >
+        #magazineSubscribe:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="verticalMarket" >
+        #verticalMarket:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="onlineGaming" >
+        #onlineGaming:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="alipayId" >
+        #alipayId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="addTime" >
+        #addTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="updTime" >
+        #updTime:TIMESTAMP#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.trilemon.boss.infra.base.model.TaobaoSeller" >
+    update taobao_seller
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="uid" >
+        uid = #uid:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="nick" >
+        nick = #nick:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sex" >
+        sex = #sex:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="buyerCreditLevel" >
+        buyer_credit_level = #buyerCreditLevel:TINYINT#
+      </isNotNull>
+      <isNotNull prepend="," property="buyerCreditScore" >
+        buyer_credit_score = #buyerCreditScore:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="buyerCreditTotalNum" >
+        buyer_credit_total_num = #buyerCreditTotalNum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="buyerCreditGoodNum" >
+        buyer_credit_good_num = #buyerCreditGoodNum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="sellerCreditLevel" >
+        seller_credit_level = #sellerCreditLevel:TINYINT#
+      </isNotNull>
+      <isNotNull prepend="," property="sellerCreditScore" >
+        seller_credit_score = #sellerCreditScore:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="sellerCreditTotalNum" >
+        seller_credit_total_num = #sellerCreditTotalNum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="sellerCreditGoodNum" >
+        seller_credit_good_num = #sellerCreditGoodNum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="locationCountry" >
+        location_country = #locationCountry:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="locationState" >
+        location_state = #locationState:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="locationCity" >
+        location_city = #locationCity:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="locationDistrict" >
+        location_district = #locationDistrict:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="locationAddress" >
+        location_address = #locationAddress:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="locationZip" >
+        location_zip = #locationZip:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="created" >
+        created = #created:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="lastVisit" >
+        last_visit = #lastVisit:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="birthday" >
+        birthday = #birthday:DATE#
+      </isNotNull>
+      <isNotNull prepend="," property="type" >
+        type = #type:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="hasMorePic" >
+        has_more_pic = #hasMorePic:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="itemImgNum" >
+        item_img_num = #itemImgNum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="itemImgSize" >
+        item_img_size = #itemImgSize:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="propImgNum" >
+        prop_img_num = #propImgNum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="propImgSize" >
+        prop_img_size = #propImgSize:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="autoRepost" >
+        auto_repost = #autoRepost:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="promotedType" >
+        promoted_type = #promotedType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="status" >
+        status = #status:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="alipayBind" >
+        alipay_bind = #alipayBind:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="consumerProtection" >
+        consumer_protection = #consumerProtection:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="avatar" >
+        avatar = #avatar:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="liangpin" >
+        liangpin = #liangpin:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="signFoodSellerPromise" >
+        sign_food_seller_promise = #signFoodSellerPromise:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="hasShop" >
+        has_shop = #hasShop:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="isLightningConsignment" >
+        is_lightning_consignment = #isLightningConsignment:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="hasSubStock" >
+        has_sub_stock = #hasSubStock:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="isGoldenSeller" >
+        is_golden_seller = #isGoldenSeller:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="vipInfo" >
+        vip_info = #vipInfo:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="email" >
+        email = #email:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="magazineSubscribe" >
+        magazine_subscribe = #magazineSubscribe:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="verticalMarket" >
+        vertical_market = #verticalMarket:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="onlineGaming" >
+        online_gaming = #onlineGaming:BIT#
+      </isNotNull>
+      <isNotNull prepend="," property="alipayId" >
+        alipay_id = #alipayId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="addTime" >
+        add_time = #addTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="updTime" >
+        upd_time = #updTime:TIMESTAMP#
+      </isNotNull>
+    </dynamic>
+    where user_id = #userId:BIGINT#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.TaobaoSeller" >
+    update taobao_seller
+    set uid = #uid:VARCHAR#,
+      nick = #nick:VARCHAR#,
+      sex = #sex:VARCHAR#,
+      buyer_credit_level = #buyerCreditLevel:TINYINT#,
+      buyer_credit_score = #buyerCreditScore:INTEGER#,
+      buyer_credit_total_num = #buyerCreditTotalNum:INTEGER#,
+      buyer_credit_good_num = #buyerCreditGoodNum:INTEGER#,
+      seller_credit_level = #sellerCreditLevel:TINYINT#,
+      seller_credit_score = #sellerCreditScore:INTEGER#,
+      seller_credit_total_num = #sellerCreditTotalNum:INTEGER#,
+      seller_credit_good_num = #sellerCreditGoodNum:INTEGER#,
+      location_country = #locationCountry:VARCHAR#,
+      location_state = #locationState:VARCHAR#,
+      location_city = #locationCity:VARCHAR#,
+      location_district = #locationDistrict:VARCHAR#,
+      location_address = #locationAddress:VARCHAR#,
+      location_zip = #locationZip:VARCHAR#,
+      created = #created:TIMESTAMP#,
+      last_visit = #lastVisit:TIMESTAMP#,
+      birthday = #birthday:DATE#,
+      type = #type:VARCHAR#,
+      has_more_pic = #hasMorePic:BIT#,
+      item_img_num = #itemImgNum:INTEGER#,
+      item_img_size = #itemImgSize:INTEGER#,
+      prop_img_num = #propImgNum:INTEGER#,
+      prop_img_size = #propImgSize:INTEGER#,
+      auto_repost = #autoRepost:VARCHAR#,
+      promoted_type = #promotedType:VARCHAR#,
+      status = #status:VARCHAR#,
+      alipay_bind = #alipayBind:VARCHAR#,
+      consumer_protection = #consumerProtection:BIT#,
+      avatar = #avatar:VARCHAR#,
+      liangpin = #liangpin:BIT#,
+      sign_food_seller_promise = #signFoodSellerPromise:BIT#,
+      has_shop = #hasShop:BIT#,
+      is_lightning_consignment = #isLightningConsignment:BIT#,
+      has_sub_stock = #hasSubStock:BIT#,
+      is_golden_seller = #isGoldenSeller:BIT#,
+      vip_info = #vipInfo:VARCHAR#,
+      email = #email:VARCHAR#,
+      magazine_subscribe = #magazineSubscribe:BIT#,
+      vertical_market = #verticalMarket:VARCHAR#,
+      online_gaming = #onlineGaming:BIT#,
+      alipay_id = #alipayId:VARCHAR#,
+      add_time = #addTime:TIMESTAMP#,
+      upd_time = #updTime:TIMESTAMP#
+    where user_id = #userId:BIGINT#
+  </update>
+    <insert id="replaceSelective" parameterClass="com.trilemon.boss.infra.base.model.TaobaoSeller" >
+        replace into taobao_seller
+        <dynamic prepend="(" >
+            <isNotNull prepend="," property="userId" >
+                user_id
+            </isNotNull>
+            <isNotNull prepend="," property="uid" >
+                uid
+            </isNotNull>
+            <isNotNull prepend="," property="nick" >
+                nick
+            </isNotNull>
+            <isNotNull prepend="," property="sex" >
+                sex
+            </isNotNull>
+            <isNotNull prepend="," property="buyerCreditLevel" >
+                buyer_credit_level
+            </isNotNull>
+            <isNotNull prepend="," property="buyerCreditScore" >
+                buyer_credit_score
+            </isNotNull>
+            <isNotNull prepend="," property="buyerCreditTotalNum" >
+                buyer_credit_total_num
+            </isNotNull>
+            <isNotNull prepend="," property="buyerCreditGoodNum" >
+                buyer_credit_good_num
+            </isNotNull>
+            <isNotNull prepend="," property="sellerCreditLevel" >
+                seller_credit_level
+            </isNotNull>
+            <isNotNull prepend="," property="sellerCreditScore" >
+                seller_credit_score
+            </isNotNull>
+            <isNotNull prepend="," property="sellerCreditTotalNum" >
+                seller_credit_total_num
+            </isNotNull>
+            <isNotNull prepend="," property="sellerCreditGoodNum" >
+                seller_credit_good_num
+            </isNotNull>
+            <isNotNull prepend="," property="locationCountry" >
+                location_country
+            </isNotNull>
+            <isNotNull prepend="," property="locationState" >
+                location_state
+            </isNotNull>
+            <isNotNull prepend="," property="locationCity" >
+                location_city
+            </isNotNull>
+            <isNotNull prepend="," property="locationDistrict" >
+                location_district
+            </isNotNull>
+            <isNotNull prepend="," property="locationAddress" >
+                location_address
+            </isNotNull>
+            <isNotNull prepend="," property="locationZip" >
+                location_zip
+            </isNotNull>
+            <isNotNull prepend="," property="created" >
+                created
+            </isNotNull>
+            <isNotNull prepend="," property="lastVisit" >
+                last_visit
+            </isNotNull>
+            <isNotNull prepend="," property="birthday" >
+                birthday
+            </isNotNull>
+            <isNotNull prepend="," property="type" >
+                type
+            </isNotNull>
+            <isNotNull prepend="," property="hasMorePic" >
+                has_more_pic
+            </isNotNull>
+            <isNotNull prepend="," property="itemImgNum" >
+                item_img_num
+            </isNotNull>
+            <isNotNull prepend="," property="itemImgSize" >
+                item_img_size
+            </isNotNull>
+            <isNotNull prepend="," property="propImgNum" >
+                prop_img_num
+            </isNotNull>
+            <isNotNull prepend="," property="propImgSize" >
+                prop_img_size
+            </isNotNull>
+            <isNotNull prepend="," property="autoRepost" >
+                auto_repost
+            </isNotNull>
+            <isNotNull prepend="," property="promotedType" >
+                promoted_type
+            </isNotNull>
+            <isNotNull prepend="," property="status" >
+                status
+            </isNotNull>
+            <isNotNull prepend="," property="alipayBind" >
+                alipay_bind
+            </isNotNull>
+            <isNotNull prepend="," property="consumerProtection" >
+                consumer_protection
+            </isNotNull>
+            <isNotNull prepend="," property="avatar" >
+                avatar
+            </isNotNull>
+            <isNotNull prepend="," property="liangpin" >
+                liangpin
+            </isNotNull>
+            <isNotNull prepend="," property="signFoodSellerPromise" >
+                sign_food_seller_promise
+            </isNotNull>
+            <isNotNull prepend="," property="hasShop" >
+                has_shop
+            </isNotNull>
+            <isNotNull prepend="," property="isLightningConsignment" >
+                is_lightning_consignment
+            </isNotNull>
+            <isNotNull prepend="," property="hasSubStock" >
+                has_sub_stock
+            </isNotNull>
+            <isNotNull prepend="," property="isGoldenSeller" >
+                is_golden_seller
+            </isNotNull>
+            <isNotNull prepend="," property="vipInfo" >
+                vip_info
+            </isNotNull>
+            <isNotNull prepend="," property="email" >
+                email
+            </isNotNull>
+            <isNotNull prepend="," property="magazineSubscribe" >
+                magazine_subscribe
+            </isNotNull>
+            <isNotNull prepend="," property="verticalMarket" >
+                vertical_market
+            </isNotNull>
+            <isNotNull prepend="," property="onlineGaming" >
+                online_gaming
+            </isNotNull>
+            <isNotNull prepend="," property="alipayId" >
+                alipay_id
+            </isNotNull>
+            <isNotNull prepend="," property="addTime" >
+                add_time
+            </isNotNull>
+            <isNotNull prepend="," property="updTime" >
+                upd_time
+            </isNotNull>
+            )
+        </dynamic>
+        values
+        <dynamic prepend="(" >
+            <isNotNull prepend="," property="userId" >
+                #userId:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="uid" >
+                #uid:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="nick" >
+                #nick:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="sex" >
+                #sex:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="buyerCreditLevel" >
+                #buyerCreditLevel:TINYINT#
+            </isNotNull>
+            <isNotNull prepend="," property="buyerCreditScore" >
+                #buyerCreditScore:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="buyerCreditTotalNum" >
+                #buyerCreditTotalNum:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="buyerCreditGoodNum" >
+                #buyerCreditGoodNum:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="sellerCreditLevel" >
+                #sellerCreditLevel:TINYINT#
+            </isNotNull>
+            <isNotNull prepend="," property="sellerCreditScore" >
+                #sellerCreditScore:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="sellerCreditTotalNum" >
+                #sellerCreditTotalNum:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="sellerCreditGoodNum" >
+                #sellerCreditGoodNum:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="locationCountry" >
+                #locationCountry:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="locationState" >
+                #locationState:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="locationCity" >
+                #locationCity:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="locationDistrict" >
+                #locationDistrict:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="locationAddress" >
+                #locationAddress:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="locationZip" >
+                #locationZip:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="created" >
+                #created:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="lastVisit" >
+                #lastVisit:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="birthday" >
+                #birthday:DATE#
+            </isNotNull>
+            <isNotNull prepend="," property="type" >
+                #type:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="hasMorePic" >
+                #hasMorePic:BIT#
+            </isNotNull>
+            <isNotNull prepend="," property="itemImgNum" >
+                #itemImgNum:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="itemImgSize" >
+                #itemImgSize:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="propImgNum" >
+                #propImgNum:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="propImgSize" >
+                #propImgSize:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="autoRepost" >
+                #autoRepost:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="promotedType" >
+                #promotedType:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="status" >
+                #status:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="alipayBind" >
+                #alipayBind:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="consumerProtection" >
+                #consumerProtection:BIT#
+            </isNotNull>
+            <isNotNull prepend="," property="avatar" >
+                #avatar:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="liangpin" >
+                #liangpin:BIT#
+            </isNotNull>
+            <isNotNull prepend="," property="signFoodSellerPromise" >
+                #signFoodSellerPromise:BIT#
+            </isNotNull>
+            <isNotNull prepend="," property="hasShop" >
+                #hasShop:BIT#
+            </isNotNull>
+            <isNotNull prepend="," property="isLightningConsignment" >
+                #isLightningConsignment:BIT#
+            </isNotNull>
+            <isNotNull prepend="," property="hasSubStock" >
+                #hasSubStock:BIT#
+            </isNotNull>
+            <isNotNull prepend="," property="isGoldenSeller" >
+                #isGoldenSeller:BIT#
+            </isNotNull>
+            <isNotNull prepend="," property="vipInfo" >
+                #vipInfo:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="email" >
+                #email:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="magazineSubscribe" >
+                #magazineSubscribe:BIT#
+            </isNotNull>
+            <isNotNull prepend="," property="verticalMarket" >
+                #verticalMarket:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="onlineGaming" >
+                #onlineGaming:BIT#
+            </isNotNull>
+            <isNotNull prepend="," property="alipayId" >
+                #alipayId:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="addTime" >
+                #addTime:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="updTime" >
+                #updTime:TIMESTAMP#
+            </isNotNull>
+            )
+        </dynamic>
+    </insert>
+</sqlMap>

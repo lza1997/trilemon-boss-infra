@@ -144,4 +144,12 @@ public class TaobaoApiService {
     public void setBaseClient(BaseClient baseClient) {
         this.baseClient = baseClient;
     }
+
+    public TaobaoClient getTaobaoClient() {
+        return taobaoClient;
+    }
+
+    public void setTaobaoClient(TaobaoClient taobaoClient) {
+        this.taobaoClient = taobaoClient;
+    }
 }

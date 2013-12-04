@@ -1,9 +1,11 @@
 package com.trilemon.boss.infra.base.model.dto;
 
+import java.io.Serializable;
+
 /**
  * @author kevin
  */
-public class ShowcaseNum {
+public class ShowcaseNum implements Serializable {
     long allShowcases;
     long usedShowcases;
     long remainShowcases;

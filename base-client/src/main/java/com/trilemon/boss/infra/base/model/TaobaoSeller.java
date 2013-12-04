@@ -1,81 +1,102 @@
 package com.trilemon.boss.infra.base.model;
 
-import org.dozer.Mapping;
-
 import java.io.Serializable;
 import java.util.Date;
 
 public class TaobaoSeller implements Serializable {
-    private Long id;
     private Long userId;
+
     private String uid;
+
     private String nick;
+
     private String sex;
-    @Mapping("buyerCredit.level")
+
     private Byte buyerCreditLevel;
-    @Mapping("buyerCredit.score")
+
     private Integer buyerCreditScore;
-    @Mapping("buyerCredit.totalNum")
+
     private Integer buyerCreditTotalNum;
-    @Mapping("buyerCredit.goodNum")
+
     private Integer buyerCreditGoodNum;
-    @Mapping("sellerCredit.level")
+
     private Byte sellerCreditLevel;
-    @Mapping("sellerCredit.score")
+
     private Integer sellerCreditScore;
-    @Mapping("sellerCredit.totalNum")
+
     private Integer sellerCreditTotalNum;
-    @Mapping("sellerCredit.goodNum")
+
     private Integer sellerCreditGoodNum;
-    @Mapping("location.country")
+
     private String locationCountry;
-    @Mapping("location.state")
+
     private String locationState;
-    @Mapping("location.city")
+
     private String locationCity;
-    @Mapping("location.district")
+
     private String locationDistrict;
-    @Mapping("location.address")
+
     private String locationAddress;
-    @Mapping("location.zip")
+
     private String locationZip;
+
     private Date created;
+
     private Date lastVisit;
+
     private Date birthday;
+
     private String type;
+
     private Boolean hasMorePic;
+
     private Integer itemImgNum;
+
     private Integer itemImgSize;
+
     private Integer propImgNum;
+
     private Integer propImgSize;
+
     private String autoRepost;
+
     private String promotedType;
+
     private String status;
+
     private String alipayBind;
+
     private Boolean consumerProtection;
+
     private String avatar;
+
     private Boolean liangpin;
+
     private Boolean signFoodSellerPromise;
+
     private Boolean hasShop;
+
     private Boolean isLightningConsignment;
+
     private Boolean hasSubStock;
+
     private Boolean isGoldenSeller;
+
     private String vipInfo;
+
     private String email;
+
     private Boolean magazineSubscribe;
+
     private String verticalMarket;
+
     private Boolean onlineGaming;
+
     private String alipayId;
+
     private Date addTime;
+
     private Date updTime;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getUserId() {
         return userId;

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="taobao_session">
+    <resultMap id="BaseResultMap" class="com.trilemon.boss.infra.base.model.TaobaoSession">
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="app_key" property="appKey" jdbcType="VARCHAR"/>
+        <result column="access_token" property="accessToken" jdbcType="VARCHAR"/>
+        <result column="token_type" property="tokenType" jdbcType="VARCHAR"/>
+        <result column="taobao_user_id" property="taobaoUserId" jdbcType="BIGINT"/>
+        <result column="taobao_user_nick" property="taobaoUserNick" jdbcType="VARCHAR"/>
+        <result column="expires_in" property="expiresIn" jdbcType="INTEGER"/>
+        <result column="refresh_token" property="refreshToken" jdbcType="VARCHAR"/>
+        <result column="re_expires_in" property="reExpiresIn" jdbcType="INTEGER"/>
+        <result column="sub_taobao_user_id" property="subTaobaoUserId" jdbcType="BIGINT"/>
+        <result column="sub_taobao_user_nick" property="subTaobaoUserNick" jdbcType="VARCHAR"/>
+        <result column="r1_expires_in" property="r1ExpiresIn" jdbcType="INTEGER"/>
+        <result column="w1_expires_in" property="w1ExpiresIn" jdbcType="INTEGER"/>
+        <result column="r2_expires_in" property="r2ExpiresIn" jdbcType="INTEGER"/>
+        <result column="w2_expires_in" property="w2ExpiresIn" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="add_time" property="addTime" jdbcType="TIMESTAMP"/>
+        <result column="upd_time" property="updTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, app_key, access_token, token_type, taobao_user_id, taobao_user_nick, expires_in, 
+    refresh_token, re_expires_in, sub_taobao_user_id, sub_taobao_user_nick, r1_expires_in, 
+    w1_expires_in, r2_expires_in, w2_expires_in, state, add_time, upd_time
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterClass="com.trilemon.boss.infra.base.model.TaobaoSession">
+        select
+        <include refid="taobao_session.Base_Column_List"/>
+        from taobao_session
+        where id = #id:BIGINT#
+    </select>
+    <delete id="deleteByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.TaobaoSession">
+    DELETE FROM taobao_session
+    WHERE id = #id:BIGINT#
+  </delete>
+    <insert id="insert" parameterClass="com.trilemon.boss.infra.base.model.TaobaoSession">
+    INSERT INTO taobao_session (id, app_key, access_token, token_type,
+      taobao_user_id, taobao_user_nick, expires_in, refresh_token, 
+      re_expires_in, sub_taobao_user_id, sub_taobao_user_nick, r1_expires_in, 
+      w1_expires_in, r2_expires_in, w2_expires_in, state, 
+      add_time, upd_time)
+    VALUES (#id:BIGINT#, #appKey:VARCHAR#, #accessToken:VARCHAR#, #tokenType:VARCHAR#,
+      #taobaoUserId:BIGINT#, #taobaoUserNick:VARCHAR#, #expiresIn:INTEGER#, #refreshToken:VARCHAR#, 
+      #reExpiresIn:INTEGER#, #subTaobaoUserId:BIGINT#, #subTaobaoUserNick:VARCHAR#, #r1ExpiresIn:INTEGER#, 
+      #w1ExpiresIn:INTEGER#, #r2ExpiresIn:INTEGER#, #w2ExpiresIn:INTEGER#, #state:VARCHAR#, 
+      #addTime:TIMESTAMP#, #updTime:TIMESTAMP#)
+  </insert>
+    <insert id="insertSelective" parameterClass="com.trilemon.boss.infra.base.model.TaobaoSession">
+        insert into taobao_session
+        <dynamic prepend="(">
+            <isNotNull prepend="," property="id">
+                id
+            </isNotNull>
+            <isNotNull prepend="," property="appKey">
+                app_key
+            </isNotNull>
+            <isNotNull prepend="," property="accessToken">
+                access_token
+            </isNotNull>
+            <isNotNull prepend="," property="tokenType">
+                token_type
+            </isNotNull>
+            <isNotNull prepend="," property="taobaoUserId">
+                taobao_user_id
+            </isNotNull>
+            <isNotNull prepend="," property="taobaoUserNick">
+                taobao_user_nick
+            </isNotNull>
+            <isNotNull prepend="," property="expiresIn">
+                expires_in
+            </isNotNull>
+            <isNotNull prepend="," property="refreshToken">
+                refresh_token
+            </isNotNull>
+            <isNotNull prepend="," property="reExpiresIn">
+                re_expires_in
+            </isNotNull>
+            <isNotNull prepend="," property="subTaobaoUserId">
+                sub_taobao_user_id
+            </isNotNull>
+            <isNotNull prepend="," property="subTaobaoUserNick">
+                sub_taobao_user_nick
+            </isNotNull>
+            <isNotNull prepend="," property="r1ExpiresIn">
+                r1_expires_in
+            </isNotNull>
+            <isNotNull prepend="," property="w1ExpiresIn">
+                w1_expires_in
+            </isNotNull>
+            <isNotNull prepend="," property="r2ExpiresIn">
+                r2_expires_in
+            </isNotNull>
+            <isNotNull prepend="," property="w2ExpiresIn">
+                w2_expires_in
+            </isNotNull>
+            <isNotNull prepend="," property="state">
+                state
+            </isNotNull>
+            <isNotNull prepend="," property="addTime">
+                add_time
+            </isNotNull>
+            <isNotNull prepend="," property="updTime">
+                upd_time
+            </isNotNull>
+            )
+        </dynamic>
+        values
+        <dynamic prepend="(">
+            <isNotNull prepend="," property="id">
+                #id:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="appKey">
+                #appKey:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="accessToken">
+                #accessToken:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="tokenType">
+                #tokenType:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="taobaoUserId">
+                #taobaoUserId:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="taobaoUserNick">
+                #taobaoUserNick:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="expiresIn">
+                #expiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="refreshToken">
+                #refreshToken:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="reExpiresIn">
+                #reExpiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="subTaobaoUserId">
+                #subTaobaoUserId:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="subTaobaoUserNick">
+                #subTaobaoUserNick:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="r1ExpiresIn">
+                #r1ExpiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="w1ExpiresIn">
+                #w1ExpiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="r2ExpiresIn">
+                #r2ExpiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="w2ExpiresIn">
+                #w2ExpiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="state">
+                #state:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="addTime">
+                #addTime:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="updTime">
+                #updTime:TIMESTAMP#
+            </isNotNull>
+            )
+        </dynamic>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterClass="com.trilemon.boss.infra.base.model.TaobaoSession">
+        update taobao_session
+        <dynamic prepend="set">
+            <isNotNull prepend="," property="appKey">
+                app_key = #appKey:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="accessToken">
+                access_token = #accessToken:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="tokenType">
+                token_type = #tokenType:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="taobaoUserId">
+                taobao_user_id = #taobaoUserId:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="taobaoUserNick">
+                taobao_user_nick = #taobaoUserNick:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="expiresIn">
+                expires_in = #expiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="refreshToken">
+                refresh_token = #refreshToken:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="reExpiresIn">
+                re_expires_in = #reExpiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="subTaobaoUserId">
+                sub_taobao_user_id = #subTaobaoUserId:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="subTaobaoUserNick">
+                sub_taobao_user_nick = #subTaobaoUserNick:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="r1ExpiresIn">
+                r1_expires_in = #r1ExpiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="w1ExpiresIn">
+                w1_expires_in = #w1ExpiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="r2ExpiresIn">
+                r2_expires_in = #r2ExpiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="w2ExpiresIn">
+                w2_expires_in = #w2ExpiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="state">
+                state = #state:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="addTime">
+                add_time = #addTime:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="updTime">
+                upd_time = #updTime:TIMESTAMP#
+            </isNotNull>
+        </dynamic>
+        where id = #id:BIGINT#
+    </update>
+    <update id="updateByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.TaobaoSession">
+    update taobao_session
+    set app_key = #appKey:VARCHAR#,
+      access_token = #accessToken:VARCHAR#,
+      token_type = #tokenType:VARCHAR#,
+      taobao_user_id = #taobaoUserId:BIGINT#,
+      taobao_user_nick = #taobaoUserNick:VARCHAR#,
+      expires_in = #expiresIn:INTEGER#,
+      refresh_token = #refreshToken:VARCHAR#,
+      re_expires_in = #reExpiresIn:INTEGER#,
+      sub_taobao_user_id = #subTaobaoUserId:BIGINT#,
+      sub_taobao_user_nick = #subTaobaoUserNick:VARCHAR#,
+      r1_expires_in = #r1ExpiresIn:INTEGER#,
+      w1_expires_in = #w1ExpiresIn:INTEGER#,
+      r2_expires_in = #r2ExpiresIn:INTEGER#,
+      w2_expires_in = #w2ExpiresIn:INTEGER#,
+      state = #state:VARCHAR#,
+      add_time = #addTime:TIMESTAMP#,
+      upd_time = #updTime:TIMESTAMP#
+    where id = #id:BIGINT#
+  </update>
+    <select id="paginateIds" resultMap="BaseResultMap" parameterClass="map">
+        SELECT id
+        FROM taobao_session
+        LIMIT ${offset$, $limit$
+    </select>
+    <select id="selectByTaobaoUserIdAndAppKey" resultMap="BaseResultMap" parameterClass="map">
+        select
+        <include refid="taobao_session.Base_Column_List"/>
+        from taobao_session
+        where taobao_user_id = #taobaoUserId:BIGINT#
+        <isNull prepend="and" property="subTaobaoUserId">
+            sub_taobao_user_id = ""
+        </isNull>
+        <isNotNull prepend="and" property="subTaobaoUserId">
+            sub_taobao_user_id = #subTaobaoUserId:BIGINT#
+        </isNotNull>
+        and app_key = #appKey:VARCHAR#
+    </select>
+    <update id="updateByTaobaoUserIdAndAppKey" parameterClass="com.trilemon.boss.infra.base.model.TaobaoSession">
+        update taobao_session
+        <dynamic prepend="set">
+            <isNotNull prepend="," property="appKey">
+                app_key = #appKey:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="accessToken">
+                access_token = #accessToken:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="tokenType">
+                token_type = #tokenType:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="taobaoUserId">
+                taobao_user_id = #taobaoUserId:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="taobaoUserNick">
+                taobao_user_nick = #taobaoUserNick:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="expiresIn">
+                expires_in = #expiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="refreshToken">
+                refresh_token = #refreshToken:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="reExpiresIn">
+                re_expires_in = #reExpiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="subTaobaoUserId">
+                sub_taobao_user_id = #subTaobaoUserId:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="subTaobaoUserNick">
+                sub_taobao_user_nick = #subTaobaoUserNick:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="r1ExpiresIn">
+                r1_expires_in = #r1ExpiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="w1ExpiresIn">
+                w1_expires_in = #w1ExpiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="r2ExpiresIn">
+                r2_expires_in = #r2ExpiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="w2ExpiresIn">
+                w2_expires_in = #w2ExpiresIn:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="state">
+                state = #state:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="addTime">
+                add_time = #addTime:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="updTime">
+                upd_time = #updTime:TIMESTAMP#
+            </isNotNull>
+        </dynamic>
+        where taobao_user_id = #taobaoUserId:BIGINT#
+        <isNull prepend="and" property="subTaobaoUserId">
+            sub_taobao_user_id = ""
+        </isNull>
+        <isNotNull prepend="and" property="subTaobaoUserId">
+            sub_taobao_user_id = #subTaobaoUserId:BIGINT#
+        </isNotNull>
+        and app_key = #appKey:VARCHAR#
+    </update>
+    <select id="selectBySubTaobaoUserId" resultMap="BaseResultMap" parameterClass="map">
+        select
+        <include refid="taobao_session.Base_Column_List"/>
+        from taobao_session
+        where
+        sub_taobao_user_id = #subTaobaoUserId:BIGINT#
+        and app_key = #appKey:VARCHAR#
+    </select>
+</sqlMap>

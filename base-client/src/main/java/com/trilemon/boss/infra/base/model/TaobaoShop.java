@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class TaobaoShop implements Serializable {
-    private Long id;
-
     private Long userId;
 
     private Long cid;
@@ -39,14 +37,6 @@ public class TaobaoShop implements Serializable {
     private Date addTime;
 
     private Date updTime;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getUserId() {
         return userId;

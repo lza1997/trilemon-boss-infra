@@ -1,12 +1,12 @@
 package com.trilemon.boss.infra.base.client;
 
-import com.trilemon.boss.infra.base.model.BuyerBlacklist;
-import com.trilemon.boss.infra.base.model.TaobaoApp;
-import com.trilemon.boss.infra.base.model.TaobaoSeller;
-import com.trilemon.boss.infra.base.model.TaobaoSession;
+import com.trilemon.boss.infra.base.model.*;
+import com.trilemon.boss.infra.base.model.dto.SignIn;
 import com.trilemon.boss.infra.base.service.api.exception.TaobaoAccessControlException;
 import com.trilemon.boss.infra.base.service.api.exception.TaobaoEnhancedApiException;
 import com.trilemon.boss.infra.base.service.api.exception.TaobaoSessionExpiredException;
+import com.trilemon.boss.infra.base.web.auth.TaobaoOauthException;
+import com.trilemon.boss.infra.base.web.auth.shiro.ShiroTaobaoAuthenticationToken;
 
 import java.util.Date;
 import java.util.List;
@@ -39,15 +39,15 @@ public interface BaseClient {
      * @param userId
      * @return {@link TaobaoSession}
      */
+    TaobaoSession getTaobaoSession(Long userId, Long subUserId, String appKey);
+
     TaobaoSession getTaobaoSession(Long userId, String appKey);
 
     String getNick(Long userId);
 
     TaobaoSeller getSeller(Long taobaoUserId);
 
-    void createSeller(String accessToken, String appKey) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException, TaobaoAccessControlException;
-
-    void saveOrUpdateTaobaoSession(TaobaoSession taobaoSession);
+    void insertOrUpdateTaobaoSession(TaobaoSession taobaoSession);
 
     List<BuyerBlacklist> paginateBuyerBlacklist(long userId, byte type, int pageNum, int pageSize, String sortField,
                                                 String sortType);
@@ -61,4 +61,10 @@ public interface BaseClient {
     void deleteBuyerBlacklist(Long userId, String buyerNick, byte type);
 
     BuyerBlacklist getBuyerBlacklist(Long userId, String buyerNick);
+
+    AppUser getAppUser(Long userId, String appKey);
+
+    AppUser signIn(ShiroTaobaoAuthenticationToken token) throws TaobaoOauthException, TaobaoEnhancedApiException, TaobaoSessionExpiredException, TaobaoAccessControlException;
+
+    AppUser signIn(TaobaoSession taobaoSession, SignIn signIn) throws TaobaoSessionExpiredException, TaobaoAccessControlException, TaobaoEnhancedApiException;
 }

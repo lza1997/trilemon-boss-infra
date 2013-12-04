@@ -16,7 +16,6 @@
 
 package com.trilemon.boss.infra.base.util;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
@@ -25,8 +24,8 @@ import com.google.common.io.Files;
 import com.taobao.api.domain.Item;
 import com.taobao.api.domain.SellerCat;
 import com.taobao.api.internal.util.WebUtils;
-import com.trilemon.commons.BeanMapper;
-import org.apache.commons.codec.binary.Base64;
+import com.trilemon.boss.infra.base.model.TaobaoSession;
+import com.trilemon.commons.JsonMapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -34,8 +33,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.List;
@@ -49,7 +46,6 @@ import java.util.regex.Pattern;
  * @author kevin
  */
 public class TopApiUtils {
-    public final static ObjectMapper jsonMapper = new ObjectMapper();
     private final static BiMap<String, Integer> TAOBAO_RATES = ImmutableBiMap.<String, Integer>builder()
             .put("无等级", 0)
             .put("1_1", 1)
@@ -90,14 +86,15 @@ public class TopApiUtils {
     /**
      * 刷新session key
      *
+     *
      * @param appKey       app key
      * @param appSecret    app secret
-     * @param refreshToken refresh token
      * @param sessionKey   session key
-     * @return {@link TopParameters}
-     * @throws java.io.IOException 解析{@link TopParameters}过程发生错误。
+     * @param refreshToken refresh token
+     * @return {@link TaobaoSession}
+     * @throws java.io.IOException 解析{@link TaobaoSession}过程发生错误。
      */
-    public static TopParameters refreshSessionKey(String appKey, String appSecret, String sessionKey,
+    public static TaobaoSession refreshSessionKey(String appKey, String appSecret, String sessionKey,
                                                   String refreshToken) throws IOException {
         Map<String, String> signParams = Maps.newTreeMap();
         signParams.put("appkey", appKey);
@@ -119,36 +116,8 @@ public class TopApiUtils {
                 + signEncoder;
         String topParametersJson = WebUtils.doPost(freshUrl, null, "utf-8", 30 * 1000 * 60, 30 * 1000 * 60);
 
-        TopParameters topParameters = jsonMapper.readValue(topParametersJson, TopParameters.class);
-        return topParameters;
-    }
-
-    @Nullable
-    public static String getRefreshToken(String queryUrl) throws UnsupportedEncodingException {
-        return getTopSessionParameter(queryUrl).getRefreshToken();
-    }
-
-    public static TopSessionParameter getTopSessionParameter(String queryUrl) throws UnsupportedEncodingException {
-        Map<String, String> parameters = Maps.newHashMap();
-        for (String topParameter : queryUrl.split("&")) {
-            String[] kv = topParameter.split("=");
-            if (kv.length != 2) {
-                logger.warn("parameters[{}] length is not valid.", topParameter);
-            } else {
-                if (kv[0].equals("top_parameters")) {
-                    String topParameterValue = kv[1];
-                    String decodeTopParameterValue = new String(Base64.decodeBase64(URLDecoder
-                            .decode(topParameterValue, "GBK")), "GBK");
-                    for (String parameter : decodeTopParameterValue.split("&")) {
-                        String[] parameterKv = parameter.split("=");
-                        parameters.put(parameterKv[0], parameterKv[1]);
-                    }
-                } else {
-                    parameters.put(kv[0], kv[1]);
-                }
-            }
-        }
-        return BeanMapper.map(parameters, TopSessionParameter.class);
+        TaobaoSession taobaoSession = JsonMapper.nonEmptyMapper().fromJson(topParametersJson, TaobaoSession.class);
+        return taobaoSession;
     }
 
 //    @Nullable

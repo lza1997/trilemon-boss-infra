@@ -33,9 +33,18 @@ public interface BaseConstants {
     List<String> RATE_FIELDS = ImmutableList.of("num_iid", "valid_score", "tid", "oid", "role", "nick", "result", "created",
             "rated_nick", "item_title", "item_price", "content", "reply");
     List<String> RATE_TYPES = ImmutableList.of("good", "neutral", "bad");
+    List<String> SELLER_FIELDS = ImmutableList.of("user_id", "nick", "sex", "seller_credit", "type", "has_more_pic", "item_img_num",
+            "item_img_size", "prop_img_num", "prop_img_size", "auto_repost", "promoted_type", "status", "alipay_bind",
+            "consumer_protection", "avatar", "liangpin", "sign_food_seller_promise", "has_shop",
+            "is_lightning_consignment", "has_sub_stock", "is_golden_seller", "vip_info", "magazine_subscribe", "vertical_market", "online_gaming");
+    List<String> SHOP_FIELDS = ImmutableList.of("sid", "cid", "nick", "title", "desc", "bulletin",
+            "created", "modified", "shop_score");
     //黑名单类型
     byte BLACKLIST_TYPE_RATE = 1;
     //黑名单状态
     byte BLACKLIST_STATUS_ENABLE = 0;
     byte BLACKLIST_STATUS_DISABLE = 1;
+    //用户状态
+    byte APP_USER_STATUS_NORMAL = 0;
+    byte APP_USER_STATUS_EXPIRED = 1;
 }

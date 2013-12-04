@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="taobao_app" >
+  <resultMap id="BaseResultMap" class="com.trilemon.boss.infra.base.model.TaobaoApp" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="article_code" property="articleCode" jdbcType="VARCHAR" />
+    <result column="app_secret" property="appSecret" jdbcType="VARCHAR" />
+    <result column="app_key" property="appKey" jdbcType="VARCHAR" />
+    <result column="sandbox_app_key" property="sandboxAppKey" jdbcType="VARCHAR" />
+    <result column="sandbox_app_secret" property="sandboxAppSecret" jdbcType="VARCHAR" />
+    <result column="app_callback_url" property="appCallbackUrl" jdbcType="VARCHAR" />
+    <result column="app_extra_callback_url" property="appExtraCallbackUrl" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="upd_time" property="updTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, article_code, app_secret, app_key, sandbox_app_key, sandbox_app_secret, 
+    app_callback_url, app_extra_callback_url, add_time, upd_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="com.trilemon.boss.infra.base.model.TaobaoApp" >
+    select 
+    <include refid="taobao_app.Base_Column_List" />
+    from taobao_app
+    where id = #id:INTEGER#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.TaobaoApp" >
+    delete from taobao_app
+    where id = #id:INTEGER#
+  </delete>
+  <insert id="insert" parameterClass="com.trilemon.boss.infra.base.model.TaobaoApp" >
+    insert into taobao_app (id, name, article_code, app_secret, 
+      app_key, sandbox_app_key, sandbox_app_secret, app_callback_url, 
+      app_extra_callback_url, add_time, upd_time)
+    values (#id:INTEGER#, #name:VARCHAR#, #articleCode:VARCHAR#, #appSecret:VARCHAR#, 
+      #appKey:VARCHAR#, #sandboxAppKey:VARCHAR#, #sandboxAppSecret:VARCHAR#, #appCallbackUrl:VARCHAR#, 
+      #appExtraCallbackUrl:VARCHAR#, #addTime:TIMESTAMP#, #updTime:TIMESTAMP#)
+  </insert>
+  <insert id="insertSelective" parameterClass="com.trilemon.boss.infra.base.model.TaobaoApp" >
+    insert into taobao_app
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        id
+      </isNotNull>
+      <isNotNull prepend="," property="name" >
+        name
+      </isNotNull>
+      <isNotNull prepend="," property="articleCode" >
+        article_code
+      </isNotNull>
+      <isNotNull prepend="," property="appSecret" >
+        app_secret
+      </isNotNull>
+      <isNotNull prepend="," property="appKey" >
+        app_key
+      </isNotNull>
+      <isNotNull prepend="," property="sandboxAppKey" >
+        sandbox_app_key
+      </isNotNull>
+      <isNotNull prepend="," property="sandboxAppSecret" >
+        sandbox_app_secret
+      </isNotNull>
+      <isNotNull prepend="," property="appCallbackUrl" >
+        app_callback_url
+      </isNotNull>
+      <isNotNull prepend="," property="appExtraCallbackUrl" >
+        app_extra_callback_url
+      </isNotNull>
+      <isNotNull prepend="," property="addTime" >
+        add_time
+      </isNotNull>
+      <isNotNull prepend="," property="updTime" >
+        upd_time
+      </isNotNull>
+      )
+    </dynamic>
+    values
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="id" >
+        #id:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="name" >
+        #name:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="articleCode" >
+        #articleCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="appSecret" >
+        #appSecret:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="appKey" >
+        #appKey:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sandboxAppKey" >
+        #sandboxAppKey:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sandboxAppSecret" >
+        #sandboxAppSecret:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="appCallbackUrl" >
+        #appCallbackUrl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="appExtraCallbackUrl" >
+        #appExtraCallbackUrl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="addTime" >
+        #addTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="updTime" >
+        #updTime:TIMESTAMP#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.trilemon.boss.infra.base.model.TaobaoApp" >
+    update taobao_app
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="name" >
+        name = #name:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="articleCode" >
+        article_code = #articleCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="appSecret" >
+        app_secret = #appSecret:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="appKey" >
+        app_key = #appKey:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sandboxAppKey" >
+        sandbox_app_key = #sandboxAppKey:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="sandboxAppSecret" >
+        sandbox_app_secret = #sandboxAppSecret:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="appCallbackUrl" >
+        app_callback_url = #appCallbackUrl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="appExtraCallbackUrl" >
+        app_extra_callback_url = #appExtraCallbackUrl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="addTime" >
+        add_time = #addTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="updTime" >
+        upd_time = #updTime:TIMESTAMP#
+      </isNotNull>
+    </dynamic>
+    where id = #id:INTEGER#
+  </update>
+  <update id="updateByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.TaobaoApp" >
+    update taobao_app
+    set name = #name:VARCHAR#,
+      article_code = #articleCode:VARCHAR#,
+      app_secret = #appSecret:VARCHAR#,
+      app_key = #appKey:VARCHAR#,
+      sandbox_app_key = #sandboxAppKey:VARCHAR#,
+      sandbox_app_secret = #sandboxAppSecret:VARCHAR#,
+      app_callback_url = #appCallbackUrl:VARCHAR#,
+      app_extra_callback_url = #appExtraCallbackUrl:VARCHAR#,
+      add_time = #addTime:TIMESTAMP#,
+      upd_time = #updTime:TIMESTAMP#
+    where id = #id:INTEGER#
+  </update>
+    <select id="selectByAppKey" resultMap="BaseResultMap" parameterClass="string" >
+        select
+        <include refid="taobao_app.Base_Column_List" />
+        from taobao_app
+        where app_key = #appKey:VARCHAR#
+    </select>
+</sqlMap>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="buyer_blacklist">
+    <resultMap id="BaseResultMap" class="com.trilemon.boss.infra.base.model.BuyerBlacklist">
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="buyer_nick" property="buyerNick" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="TINYINT"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="filter_count" property="filterCount" jdbcType="INTEGER"/>
+        <result column="add_time" property="addTime" jdbcType="TIMESTAMP"/>
+        <result column="upd_time" property="updTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, buyer_nick, type, status, filter_count, add_time, upd_time
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterClass="com.trilemon.boss.infra.base.model.BuyerBlacklist">
+        select
+        <include refid="buyer_blacklist.Base_Column_List"/>
+        from buyer_blacklist
+        where id = #id:BIGINT#
+    </select>
+    <delete id="deleteByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.BuyerBlacklist">
+    delete from buyer_blacklist
+    where id = #id:BIGINT#
+  </delete>
+    <insert id="insert" parameterClass="com.trilemon.boss.infra.base.model.BuyerBlacklist">
+    insert into buyer_blacklist (id, user_id, buyer_nick, type, status, 
+      filter_count, add_time, upd_time)
+    values (#id:BIGINT#, #userId:BIGINT#, #buyerNick:VARCHAR#, #type:TINYINT#, #status:TINYINT#, 
+      #filterCount:INTEGER#, #addTime:TIMESTAMP#, #updTime:TIMESTAMP#)
+  </insert>
+    <insert id="insertSelective" parameterClass="com.trilemon.boss.infra.base.model.BuyerBlacklist">
+        insert into buyer_blacklist
+        <dynamic prepend="(">
+            <isNotNull prepend="," property="id">
+                id
+            </isNotNull>
+            <isNotNull prepend="," property="userId">
+                user_id
+            </isNotNull>
+            <isNotNull prepend="," property="buyerNick">
+                buyer_nick
+            </isNotNull>
+            <isNotNull prepend="," property="type">
+                type
+            </isNotNull>
+            <isNotNull prepend="," property="status">
+                status
+            </isNotNull>
+            <isNotNull prepend="," property="filterCount">
+                filter_count
+            </isNotNull>
+            <isNotNull prepend="," property="addTime">
+                add_time
+            </isNotNull>
+            <isNotNull prepend="," property="updTime">
+                upd_time
+            </isNotNull>
+            )
+        </dynamic>
+        values
+        <dynamic prepend="(">
+            <isNotNull prepend="," property="id">
+                #id:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="userId">
+                #userId:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="buyerNick">
+                #buyerNick:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="type">
+                #type:TINYINT#
+            </isNotNull>
+            <isNotNull prepend="," property="status">
+                #status:TINYINT#
+            </isNotNull>
+            <isNotNull prepend="," property="filterCount">
+                #filterCount:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="addTime">
+                #addTime:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="updTime">
+                #updTime:TIMESTAMP#
+            </isNotNull>
+            )
+        </dynamic>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterClass="com.trilemon.boss.infra.base.model.BuyerBlacklist">
+        update buyer_blacklist
+        <dynamic prepend="set">
+            <isNotNull prepend="," property="userId">
+                user_id = #userId:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="buyerNick">
+                buyer_nick = #buyerNick:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="type">
+                type = #type:TINYINT#
+            </isNotNull>
+            <isNotNull prepend="," property="status">
+                status = #status:TINYINT#
+            </isNotNull>
+            <isNotNull prepend="," property="filterCount">
+                filter_count = #filterCount:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="addTime">
+                add_time = #addTime:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="updTime">
+                upd_time = #updTime:TIMESTAMP#
+            </isNotNull>
+        </dynamic>
+        where id = #id:BIGINT#
+    </update>
+    <update id="updateByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.BuyerBlacklist">
+    update buyer_blacklist
+    set user_id = #userId:BIGINT#,
+      buyer_nick = #buyerNick:VARCHAR#,
+      type = #type:TINYINT#,
+      status = #status:TINYINT#,
+      filter_count = #filterCount:INTEGER#,
+      add_time = #addTime:TIMESTAMP#,
+      upd_time = #updTime:TIMESTAMP#
+    where id = #id:BIGINT#
+  </update>
+    <update id="updateByUserIdAndBuyerNickAndType" parameterClass="com.trilemon.boss.infra.base.model.BuyerBlacklist">
+        update buyer_blacklist
+        <dynamic prepend="set">
+            <isNotNull prepend="," property="userId">
+                user_id = #userId:BIGINT#
+            </isNotNull>
+            <isNotNull prepend="," property="buyerNick">
+                buyer_nick = #buyerNick:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="type">
+                type = #type:TINYINT#
+            </isNotNull>
+            <isNotNull prepend="," property="status">
+                status = #status:TINYINT#
+            </isNotNull>
+            <isNotNull prepend="," property="filterCount">
+                filter_count = #filterCount:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="addTime">
+                add_time = #addTime:TIMESTAMP#
+            </isNotNull>
+            <isNotNull prepend="," property="updTime">
+                upd_time = #updTime:TIMESTAMP#
+            </isNotNull>
+        </dynamic>
+        where user_id = #userId:BIGINT#
+        AND buyer_nick = #buyerNick:VARCHAR#
+        AND type = #type:TINYINT#
+    </update>
+    <delete id="deleteByUserIdAndBuyerNickAndType" parameterClass="map">
+        delete from buyer_blacklist
+        where user_id = #userId:BIGINT#
+            AND buyer_nick = #buyerNick:VARCHAR#
+            AND type = #type:TINYINT#
+    </delete>
+    <select id="paginateBuyerBlacklist" resultMap="BaseResultMap" parameterClass="map">
+        select id from buyer_blacklist
+        where user_id = user_id = #userId:BIGINT#
+        and type = #type:TINYINT#
+        limit $offset$, $limit$
+        <isNotNull prepend="order by" property="sortField">
+            $sortField$ $sortType$
+        </isNotNull>
+    </select>
+    <select id="selectByUserIdAndBuyerNick" resultMap="BaseResultMap" parameterClass="map">
+        select
+        <include refid="buyer_blacklist.Base_Column_List"/>
+        from buyer_blacklist
+        where  user_id = user_id = #userId:BIGINT#
+        and buyer_nick = #buyerNick:VARCHAR#
+    </select>
+</sqlMap>
