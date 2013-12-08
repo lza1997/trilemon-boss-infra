@@ -18,6 +18,7 @@ public class ShiroTaobaoAuthenticationToken implements HostAuthenticationToken {
     private String view;
     //for development
     private Long userId;
+    private String nick;
     private String accessToken;
     private String refreshToken;
     private String appKey;
@@ -150,5 +151,13 @@ public class ShiroTaobaoAuthenticationToken implements HostAuthenticationToken {
 
     public void setAppKey(String appKey) {
         this.appKey = appKey;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 }

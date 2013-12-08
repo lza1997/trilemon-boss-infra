@@ -137,7 +137,7 @@ public class TaobaoSessionService {
     public AppUser signIn(TaobaoSession taobaoSession, SignIn signIn) throws TaobaoAccessControlException, TaobaoEnhancedApiException, TaobaoSessionExpiredException {
         Long userId = taobaoSession.getSubTaobaoUserId();
         String nick = taobaoSession.getSubTaobaoUserNick();
-        if (null == userId||0==userId) {
+        if (null == userId || 0 == userId) {
             userId = taobaoSession.getTaobaoUserId();
             nick = taobaoSession.getTaobaoUserNick();
         }
@@ -170,11 +170,11 @@ public class TaobaoSessionService {
             }
             appUserDAO.insertSelective(appUser);
 
-            //新加入seller 表
-            taobaoShopService.createSeller(userId);
-            taobaoShopService.createShop(userId,nick);
         }
         insertOrUpdateTaobaoSession(taobaoSession);
+        taobaoShopService.insertOrUpdateSeller(userId);
+        taobaoShopService.insertOrUpdateShop(userId, nick);
+
         //插入登录流水
         AppUserSignInLog appUserSignInLog = new AppUserSignInLog();
         appUserSignInLog.setUserId(userId);

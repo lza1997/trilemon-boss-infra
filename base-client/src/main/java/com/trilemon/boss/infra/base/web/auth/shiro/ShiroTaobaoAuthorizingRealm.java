@@ -62,6 +62,7 @@ public class ShiroTaobaoAuthorizingRealm extends AuthorizingRealm {
         if (Arrays.asList(env.getActiveProfiles()).contains("development")) {
             SignIn signIn = new SignIn();
             TaobaoSession taobaoSession = new TaobaoSession();
+            taobaoSession.setTaobaoUserNick(token.getNick());
             taobaoSession.setTaobaoUserId(token.getUserId());
             taobaoSession.setAppKey(token.getAppKey());
             taobaoSession.setAccessToken(token.getAccessToken());

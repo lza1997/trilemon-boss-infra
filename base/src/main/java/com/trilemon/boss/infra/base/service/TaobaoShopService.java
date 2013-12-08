@@ -52,7 +52,7 @@ public class TaobaoShopService {
         return taobaoSeller;
     }
 
-    public TaobaoSeller createSeller(Long userId) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException,
+    public TaobaoSeller insertOrUpdateSeller(Long userId) throws TaobaoEnhancedApiException, TaobaoSessionExpiredException,
             TaobaoAccessControlException {
 
         User user = taobaoApiShopService.getTaobaoUser(userId, BaseConstants.SELLER_FIELDS);
@@ -62,7 +62,7 @@ public class TaobaoShopService {
         return taobaoSeller;
     }
 
-    public TaobaoShop createShop(Long userId, String nick) throws TaobaoEnhancedApiException,
+    public TaobaoShop insertOrUpdateShop(Long userId, String nick) throws TaobaoEnhancedApiException,
             TaobaoSessionExpiredException, TaobaoAccessControlException {
         Shop shop = taobaoApiShopService.getTaobaoShop(userId, nick, BaseConstants.SHOP_FIELDS);
         TaobaoShop taobaoShop = BeanMapper.map(shop, TaobaoShop.class);
