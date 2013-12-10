@@ -576,7 +576,7 @@ public class TaobaoApiShopService {
                 Item item = getItem(userId, numIid, fields);
                 items.add(item);
             } catch (TaobaoEnhancedApiException ex) {
-                //log but ignore
+                //log but ignore and catch other exception
                 logger.error("userId[" + userId + "], numIid[" + numIid + "]", ex);
             }
         }
