@@ -20,6 +20,7 @@ import com.trilemon.boss.infra.base.web.auth.shiro.ShiroTaobaoAuthenticationToke
 import com.trilemon.commons.DateUtils;
 import com.trilemon.commons.Encodes;
 import com.trilemon.commons.JsonMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -277,8 +278,17 @@ public class TaobaoSessionService {
             }
             String json = result.toString();
             TaobaoSession taobaoSession = JsonMapper.nonEmptyMapper().fromJson(json, TaobaoSession.class);
-            taobaoSession.setTaobaoUserNick(Encodes.urlDecode(taobaoSession.getTaobaoUserNick()));
-            taobaoSession.setSubTaobaoUserNick(Encodes.urlDecode(taobaoSession.getSubTaobaoUserNick()));
+
+            String nickName = taobaoSession.getTaobaoUserNick();
+            if (StringUtils.isNotBlank(nickName)) {
+                taobaoSession.setTaobaoUserNick(Encodes.urlDecode(nickName));
+            }
+
+            String subNickName = taobaoSession.getSubTaobaoUserNick();
+            if (StringUtils.isNotBlank(subNickName)) {
+                taobaoSession.setSubTaobaoUserNick(Encodes.urlDecode(subNickName));
+            }
+
             taobaoSession.setAppKey(taobaoApp.getAppKey());
             return taobaoSession;
         } catch (Exception e) {
