@@ -137,7 +137,7 @@ public class TaobaoSessionService {
     //TODO 主帐号进来的时候就已经对子帐号授权了
     @Transactional
     public AppUser signIn(TaobaoSession taobaoSession, SignIn signIn) throws TaobaoAccessControlException, TaobaoEnhancedApiException, TaobaoSessionExpiredException {
-        logger.info("sign in: [{}] [{}]",ToStringBuilder.reflectionToString(taobaoSession),ToStringBuilder.reflectionToString(signIn));
+        logger.info("sign in: [{}] [{}]", ToStringBuilder.reflectionToString(taobaoSession), ToStringBuilder.reflectionToString(signIn));
         Long userId = taobaoSession.getSubTaobaoUserId();
         String nick = taobaoSession.getSubTaobaoUserNick();
         if (null == userId || 0 == userId) {
@@ -172,10 +172,12 @@ public class TaobaoSessionService {
                 appUser.setParentUserId(taobaoSession.getTaobaoUserId());
             }
             appUserDAO.insertSelective(appUser);
+            insertOrUpdateTaobaoSession(taobaoSession);
             taobaoShopService.insertOrUpdateSeller(userId);
             taobaoShopService.insertOrUpdateShop(userId, nick);
+        } else {
+            insertOrUpdateTaobaoSession(taobaoSession);
         }
-        insertOrUpdateTaobaoSession(taobaoSession);
 
         //插入登录流水
         AppUserSignInLog appUserSignInLog = new AppUserSignInLog();
@@ -213,7 +215,7 @@ public class TaobaoSessionService {
      *
      */
     public TaobaoSession authToken(ShiroTaobaoAuthenticationToken token, TaobaoApp taobaoApp) throws TaobaoOauthException {
-        logger.info("authToken: [{}] [{}]",ToStringBuilder.reflectionToString(token),ToStringBuilder.reflectionToString(taobaoApp));
+        logger.info("authToken: [{}] [{}]", ToStringBuilder.reflectionToString(token), ToStringBuilder.reflectionToString(taobaoApp));
         try {
             TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
