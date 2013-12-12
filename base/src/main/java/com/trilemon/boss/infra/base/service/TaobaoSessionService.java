@@ -173,8 +173,8 @@ public class TaobaoSessionService {
             }
             appUserDAO.insertSelective(appUser);
             insertOrUpdateTaobaoSession(taobaoSession);
-            taobaoShopService.insertOrUpdateSeller(userId);
-            taobaoShopService.insertOrUpdateShop(userId, nick);
+//            taobaoShopService.insertOrUpdateSeller(userId);
+//            taobaoShopService.insertOrUpdateShop(userId, nick);
         } else {
             insertOrUpdateTaobaoSession(taobaoSession);
         }
