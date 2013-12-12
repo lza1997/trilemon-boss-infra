@@ -196,7 +196,7 @@ public class TaobaoSessionService {
         SignIn signIn = BaseUtils.state2SignIn(token.getState());
         signIn.setSignInIp(token.getHost());
         TaobaoApp taobaoApp = taobaoAppService.getTaobaoApp(token.getAppKey());
-        TaobaoSession taobaoSession = authToken(token.getCode(), token.getRedirectUri(), taobaoApp.getAppSecret());
+        TaobaoSession taobaoSession = authToken(token, taobaoApp);
         return signIn(taobaoSession, signIn);
 
     }
@@ -204,13 +204,13 @@ public class TaobaoSessionService {
     /**
      * 获取 token
      *
-     * @param code
-     * @param redirectUrl
+     * @param token
+     * @param taobaoApp
      * @return
      * @throws com.trilemon.boss.infra.base.web.auth.TaobaoOauthException
      *
      */
-    public TaobaoSession authToken(String code, String redirectUrl, String appSecret) throws TaobaoOauthException {
+    public TaobaoSession authToken(ShiroTaobaoAuthenticationToken token, TaobaoApp taobaoApp) throws TaobaoOauthException {
         try {
             TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
@@ -243,8 +243,8 @@ public class TaobaoSessionService {
             boolean error;
 
             URL url = new URL("https://oauth.taobao.com/token?grant_type=authorization_code&client_id=" +
-                    taobaoApiService.getAppKey() + "&client_secret=" + appSecret +
-                    "&code=" + code + "&redirect_uri=" + redirectUrl);
+                    taobaoApiService.getAppKey() + "&client_secret=" + taobaoApp.getAppSecret() +
+                    "&code=" + token.getCode() + "&redirect_uri=" + token.getRedirectUri());
             HttpsURLConnection httpsURLConnection = (HttpsURLConnection) url.openConnection();
             httpsURLConnection.setConnectTimeout(30000);
             httpsURLConnection.setReadTimeout(30000);
@@ -276,6 +276,7 @@ public class TaobaoSessionService {
             }
             String json = result.toString();
             TaobaoSession taobaoSession = JsonMapper.nonEmptyMapper().fromJson(json, TaobaoSession.class);
+            taobaoSession.setAppKey(taobaoApp.getAppKey());
             return taobaoSession;
         } catch (Exception e) {
             throw new TaobaoOauthException(e);

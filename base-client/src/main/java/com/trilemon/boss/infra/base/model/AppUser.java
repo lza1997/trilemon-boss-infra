@@ -12,6 +12,8 @@ public class AppUser implements Serializable{
 
     private String nick;
 
+    private Integer shopShortNick;
+
     private Long parentUserId;
 
     private Boolean subAccount;
@@ -162,5 +164,13 @@ public class AppUser implements Serializable{
 
     public void setUpdTime(Date updTime) {
         this.updTime = updTime;
+    }
+
+    public Integer getShopShortNick() {
+        return shopShortNick;
+    }
+
+    public void setShopShortNick(Integer shopShortNick) {
+        this.shopShortNick = shopShortNick;
     }
 }

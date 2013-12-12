@@ -1,211 +1,224 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
-<sqlMap namespace="app_user">
-    <resultMap id="BaseResultMap" class="com.trilemon.boss.infra.base.model.AppUser">
-        <result column="id" property="id" jdbcType="BIGINT"/>
-        <result column="user_id" property="userId" jdbcType="BIGINT"/>
-        <result column="app_key" property="appKey" jdbcType="VARCHAR"/>
-        <result column="nick" property="nick" jdbcType="VARCHAR"/>
-        <result column="parent_user_id" property="parentUserId" jdbcType="BIGINT"/>
-        <result column="sub_account" property="subAccount" jdbcType="BIT"/>
-        <result column="status" property="status" jdbcType="TINYINT"/>
-        <result column="article_code" property="articleCode" jdbcType="VARCHAR"/>
-        <result column="item_code" property="itemCode" jdbcType="VARCHAR"/>
-        <result column="version" property="version" jdbcType="VARCHAR"/>
-        <result column="deadline" property="deadline" jdbcType="TIMESTAMP"/>
-        <result column="last_sign_in_time" property="lastSignInTime" jdbcType="TIMESTAMP"/>
-        <result column="last_sign_in_ip" property="lastSignInIp" jdbcType="VARCHAR"/>
-        <result column="roles" property="roles" jdbcType="VARCHAR"/>
-        <result column="add_time" property="addTime" jdbcType="TIMESTAMP"/>
-        <result column="upd_time" property="updTime" jdbcType="TIMESTAMP"/>
+<sqlMap namespace="app_user" >
+    <resultMap id="BaseResultMap" class="com.trilemon.boss.infra.base.model.AppUser" >
+        <result column="id" property="id" jdbcType="BIGINT" />
+        <result column="user_id" property="userId" jdbcType="BIGINT" />
+        <result column="app_key" property="appKey" jdbcType="VARCHAR" />
+        <result column="nick" property="nick" jdbcType="VARCHAR" />
+        <result column="shop_short_nick" property="shopShortNick" jdbcType="INTEGER" />
+        <result column="parent_user_id" property="parentUserId" jdbcType="BIGINT" />
+        <result column="sub_account" property="subAccount" jdbcType="BIT" />
+        <result column="status" property="status" jdbcType="TINYINT" />
+        <result column="article_code" property="articleCode" jdbcType="VARCHAR" />
+        <result column="item_code" property="itemCode" jdbcType="VARCHAR" />
+        <result column="version" property="version" jdbcType="VARCHAR" />
+        <result column="deadline" property="deadline" jdbcType="TIMESTAMP" />
+        <result column="last_sign_in_time" property="lastSignInTime" jdbcType="TIMESTAMP" />
+        <result column="last_sign_in_ip" property="lastSignInIp" jdbcType="VARCHAR" />
+        <result column="roles" property="roles" jdbcType="VARCHAR" />
+        <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+        <result column="upd_time" property="updTime" jdbcType="TIMESTAMP" />
     </resultMap>
-    <sql id="Base_Column_List">
-        id, user_id, app_key, nick, parent_user_id, sub_account, status, article_code, item_code,
-        version, deadline, last_sign_in_time, last_sign_in_ip, roles, add_time, upd_time
+    <sql id="Base_Column_List" >
+        id, user_id, app_key, nick, shop_short_nick, parent_user_id, sub_account, status,
+        article_code, item_code, version, deadline, last_sign_in_time, last_sign_in_ip, roles,
+        add_time, upd_time
     </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
-            parameterClass="com.trilemon.boss.infra.base.model.AppUser">
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="com.trilemon.boss.infra.base.model.AppUser" >
         select
-        <include refid="app_user.Base_Column_List"/>
+        <include refid="app_user.Base_Column_List" />
         from app_user
         where id = #id:BIGINT#
     </select>
-    <delete id="deleteByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.AppUser">
-        DELETE FROM app_user
-        WHERE id = #id:BIGINT#
+    <delete id="deleteByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.AppUser" >
+        delete from app_user
+        where id = #id:BIGINT#
     </delete>
-    <insert id="insert" parameterClass="com.trilemon.boss.infra.base.model.AppUser">
-        INSERT INTO app_user (id, user_id, app_key, nick, parent_user_id,
-                              sub_account, status, article_code, item_code,
-                              version, deadline, last_sign_in_time, last_sign_in_ip,
-                              roles, add_time, upd_time)
-            VALUES (#id:BIGINT#, #userId:BIGINT#, #appKey:VARCHAR#, #nick:VARCHAR#, #parentUserId:BIGINT#,
-      #subAccount:BIT#, #status:TINYINT#, #articleCode:VARCHAR#, #itemCode:VARCHAR#, 
-      #version:VARCHAR#, #deadline:TIMESTAMP#, #lastSignInTime:TIMESTAMP#, #lastSignInIp:VARCHAR#, 
-      #roles:VARCHAR#, #addTime:TIMESTAMP#, #updTime:TIMESTAMP#)
+    <insert id="insert" parameterClass="com.trilemon.boss.infra.base.model.AppUser" >
+        insert into app_user (id, user_id, app_key, nick, shop_short_nick,
+                              parent_user_id, sub_account, status, article_code,
+                              item_code, version, deadline, last_sign_in_time,
+                              last_sign_in_ip, roles, add_time, upd_time
+        )
+            values (#id:BIGINT#, #userId:BIGINT#, #appKey:VARCHAR#, #nick:VARCHAR#, #shopShortNick:INTEGER#,
+      #parentUserId:BIGINT#, #subAccount:BIT#, #status:TINYINT#, #articleCode:VARCHAR#, 
+      #itemCode:VARCHAR#, #version:VARCHAR#, #deadline:TIMESTAMP#, #lastSignInTime:TIMESTAMP#, 
+      #lastSignInIp:VARCHAR#, #roles:VARCHAR#, #addTime:TIMESTAMP#, #updTime:TIMESTAMP#
+            )
     </insert>
-    <insert id="insertSelective" parameterClass="com.trilemon.boss.infra.base.model.AppUser">
+    <insert id="insertSelective" parameterClass="com.trilemon.boss.infra.base.model.AppUser" >
         insert into app_user
-        <dynamic prepend="(">
-            <isNotNull prepend="," property="id">
+        <dynamic prepend="(" >
+            <isNotNull prepend="," property="id" >
                 id
             </isNotNull>
-            <isNotNull prepend="," property="userId">
+            <isNotNull prepend="," property="userId" >
                 user_id
             </isNotNull>
-            <isNotNull prepend="," property="appKey">
+            <isNotNull prepend="," property="appKey" >
                 app_key
             </isNotNull>
-            <isNotNull prepend="," property="nick">
+            <isNotNull prepend="," property="nick" >
                 nick
             </isNotNull>
-            <isNotNull prepend="," property="parentUserId">
+            <isNotNull prepend="," property="shopShortNick" >
+                shop_short_nick
+            </isNotNull>
+            <isNotNull prepend="," property="parentUserId" >
                 parent_user_id
             </isNotNull>
-            <isNotNull prepend="," property="subAccount">
+            <isNotNull prepend="," property="subAccount" >
                 sub_account
             </isNotNull>
-            <isNotNull prepend="," property="status">
+            <isNotNull prepend="," property="status" >
                 status
             </isNotNull>
-            <isNotNull prepend="," property="articleCode">
+            <isNotNull prepend="," property="articleCode" >
                 article_code
             </isNotNull>
-            <isNotNull prepend="," property="itemCode">
+            <isNotNull prepend="," property="itemCode" >
                 item_code
             </isNotNull>
-            <isNotNull prepend="," property="version">
+            <isNotNull prepend="," property="version" >
                 version
             </isNotNull>
-            <isNotNull prepend="," property="deadline">
+            <isNotNull prepend="," property="deadline" >
                 deadline
             </isNotNull>
-            <isNotNull prepend="," property="lastSignInTime">
+            <isNotNull prepend="," property="lastSignInTime" >
                 last_sign_in_time
             </isNotNull>
-            <isNotNull prepend="," property="lastSignInIp">
+            <isNotNull prepend="," property="lastSignInIp" >
                 last_sign_in_ip
             </isNotNull>
-            <isNotNull prepend="," property="roles">
+            <isNotNull prepend="," property="roles" >
                 roles
             </isNotNull>
-            <isNotNull prepend="," property="addTime">
+            <isNotNull prepend="," property="addTime" >
                 add_time
             </isNotNull>
-            <isNotNull prepend="," property="updTime">
+            <isNotNull prepend="," property="updTime" >
                 upd_time
             </isNotNull>
             )
         </dynamic>
         values
-        <dynamic prepend="(">
-            <isNotNull prepend="," property="id">
+        <dynamic prepend="(" >
+            <isNotNull prepend="," property="id" >
                 #id:BIGINT#
             </isNotNull>
-            <isNotNull prepend="," property="userId">
+            <isNotNull prepend="," property="userId" >
                 #userId:BIGINT#
             </isNotNull>
-            <isNotNull prepend="," property="appKey">
+            <isNotNull prepend="," property="appKey" >
                 #appKey:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="nick">
+            <isNotNull prepend="," property="nick" >
                 #nick:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="parentUserId">
+            <isNotNull prepend="," property="shopShortNick" >
+                #shopShortNick:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="parentUserId" >
                 #parentUserId:BIGINT#
             </isNotNull>
-            <isNotNull prepend="," property="subAccount">
+            <isNotNull prepend="," property="subAccount" >
                 #subAccount:BIT#
             </isNotNull>
-            <isNotNull prepend="," property="status">
+            <isNotNull prepend="," property="status" >
                 #status:TINYINT#
             </isNotNull>
-            <isNotNull prepend="," property="articleCode">
+            <isNotNull prepend="," property="articleCode" >
                 #articleCode:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="itemCode">
+            <isNotNull prepend="," property="itemCode" >
                 #itemCode:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="version">
+            <isNotNull prepend="," property="version" >
                 #version:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="deadline">
+            <isNotNull prepend="," property="deadline" >
                 #deadline:TIMESTAMP#
             </isNotNull>
-            <isNotNull prepend="," property="lastSignInTime">
+            <isNotNull prepend="," property="lastSignInTime" >
                 #lastSignInTime:TIMESTAMP#
             </isNotNull>
-            <isNotNull prepend="," property="lastSignInIp">
+            <isNotNull prepend="," property="lastSignInIp" >
                 #lastSignInIp:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="roles">
+            <isNotNull prepend="," property="roles" >
                 #roles:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="addTime">
+            <isNotNull prepend="," property="addTime" >
                 #addTime:TIMESTAMP#
             </isNotNull>
-            <isNotNull prepend="," property="updTime">
+            <isNotNull prepend="," property="updTime" >
                 #updTime:TIMESTAMP#
             </isNotNull>
             )
         </dynamic>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterClass="com.trilemon.boss.infra.base.model.AppUser">
+    <update id="updateByPrimaryKeySelective" parameterClass="com.trilemon.boss.infra.base.model.AppUser" >
         update app_user
-        <dynamic prepend="set">
-            <isNotNull prepend="," property="userId">
+        <dynamic prepend="set" >
+            <isNotNull prepend="," property="userId" >
                 user_id = #userId:BIGINT#
             </isNotNull>
-            <isNotNull prepend="," property="appKey">
+            <isNotNull prepend="," property="appKey" >
                 app_key = #appKey:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="nick">
+            <isNotNull prepend="," property="nick" >
                 nick = #nick:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="parentUserId">
+            <isNotNull prepend="," property="shopShortNick" >
+                shop_short_nick = #shopShortNick:INTEGER#
+            </isNotNull>
+            <isNotNull prepend="," property="parentUserId" >
                 parent_user_id = #parentUserId:BIGINT#
             </isNotNull>
-            <isNotNull prepend="," property="subAccount">
+            <isNotNull prepend="," property="subAccount" >
                 sub_account = #subAccount:BIT#
             </isNotNull>
-            <isNotNull prepend="," property="status">
+            <isNotNull prepend="," property="status" >
                 status = #status:TINYINT#
             </isNotNull>
-            <isNotNull prepend="," property="articleCode">
+            <isNotNull prepend="," property="articleCode" >
                 article_code = #articleCode:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="itemCode">
+            <isNotNull prepend="," property="itemCode" >
                 item_code = #itemCode:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="version">
+            <isNotNull prepend="," property="version" >
                 version = #version:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="deadline">
+            <isNotNull prepend="," property="deadline" >
                 deadline = #deadline:TIMESTAMP#
             </isNotNull>
-            <isNotNull prepend="," property="lastSignInTime">
+            <isNotNull prepend="," property="lastSignInTime" >
                 last_sign_in_time = #lastSignInTime:TIMESTAMP#
             </isNotNull>
-            <isNotNull prepend="," property="lastSignInIp">
+            <isNotNull prepend="," property="lastSignInIp" >
                 last_sign_in_ip = #lastSignInIp:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="roles">
+            <isNotNull prepend="," property="roles" >
                 roles = #roles:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="addTime">
+            <isNotNull prepend="," property="addTime" >
                 add_time = #addTime:TIMESTAMP#
             </isNotNull>
-            <isNotNull prepend="," property="updTime">
+            <isNotNull prepend="," property="updTime" >
                 upd_time = #updTime:TIMESTAMP#
             </isNotNull>
         </dynamic>
         where id = #id:BIGINT#
     </update>
-    <update id="updateByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.AppUser">
+    <update id="updateByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.AppUser" >
     update app_user
     set user_id = #userId:BIGINT#,
       app_key = #appKey:VARCHAR#,
       nick = #nick:VARCHAR#,
+      shop_short_nick = #shopShortNick:INTEGER#,
       parent_user_id = #parentUserId:BIGINT#,
       sub_account = #subAccount:BIT#,
       status = #status:TINYINT#,
@@ -235,6 +248,9 @@
             </isNotNull>
             <isNotNull prepend="," property="nick">
                 nick = #nick:VARCHAR#
+            </isNotNull>
+            <isNotNull prepend="," property="shopShortNick" >
+                shop_short_nick
             </isNotNull>
             <isNotNull prepend="," property="parentUserId">
                 parent_user_id = #parentUserId:BIGINT#

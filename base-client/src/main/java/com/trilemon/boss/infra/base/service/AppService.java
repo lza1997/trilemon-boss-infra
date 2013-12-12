@@ -34,6 +34,7 @@ public class AppService {
     private String serviceName;
     private String serviceId;
     private String casUrl;
+    private String taobaoCallbackUrl;
     private Map<String, ThreadPoolExecutor> threadMap = Maps.newHashMap();
 
     public DateTime getLocalSystemTime() {
@@ -82,5 +83,13 @@ public class AppService {
 
     public void setCasUrl(String casUrl) {
         this.casUrl = casUrl;
+    }
+
+    public String getTaobaoCallbackUrl() {
+        return taobaoCallbackUrl;
+    }
+
+    public void setTaobaoCallbackUrl(String taobaoCallbackUrl) {
+        this.taobaoCallbackUrl = taobaoCallbackUrl;
     }
 }
