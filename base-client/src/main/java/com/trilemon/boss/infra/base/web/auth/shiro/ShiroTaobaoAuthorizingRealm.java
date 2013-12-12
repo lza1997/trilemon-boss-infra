@@ -59,7 +59,7 @@ public class ShiroTaobaoAuthorizingRealm extends AuthorizingRealm {
         ShiroTaobaoAuthenticationToken token = (ShiroTaobaoAuthenticationToken) authToken;
 
         AppUser appUser;
-        if (Arrays.asList(env.getActiveProfiles()).contains("development")) {
+        if (Arrays.asList(env.getActiveProfiles()).contains("developmentaaa")) {
             SignIn signIn = new SignIn();
             TaobaoSession taobaoSession = new TaobaoSession();
             taobaoSession.setTaobaoUserNick(token.getNick());

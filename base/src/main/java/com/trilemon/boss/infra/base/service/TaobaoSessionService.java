@@ -18,6 +18,7 @@ import com.trilemon.boss.infra.base.util.TopApiUtils;
 import com.trilemon.boss.infra.base.web.auth.TaobaoOauthException;
 import com.trilemon.boss.infra.base.web.auth.shiro.ShiroTaobaoAuthenticationToken;
 import com.trilemon.commons.DateUtils;
+import com.trilemon.commons.Encodes;
 import com.trilemon.commons.JsonMapper;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
@@ -164,7 +165,7 @@ public class TaobaoSessionService {
             appUser.setLastSignInTime(appService.getLocalSystemTime().toDate());
             appUser.setNick(nick);
             appUser.setStatus(APP_USER_STATUS_NORMAL);
-            if (null == taobaoSession.getSubTaobaoUserId()) {
+            if (null != taobaoSession.getSubTaobaoUserId()) {
                 appUser.setSubAccount(true);
                 appUser.setParentUserId(taobaoSession.getTaobaoUserId());
             }
@@ -276,9 +277,13 @@ public class TaobaoSessionService {
             }
             String json = result.toString();
             TaobaoSession taobaoSession = JsonMapper.nonEmptyMapper().fromJson(json, TaobaoSession.class);
+            taobaoSession.setTaobaoUserNick(new String(Encodes.decodeBase64(taobaoSession.getTaobaoUserNick())));
+            taobaoSession.setSubTaobaoUserNick(new String(Encodes.decodeBase64(taobaoSession.getSubTaobaoUserNick())));
             taobaoSession.setAppKey(taobaoApp.getAppKey());
             return taobaoSession;
         } catch (Exception e) {
+            //TODO error format
+            //"error": "invalid_client",  "error_description": "authorize code ShK5rw2hrJDUH2VS4ce11oWx407464 invalidate,please authorize again."}
             throw new TaobaoOauthException(e);
         }
     }
