@@ -277,8 +277,8 @@ public class TaobaoSessionService {
             }
             String json = result.toString();
             TaobaoSession taobaoSession = JsonMapper.nonEmptyMapper().fromJson(json, TaobaoSession.class);
-            taobaoSession.setTaobaoUserNick(new String(Encodes.decodeBase64(taobaoSession.getTaobaoUserNick())));
-            taobaoSession.setSubTaobaoUserNick(new String(Encodes.decodeBase64(taobaoSession.getSubTaobaoUserNick())));
+            taobaoSession.setTaobaoUserNick(Encodes.urlDecode(taobaoSession.getTaobaoUserNick()));
+            taobaoSession.setSubTaobaoUserNick(Encodes.urlDecode(taobaoSession.getSubTaobaoUserNick()));
             taobaoSession.setAppKey(taobaoApp.getAppKey());
             return taobaoSession;
         } catch (Exception e) {
