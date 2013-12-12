@@ -22,4 +22,6 @@ public interface AppUserDAO {
     int updateByUserIdAndAppKeySelective(AppUser appUser);
 
     List<Long> paginateIds(int offset, int limit);
+
+    AppUser selectByUserId(Long userId);
 }

@@ -173,6 +173,7 @@ public class TaobaoSessionService {
             }
             appUserDAO.insertSelective(appUser);
             insertOrUpdateTaobaoSession(taobaoSession);
+            //会导致 dubbo 超时，从而引起重试，code 就过期了
 //            taobaoShopService.insertOrUpdateSeller(userId);
 //            taobaoShopService.insertOrUpdateShop(userId, nick);
         } else {

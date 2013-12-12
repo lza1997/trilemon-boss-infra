@@ -42,8 +42,8 @@
                               last_sign_in_ip, roles, add_time, upd_time
         )
             values (#id:BIGINT#, #userId:BIGINT#, #appKey:VARCHAR#, #nick:VARCHAR#, #shopShortNick:INTEGER#,
-      #parentUserId:BIGINT#, #subAccount:BIT#, #status:TINYINT#, #articleCode:VARCHAR#, 
-      #itemCode:VARCHAR#, #version:VARCHAR#, #deadline:TIMESTAMP#, #lastSignInTime:TIMESTAMP#, 
+      #parentUserId:BIGINT#, #subAccount:BIT#, #status:TINYINT#, #articleCode:VARCHAR#,
+      #itemCode:VARCHAR#, #version:VARCHAR#, #deadline:TIMESTAMP#, #lastSignInTime:TIMESTAMP#,
       #lastSignInIp:VARCHAR#, #roles:VARCHAR#, #addTime:TIMESTAMP#, #updTime:TIMESTAMP#
             )
     </insert>
@@ -294,5 +294,12 @@
     <select id="paginateIds" resultMap="BaseResultMap" parameterClass="map">
         select id from app_user
         limit $offset$, $limit$
+    </select>
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterClass="long">
+        select
+        <include refid="app_user.Base_Column_List"/>
+        from app_user
+        where user_id = #userId:BIGINT#
+        limit 1
     </select>
 </sqlMap>

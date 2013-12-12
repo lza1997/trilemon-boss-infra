@@ -3,9 +3,11 @@ package com.trilemon.boss.infra.base.service;
 import com.taobao.api.domain.Shop;
 import com.taobao.api.domain.User;
 import com.trilemon.boss.infra.base.BaseConstants;
+import com.trilemon.boss.infra.base.dao.AppUserDAO;
 import com.trilemon.boss.infra.base.dao.BuyerBlacklistDAO;
 import com.trilemon.boss.infra.base.dao.TaobaoSellerDAO;
 import com.trilemon.boss.infra.base.dao.TaobaoShopDAO;
+import com.trilemon.boss.infra.base.model.AppUser;
 import com.trilemon.boss.infra.base.model.BuyerBlacklist;
 import com.trilemon.boss.infra.base.model.TaobaoSeller;
 import com.trilemon.boss.infra.base.model.TaobaoShop;
@@ -37,13 +39,19 @@ public class TaobaoShopService {
     private TaobaoApiShopService taobaoApiShopService;
     @Autowired
     private BuyerBlacklistDAO buyerBlacklistDAO;
+    @Autowired
+    private AppUserDAO appUserDAO;
 
     public String getNick(Long userId) {
-        TaobaoSeller taobaoSeller = taobaoSellerDAO.selectByPrimaryKey(userId);
-        if (null == taobaoSeller) {
+        AppUser appUser = appUserDAO.selectByUserId(userId);
+        if (null == appUser) {
             return null;
         } else {
-            return taobaoSeller.getNick();
+            if (appUser.getSubAccount()) {
+                appUser = appUserDAO.selectByUserId(appUser.getParentUserId());
+                return null==appUser?null:appUser.getNick();
+            }
+            return appUser.getNick();
         }
     }
 

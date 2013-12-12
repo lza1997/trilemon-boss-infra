@@ -69,4 +69,12 @@ public class AppUserDAOImpl extends BaseSqlMapClientDaoSupport implements AppUse
         map.put("limit", limit);
         return (List<Long>) getSqlMapClientTemplate().queryForList("app_user.paginateIds", map);
     }
+
+    @Override
+    public AppUser selectByUserId(Long userId) {
+        AppUser _key = new AppUser();
+        _key.setUserId(userId);
+        AppUser record = (AppUser) getSqlMapClientTemplate().queryForObject("app_user.selectByUserId", _key);
+        return record;
+    }
 }
