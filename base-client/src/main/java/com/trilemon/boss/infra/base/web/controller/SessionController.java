@@ -30,7 +30,8 @@ public class SessionController {
         if (Lists.newArrayList(environment.getActiveProfiles()).contains("development")) {
             return "redirect:" + appService.getCasUrl() + "/signIn?redirect=" + url;
         } else {
-            String getCodeUrl = BaseUtils.buildDefaultTaobaoOauthAuthorizeURI(taobaoApiService.getAppKey(), url, "");
+            String getCodeUrl = BaseUtils.buildDefaultTaobaoOauthAuthorizeURI(taobaoApiService.getAppKey(),
+                    appService.getTaobaoCallbackUrl(), "");
             return "redirect:" + getCodeUrl;
         }
     }
