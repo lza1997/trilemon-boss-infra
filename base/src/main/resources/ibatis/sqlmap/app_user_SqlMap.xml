@@ -295,7 +295,7 @@
         select id from app_user
         limit $offset$, $limit$
     </select>
-    <select id="selectByUserId" resultMap="BaseResultMap" parameterClass="long">
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterClass="com.trilemon.boss.infra.base.model.AppUser">
         select
         <include refid="app_user.Base_Column_List"/>
         from app_user
