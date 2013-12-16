@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
  * @author kevin
  */
@@ -30,6 +32,12 @@ public class TestController {
     private AppUserService appUserService;
     @Autowired
     private TaobaoSessionService taobaoSessionService;
+
+    @ResponseBody
+    @RequestMapping(value = "/paginateBuyerBlacklist", method = RequestMethod.GET)
+    public List<BuyerBlacklist> paginateBuyerBlacklist() {
+        return baseClient.paginateBuyerBlacklist(123, (byte) 1, 1, 2, null, null);
+    }
 
     @ResponseBody
     @RequestMapping(value = "/addBlacklist", method = RequestMethod.GET)

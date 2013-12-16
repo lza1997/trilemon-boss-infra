@@ -22,13 +22,13 @@
         where id = #id:BIGINT#
     </select>
     <delete id="deleteByPrimaryKey" parameterClass="com.trilemon.boss.infra.base.model.BuyerBlacklist">
-    delete from buyer_blacklist
-    where id = #id:BIGINT#
+    DELETE FROM buyer_blacklist
+    WHERE id = #id:BIGINT#
   </delete>
     <insert id="insert" parameterClass="com.trilemon.boss.infra.base.model.BuyerBlacklist">
-    insert into buyer_blacklist (id, user_id, buyer_nick, type, status, 
+    INSERT INTO buyer_blacklist (id, user_id, buyer_nick, type, status,
       filter_count, add_time, upd_time)
-    values (#id:BIGINT#, #userId:BIGINT#, #buyerNick:VARCHAR#, #type:TINYINT#, #status:TINYINT#, 
+    VALUES (#id:BIGINT#, #userId:BIGINT#, #buyerNick:VARCHAR#, #type:TINYINT#, #status:TINYINT#,
       #filterCount:INTEGER#, #addTime:TIMESTAMP#, #updTime:TIMESTAMP#)
   </insert>
     <insert id="insertSelective" parameterClass="com.trilemon.boss.infra.base.model.BuyerBlacklist">
@@ -157,14 +157,14 @@
         AND type = #type:TINYINT#
     </update>
     <delete id="deleteByUserIdAndBuyerNickAndType" parameterClass="map">
-        delete from buyer_blacklist
-        where user_id = #userId:BIGINT#
+        DELETE FROM buyer_blacklist
+        WHERE user_id = #userId:BIGINT#
             AND buyer_nick = #buyerNick:VARCHAR#
             AND type = #type:TINYINT#
     </delete>
     <select id="paginateBuyerBlacklist" resultMap="BaseResultMap" parameterClass="map">
         select id from buyer_blacklist
-        where user_id = user_id = #userId:BIGINT#
+        where user_id  = #userId:BIGINT#
         and type = #type:TINYINT#
         limit $offset$, $limit$
         <isNotNull prepend="order by" property="sortField">
@@ -175,7 +175,7 @@
         select
         <include refid="buyer_blacklist.Base_Column_List"/>
         from buyer_blacklist
-        where  user_id = user_id = #userId:BIGINT#
+        where  user_id  = #userId:BIGINT#
         and buyer_nick = #buyerNick:VARCHAR#
     </select>
 </sqlMap>
