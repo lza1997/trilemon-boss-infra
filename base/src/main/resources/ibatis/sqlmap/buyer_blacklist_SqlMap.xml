@@ -163,7 +163,8 @@
             AND type = #type:TINYINT#
     </delete>
     <select id="paginateBuyerBlacklist" resultMap="BaseResultMap" parameterClass="map">
-        select id from buyer_blacklist
+        select <include refid="buyer_blacklist.Base_Column_List"/>
+        from buyer_blacklist
         where user_id  = #userId:BIGINT#
         and type = #type:TINYINT#
         limit $offset$, $limit$
