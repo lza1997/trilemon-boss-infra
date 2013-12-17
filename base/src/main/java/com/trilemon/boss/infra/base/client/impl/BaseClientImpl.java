@@ -3,7 +3,10 @@ package com.trilemon.boss.infra.base.client.impl;
 import com.trilemon.boss.infra.base.client.BaseClient;
 import com.trilemon.boss.infra.base.model.*;
 import com.trilemon.boss.infra.base.model.dto.SignIn;
-import com.trilemon.boss.infra.base.service.*;
+import com.trilemon.boss.infra.base.service.AppUserService;
+import com.trilemon.boss.infra.base.service.TaobaoAppService;
+import com.trilemon.boss.infra.base.service.TaobaoSessionService;
+import com.trilemon.boss.infra.base.service.TaobaoShopService;
 import com.trilemon.boss.infra.base.service.api.exception.TaobaoAccessControlException;
 import com.trilemon.boss.infra.base.service.api.exception.TaobaoEnhancedApiException;
 import com.trilemon.boss.infra.base.service.api.exception.TaobaoSessionExpiredException;
@@ -96,6 +99,12 @@ public class BaseClientImpl implements BaseClient {
     }
 
     @Override
+    public String getShopShortName(Long userId, String appKey) {
+        AppUser appUser = appUserService.getAppUser(userId, appKey);
+        return null == appUser ? null : appUser.getShopShortName();
+    }
+
+    @Override
     public long getTradeNum(Long userId, Date startDate, Date endDate) {
         return 0;
     }
@@ -113,4 +122,6 @@ public class BaseClientImpl implements BaseClient {
         }
         return taobaoSession;
     }
+
+
 }

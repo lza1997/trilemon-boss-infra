@@ -6,7 +6,7 @@
         <result column="user_id" property="userId" jdbcType="BIGINT" />
         <result column="app_key" property="appKey" jdbcType="VARCHAR" />
         <result column="nick" property="nick" jdbcType="VARCHAR" />
-        <result column="shop_short_nick" property="shopShortNick" jdbcType="INTEGER" />
+        <result column="shop_short_name" property="shopShortName" jdbcType="VARCHAR" />
         <result column="parent_user_id" property="parentUserId" jdbcType="BIGINT" />
         <result column="sub_account" property="subAccount" jdbcType="BIT" />
         <result column="status" property="status" jdbcType="TINYINT" />
@@ -21,7 +21,7 @@
         <result column="upd_time" property="updTime" jdbcType="TIMESTAMP" />
     </resultMap>
     <sql id="Base_Column_List" >
-        id, user_id, app_key, nick, shop_short_nick, parent_user_id, sub_account, status,
+        id, user_id, app_key, nick, shop_short_name, parent_user_id, sub_account, `status`,
         article_code, item_code, version, deadline, last_sign_in_time, last_sign_in_ip, roles,
         add_time, upd_time
     </sql>
@@ -36,12 +36,12 @@
         where id = #id:BIGINT#
     </delete>
     <insert id="insert" parameterClass="com.trilemon.boss.infra.base.model.AppUser" >
-        insert into app_user (id, user_id, app_key, nick, shop_short_nick,
-                              parent_user_id, sub_account, status, article_code,
+        insert into app_user (id, user_id, app_key, nick, shop_short_name,
+                              parent_user_id, sub_account, `status`, article_code,
                               item_code, version, deadline, last_sign_in_time,
                               last_sign_in_ip, roles, add_time, upd_time
         )
-            values (#id:BIGINT#, #userId:BIGINT#, #appKey:VARCHAR#, #nick:VARCHAR#, #shopShortNick:INTEGER#,
+            values (#id:BIGINT#, #userId:BIGINT#, #appKey:VARCHAR#, #nick:VARCHAR#, #shopShortName:VARCHAR#,
       #parentUserId:BIGINT#, #subAccount:BIT#, #status:TINYINT#, #articleCode:VARCHAR#,
       #itemCode:VARCHAR#, #version:VARCHAR#, #deadline:TIMESTAMP#, #lastSignInTime:TIMESTAMP#,
       #lastSignInIp:VARCHAR#, #roles:VARCHAR#, #addTime:TIMESTAMP#, #updTime:TIMESTAMP#
@@ -62,8 +62,8 @@
             <isNotNull prepend="," property="nick" >
                 nick
             </isNotNull>
-            <isNotNull prepend="," property="shopShortNick" >
-                shop_short_nick
+            <isNotNull prepend="," property="shopShortName" >
+                shop_short_name
             </isNotNull>
             <isNotNull prepend="," property="parentUserId" >
                 parent_user_id
@@ -117,8 +117,8 @@
             <isNotNull prepend="," property="nick" >
                 #nick:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="shopShortNick" >
-                #shopShortNick:INTEGER#
+            <isNotNull prepend="," property="shopShortName" >
+                #shopShortName:VARCHAR#
             </isNotNull>
             <isNotNull prepend="," property="parentUserId" >
                 #parentUserId:BIGINT#
@@ -171,8 +171,8 @@
             <isNotNull prepend="," property="nick" >
                 nick = #nick:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="shopShortNick" >
-                shop_short_nick = #shopShortNick:INTEGER#
+            <isNotNull prepend="," property="shopShortName" >
+                shop_short_name = #shopShortName:VARCHAR#
             </isNotNull>
             <isNotNull prepend="," property="parentUserId" >
                 parent_user_id = #parentUserId:BIGINT#
@@ -218,7 +218,7 @@
     set user_id = #userId:BIGINT#,
       app_key = #appKey:VARCHAR#,
       nick = #nick:VARCHAR#,
-      shop_short_nick = #shopShortNick:INTEGER#,
+      shop_short_name = #shopShortName:VARCHAR#,
       parent_user_id = #parentUserId:BIGINT#,
       sub_account = #subAccount:BIT#,
       status = #status:TINYINT#,
@@ -249,8 +249,8 @@
             <isNotNull prepend="," property="nick">
                 nick = #nick:VARCHAR#
             </isNotNull>
-            <isNotNull prepend="," property="shopShortNick" >
-                shop_short_nick
+            <isNotNull prepend="," property="shopShortName" >
+                shop_short_name
             </isNotNull>
             <isNotNull prepend="," property="parentUserId">
                 parent_user_id = #parentUserId:BIGINT#

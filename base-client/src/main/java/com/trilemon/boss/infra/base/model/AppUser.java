@@ -12,7 +12,7 @@ public class AppUser implements Serializable{
 
     private String nick;
 
-    private Integer shopShortNick;
+    private String shopShortName;
 
     private Long parentUserId;
 
@@ -166,11 +166,11 @@ public class AppUser implements Serializable{
         this.updTime = updTime;
     }
 
-    public Integer getShopShortNick() {
-        return shopShortNick;
+    public String getShopShortName() {
+        return shopShortName;
     }
 
-    public void setShopShortNick(Integer shopShortNick) {
-        this.shopShortNick = shopShortNick;
+    public void setShopShortName(String shopShortName) {
+        this.shopShortName = shopShortName;
     }
 }

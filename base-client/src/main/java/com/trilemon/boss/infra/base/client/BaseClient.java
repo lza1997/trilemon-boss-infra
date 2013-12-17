@@ -67,4 +67,6 @@ public interface BaseClient {
     AppUser signIn(ShiroTaobaoAuthenticationToken token) throws TaobaoOauthException, TaobaoEnhancedApiException, TaobaoSessionExpiredException, TaobaoAccessControlException;
 
     AppUser signIn(TaobaoSession taobaoSession, SignIn signIn) throws TaobaoSessionExpiredException, TaobaoAccessControlException, TaobaoEnhancedApiException;
+
+    String getShopShortName(Long userId,String appKey);
 }
